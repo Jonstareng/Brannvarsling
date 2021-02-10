@@ -3,26 +3,40 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/firstFragment">
+    app:startDestination="@id/home">
 
     <fragment
         android:id="@+id/SecondFragment"
-        android:name="com.example.brannvarsling.SecondFragment"
+        android:name="com.example.brannvarsling.Fragments.SecondFragment"
         android:label="@string/second_fragment_label"
         tools:layout="@layout/fragment_second">
         <action
             android:id="@+id/action_SecondFragment_to_firstFragment"
-            app:destination="@id/firstFragment" />
+            app:destination="@id/home" />
 
 
     </fragment>
     <fragment
-        android:id="@+id/firstFragment"
-        android:name="com.example.brannvarsling.FirstFragment"
-        android:label="fragment_first"
-        tools:layout="@layout/fragment_first" >
+        android:id="@+id/home"
+        android:name="com.example.brannvarsling.Fragments.Home"
+        android:label="home"
+        tools:layout="@layout/fragment_home" >
         <action
-            android:id="@+id/action_firstFragment_to_SecondFragment"
+            android:id="@+id/action_home_to_SecondFragment"
             app:destination="@id/SecondFragment" />
+        <action
+            android:id="@+id/action_home_to_cases"
+            app:destination="@id/cases" />
+        <action
+            android:id="@+id/action_home_to_calendar"
+            app:destination="@id/calendar" />
     </fragment>
+    <fragment
+        android:id="@+id/calendar"
+        android:name="com.example.brannvarsling.Fragments.Calendar"
+        android:label="Calendar" />
+    <fragment
+        android:id="@+id/cases"
+        android:name="com.example.brannvarsling.Fragments.Cases"
+        android:label="Cases" />
 </navigation>
