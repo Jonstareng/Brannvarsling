@@ -12,4 +12,17 @@
     <string name="hello_first_fragment">Hello first fragment</string>
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
     <string name="todo">TODO</string>
+    <string name="email">Email</string>
+    <string name="passord">Passord</string>
+    <string name="opprett_bruker">Opprett Bruker</string>
+    <string name="opprett">Opprett</string>
+    <string name="avbryt">Avbryt</string>
+    <string name="register">REGISTER</string>
+    <string name="login_email_hint">Email</string>
+    <string name="login_password_hint">Password</string>
+    <string name="signup_login_hint">Already have an account? Sign In</string>
+    <string name="login_signup_hint">Don\'t have an account? Sign Up</string>
+    <string name="login">login</string>
+    <string name="registrer">registrer</string>
+    <string name="logo">Logo</string>
 </resources>

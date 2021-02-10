@@ -10,7 +10,7 @@
         android:id="@+id/editTextEmailAddress"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="48dp"
+        android:layout_marginBottom="24dp"
         android:autofillHints=""
         android:ems="10"
         android:hint="@string/email"
@@ -25,7 +25,7 @@
         android:id="@+id/editTextPassword"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="284dp"
+        android:layout_marginBottom="300dp"
         android:ems="10"
         android:hint="@string/passord"
         android:importantForAutofill="no"
@@ -36,24 +36,12 @@
         app:layout_constraintHorizontal_bias="0.405"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/opprett_bruker"
-        android:textSize="30sp"
-        app:layout_constraintBottom_toTopOf="@+id/editTextEmailAddress"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.68" />
-
     <Button
         android:id="@+id/button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="44dp"
-        android:text="@string/opprett"
+        android:text="@string/login"
         app:layout_constraintEnd_toStartOf="@+id/button2"
         app:layout_constraintHorizontal_bias="0.781"
         app:layout_constraintStart_toStartOf="parent"
@@ -61,12 +49,23 @@
 
     <Button
         android:id="@+id/button2"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="44dp"
         android:layout_marginEnd="108dp"
         android:layout_marginRight="108dp"
-        android:text="@string/avbryt"
+        android:text="@string/registrer"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editTextPassword" />
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="384dp"
+        android:layout_height="109dp"
+        android:contentDescription="@string/logo"
+        app:layout_constraintBottom_toTopOf="@+id/editTextEmailAddress"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/logo" />
 </androidx.constraintlayout.widget.ConstraintLayout>
