@@ -23,14 +23,6 @@
         android:layout_margin="@dimen/fab_margin"
         app:srcCompat="@android:drawable/ic_dialog_email" />
 
-    <EditText
-        android:id="@+id/editTextTextPersonName"
-        android:layout_width="354dp"
-        android:layout_height="113dp"
-        android:ems="10"
-        android:inputType="textPersonName"
-        android:text="Tobias" />
-
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
