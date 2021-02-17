@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <item android:id="@+id/home"
+    <item android:id="@+id/ic_home"
         android:icon="@drawable/home_24px"
         android:title="Hjem"
         />
 
-    <item android:id="@+id/setting"
+    <item android:id="@+id/ic_setting"
         android:icon="@drawable/settings_24px"
         android:title="Innstillinger"
         />
