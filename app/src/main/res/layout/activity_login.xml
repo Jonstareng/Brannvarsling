@@ -10,7 +10,7 @@
         android:id="@+id/editTextEmailAddress"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="24dp"
+        android:layout_marginBottom="40dp"
         android:autofillHints=""
         android:ems="10"
         android:hint="@string/email"
