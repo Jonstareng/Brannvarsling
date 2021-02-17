@@ -17,7 +17,6 @@
     <string name="button" />
     <string name="todo">TODO</string>
     <string name="email">Email</string>
-    <string name="passord">Passord</string>
     <string name="opprett_bruker">Opprett Bruker</string>
     <string name="opprett">Opprett</string>
     <string name="avbryt">Avbryt</string>
@@ -30,5 +29,4 @@
     <string name="registrer">registrer</string>
     <string name="logo">Logo</string>
     <string name="passord">Passord</string>
-    <string name="email">Email</string>
 </resources>
