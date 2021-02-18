@@ -14,7 +14,7 @@ import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_main.*
 
 
-class LogInActivity : AppCompatActivity() {
+    class LogInActivity : AppCompatActivity() {
         lateinit var logInEmail: String
         lateinit var logInPassword: String
         lateinit var logInInputsArray: Array<EditText>
@@ -25,6 +25,7 @@ class LogInActivity : AppCompatActivity() {
             super.onCreate(savedInstanceState)
             binding = DataBindingUtil.setContentView(this,R.layout.activity_login)
             binding.bottomNav.visibility = View.GONE
+
 
 
             binding.registrerButton.setOnClickListener {

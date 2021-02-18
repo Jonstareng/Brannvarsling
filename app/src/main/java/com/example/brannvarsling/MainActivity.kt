@@ -7,8 +7,6 @@ import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentTransaction
-import androidx.navigation.fragment.NavHostFragment
 import com.example.brannvarsling.Fragments.Calendar
 import com.example.brannvarsling.Fragments.Cases
 import com.example.brannvarsling.Fragments.Home
