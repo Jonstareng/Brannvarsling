@@ -6,9 +6,13 @@
         android:title="Hjem"
         />
 
-    <item android:id="@+id/ic_setting"
-        android:icon="@drawable/settings_24px"
-        android:title="Innstillinger"
+    <item android:id="@+id/ic_assignment"
+        android:icon="@drawable/assignment_24px"
+        android:title="assignment"
+        />
+    <item android:id="@+id/ic_calendar"
+        android:icon="@drawable/calendar_today_24px"
+        android:title="calendar"
         />
 
 

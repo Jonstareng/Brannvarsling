@@ -8,6 +8,8 @@ import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Button
+import androidx.databinding.DataBindingUtil
+import androidx.databinding.DataBindingUtil.setContentView
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.example.brannvarsling.R
@@ -17,6 +19,15 @@ class Cases: Fragment() {
     private lateinit var binding: FragmentCasesBinding
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+    private lateinit var binding: FragmentCasesBinding
+
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_cases, container, false)
+        return binding.root
+        // Inflate the layout for this fragment
     }
        /* val caseChoice = arrayOf("Brannvarsling","Nødlys")
         val arrayAdapter = context?.let { ArrayAdapter(it, simple_spinner_item, caseChoice) }
