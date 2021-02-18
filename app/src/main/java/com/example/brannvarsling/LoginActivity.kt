@@ -7,69 +7,20 @@ import android.widget.Button
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
-import android.widget.EditText
-import com.example.brannvarsling.extensions.Extensions.toast
-import com.example.brannvarsling.utils.FirebaseUtils.firebaseAuth
-import kotlinx.android.synthetic.main.activity_login.*
-import kotlinx.android.synthetic.main.activity_sign_up.*
 
 class LogInActivity : AppCompatActivity() {
     private lateinit var auth: FirebaseAuth
     private lateinit var registerButton: Button
 
-
-    class LogInActivity : AppCompatActivity() {
-        lateinit var logInEmail: String
-        lateinit var logInPassword: String
-        lateinit var logInInputsArray: Array<EditText>
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_login)
 
 
-        override fun onCreate(savedInstanceState: Bundle?) {
-            super.onCreate(savedInstanceState)
-            setContentView(R.layout.activity_login)
-
-
-            registrerButton.setOnClickListener {
-                startActivity(Intent(this, SignUpActivity::class.java))
-            }
-
-            logInInputsArray = arrayOf(logInemail, logInpassword)
-            registrerButton.setOnClickListener {
-                startActivity(Intent(this, SignUpActivity::class.java))
-                finish()
-            }
-
-            loginButton.setOnClickListener {
-                signInUser()
-            }
+        registerButton.setOnClickListener{
+            startActivity(Intent(this, SignUpActivity::class.java))
         }
 
-        private fun notEmpty(): Boolean = logInEmail.isNotEmpty() && logInPassword.isNotEmpty()
 
-        private fun signInUser() {
-            logInEmail = logInemail.text.toString().trim()
-            logInPassword = logInpassword.text.toString().trim()
-
-            if (notEmpty()) {
-                firebaseAuth.signInWithEmailAndPassword(logInEmail, logInPassword)
-                    .addOnCompleteListener { signIn ->
-                        if (signIn.isSuccessful) {
-                            startActivity(Intent(this, MainActivity::class.java))
-                            toast("Innlogging vellykket!")
-                            finish()
-                        } else {
-                            toast("Innlogging mislykket")
-                        }
-                    }
-            } else {
-                logInInputsArray.forEach { input ->
-                    if (input.text.toString().trim().isEmpty()) {
-                        input.error = "${input.hint} er nødvendig"
-                    }
-                }
-            }
-        }
     }
 }
-
-
