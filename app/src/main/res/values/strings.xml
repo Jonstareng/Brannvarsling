@@ -31,4 +31,5 @@
     <string name="passord">Passord</string>
     <string name="gjenta_passord">Gjenta passord</string>
     <string name="bekreft_passord">Bekreft passord</string>
+    <string name="logg_ut">Logg ut</string>
 </resources>

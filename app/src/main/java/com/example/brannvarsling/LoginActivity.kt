@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.brannvarsling.extensions.Extensions.toast
 import com.example.brannvarsling.utils.FirebaseUtils.firebaseAuth
 import kotlinx.android.synthetic.main.activity_login.*
+import kotlinx.android.synthetic.main.activity_sign_up.*
 
 class LogInActivity : AppCompatActivity() {
     lateinit var logInEmail: String
@@ -27,6 +28,7 @@ class LogInActivity : AppCompatActivity() {
         loginButton.setOnClickListener {
             signInUser()
         }
+
     }
 
     private fun notEmpty(): Boolean = logInEmail.isNotEmpty() && logInPassword.isNotEmpty()
