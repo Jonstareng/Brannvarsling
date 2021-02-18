@@ -2,6 +2,7 @@ package com.example.brannvarsling
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import android.widget.Button
 import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
@@ -10,6 +11,7 @@ import com.example.brannvarsling.databinding.ActivityLoginBinding
 import com.example.brannvarsling.extensions.Extensions.toast
 import com.example.brannvarsling.utils.FirebaseUtils.firebaseAuth
 import com.google.firebase.auth.FirebaseAuth
+
 
 
     class LogInActivity : AppCompatActivity() {
@@ -22,6 +24,7 @@ import com.google.firebase.auth.FirebaseAuth
         override fun onCreate(savedInstanceState: Bundle?) {
             super.onCreate(savedInstanceState)
             binding = DataBindingUtil.setContentView(this,R.layout.activity_login)
+            binding.bottomNav.visibility = View.GONE
 
 
 

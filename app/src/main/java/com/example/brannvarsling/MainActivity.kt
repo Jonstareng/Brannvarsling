@@ -7,8 +7,6 @@ import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentTransaction
-import androidx.navigation.fragment.NavHostFragment
 import com.example.brannvarsling.Fragments.Calendar
 import com.example.brannvarsling.Fragments.Cases
 import com.example.brannvarsling.Fragments.Home
@@ -37,14 +35,6 @@ class MainActivity : AppCompatActivity() {
             }
             true
         }
-
-        binding.signOut.setOnClickListener {
-            firebaseAuth.signOut()
-            startActivity(Intent(this, LogInActivity::class.java))
-            toast("Du er nå logget ut")
-            finish()
-    }
-
     }
 
     private fun setCurrentFragment(fragment: Fragment)=
@@ -52,7 +42,12 @@ class MainActivity : AppCompatActivity() {
             replace(R.id.frameLayout,fragment)
             commit()
         }
-
+    private fun signOut(){
+            firebaseAuth.signOut()
+            startActivity(Intent(this, LogInActivity::class.java))
+            toast("Du er nå logget ut")
+            finish()
+    }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.menu_main, menu)
@@ -60,10 +55,9 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return when (item.itemId) {
-
-            R.id.action_settings -> true
-            else -> super.onOptionsItemSelected(item)
+         when (item.itemId) {
+            R.id.action_logout -> signOut()
         }
+        return true
     }
 }
