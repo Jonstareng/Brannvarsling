@@ -29,4 +29,5 @@
     <string name="login">login</string>
     <string name="registrer">registrer</string>
     <string name="logo">Logo</string>
+    <string name="title_activity_new_case">NewCase</string>
 </resources>
