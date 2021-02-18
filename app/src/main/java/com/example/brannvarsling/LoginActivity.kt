@@ -1,18 +1,14 @@
 package com.example.brannvarsling
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.ktx.auth
-import com.google.firebase.ktx.Firebase
 import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
 import com.example.brannvarsling.extensions.Extensions.toast
 import com.example.brannvarsling.utils.FirebaseUtils.firebaseAuth
+import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_login.*
-import kotlinx.android.synthetic.main.activity_sign_up.*
 
 class LogInActivity : AppCompatActivity() {
     private lateinit var auth: FirebaseAuth
