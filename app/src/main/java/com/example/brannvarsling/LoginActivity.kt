@@ -2,6 +2,7 @@ package com.example.brannvarsling
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import android.widget.Button
 import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
@@ -10,10 +11,10 @@ import com.example.brannvarsling.databinding.ActivityLoginBinding
 import com.example.brannvarsling.extensions.Extensions.toast
 import com.example.brannvarsling.utils.FirebaseUtils.firebaseAuth
 import com.google.firebase.auth.FirebaseAuth
-import kotlinx.android.synthetic.main.activity_login.*
+import kotlinx.android.synthetic.main.activity_main.*
 
 
-    class LogInActivity : AppCompatActivity() {
+class LogInActivity : AppCompatActivity() {
         lateinit var logInEmail: String
         lateinit var logInPassword: String
         lateinit var logInInputsArray: Array<EditText>
@@ -23,20 +24,20 @@ import kotlinx.android.synthetic.main.activity_login.*
         override fun onCreate(savedInstanceState: Bundle?) {
             super.onCreate(savedInstanceState)
             binding = DataBindingUtil.setContentView(this,R.layout.activity_login)
+            binding.bottomNav.visibility = View.GONE
 
 
-
-            registrerButton.setOnClickListener {
+            binding.registrerButton.setOnClickListener {
                 startActivity(Intent(this, SignUpActivity::class.java))
             }
 
-            logInInputsArray = arrayOf(logInemail, logInpassword)
-            registrerButton.setOnClickListener {
+            logInInputsArray = arrayOf(binding.logInemail, binding.logInpassword)
+            binding.registrerButton.setOnClickListener {
                 startActivity(Intent(this, SignUpActivity::class.java))
                 finish()
             }
 
-            loginButton.setOnClickListener {
+            binding.loginButton.setOnClickListener {
                 signInUser()
             }
         }
@@ -44,8 +45,8 @@ import kotlinx.android.synthetic.main.activity_login.*
         private fun notEmpty(): Boolean = logInEmail.isNotEmpty() && logInPassword.isNotEmpty()
 
         private fun signInUser() {
-            logInEmail = logInemail.text.toString().trim()
-            logInPassword = logInpassword.text.toString().trim()
+            logInEmail = binding.logInemail.text.toString().trim()
+            logInPassword = binding.logInpassword.text.toString().trim()
 
             if (notEmpty()) {
                 firebaseAuth.signInWithEmailAndPassword(logInEmail, logInPassword)
