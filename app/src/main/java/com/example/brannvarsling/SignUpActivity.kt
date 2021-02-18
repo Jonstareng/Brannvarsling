@@ -2,6 +2,7 @@ package com.example.brannvarsling
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
@@ -21,6 +22,7 @@ class SignUpActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this,R.layout.activity_sign_up)
+        binding.bottomNav.visibility = View.GONE
         createAccountInputsArray = arrayOf(binding.Email, binding.Password, binding.bekreftPassword)
 
         binding.OpprettBruker.setOnClickListener {

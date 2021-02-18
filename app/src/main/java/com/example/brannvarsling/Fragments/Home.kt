@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import androidx.databinding.DataBindingUtil
+import androidx.navigation.Navigation
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import com.example.brannvarsling.R
@@ -39,4 +40,5 @@ class Home : Fragment() {
             findNavController().navigate(R.id.action_home_to_calendar)
         }
     }
+
 }

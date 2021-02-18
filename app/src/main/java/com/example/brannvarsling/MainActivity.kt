@@ -37,13 +37,6 @@ class MainActivity : AppCompatActivity() {
             }
             true
         }
-
-        binding.signOut.setOnClickListener {
-            firebaseAuth.signOut()
-            startActivity(Intent(this, LogInActivity::class.java))
-            toast("Du er nå logget ut")
-            finish()
-        }
     }
 
     private fun setCurrentFragment(fragment: Fragment)=
@@ -51,7 +44,12 @@ class MainActivity : AppCompatActivity() {
             replace(R.id.frameLayout,fragment)
             commit()
         }
-
+    private fun signOut(){
+            firebaseAuth.signOut()
+            startActivity(Intent(this, LogInActivity::class.java))
+            toast("Du er nå logget ut")
+            finish()
+    }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.menu_main, menu)
@@ -59,12 +57,9 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return when (item.itemId) {
-
-            R.id.action_settings -> true
-            else -> super.onOptionsItemSelected(item)
+         when (item.itemId) {
+            R.id.action_logout -> signOut()
         }
+        return true
     }
-
-
 }
