@@ -4,24 +4,26 @@ import android.content.Intent
 import android.os.Bundle
 import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
+import androidx.databinding.DataBindingUtil
+import com.example.brannvarsling.databinding.ActivitySignUpBinding
 import com.example.brannvarsling.extensions.Extensions.toast
 import com.example.brannvarsling.utils.FirebaseUtils.firebaseAuth
 import com.example.brannvarsling.utils.FirebaseUtils.firebaseUser
 import com.google.firebase.auth.FirebaseUser
-import kotlinx.android.synthetic.main.activity_sign_up.*
 
 
 class SignUpActivity : AppCompatActivity() {
     lateinit var userEmail: String
     lateinit var userPassword: String
     lateinit var createAccountInputsArray: Array<EditText>
+    lateinit var binding: ActivitySignUpBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_sign_up)
-        createAccountInputsArray = arrayOf(Email, Password, bekreftPassword)
+        binding = DataBindingUtil.setContentView(this,R.layout.activity_sign_up)
+        createAccountInputsArray = arrayOf(binding.Email, binding.Password, binding.bekreftPassword)
 
-        OpprettBruker.setOnClickListener {
+        binding.OpprettBruker.setOnClickListener {
             startActivity(Intent(this, LogInActivity::class.java))
             signIn()
         }
@@ -37,13 +39,13 @@ class SignUpActivity : AppCompatActivity() {
         }
     }
 
-    private fun notEmpty(): Boolean = Email.text.toString().trim().isNotEmpty() &&
-            Password.text.toString().trim().isNotEmpty() &&
-            bekreftPassword.text.toString().trim().isNotEmpty()
+    private fun notEmpty(): Boolean = binding.Email.text.toString().trim().isNotEmpty() &&
+            binding.Password.text.toString().trim().isNotEmpty() &&
+            binding.bekreftPassword.text.toString().trim().isNotEmpty()
 
     private fun identicalPassword(): Boolean {
         var identical = false
-        if (notEmpty() && Password.text.toString().trim() == bekreftPassword.text.toString().trim()
+        if (notEmpty() && binding.Password.text.toString().trim() == binding.bekreftPassword.text.toString().trim()
         ) {
             identical = true
         } else if (!notEmpty()) {
@@ -60,8 +62,8 @@ class SignUpActivity : AppCompatActivity() {
 
     private fun signIn() {
         if (identicalPassword()) {
-            userEmail = Email.text.toString().trim()
-            userPassword = Password.text.toString().trim()
+            userEmail = binding.Email.text.toString().trim()
+            userPassword = binding.Password.text.toString().trim()
 
             // Opprett bruker
             firebaseAuth.createUserWithEmailAndPassword(userEmail, userPassword)

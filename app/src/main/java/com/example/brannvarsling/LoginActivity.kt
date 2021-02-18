@@ -5,25 +5,25 @@ import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
+import androidx.databinding.DataBindingUtil
+import com.example.brannvarsling.databinding.ActivityLoginBinding
 import com.example.brannvarsling.extensions.Extensions.toast
 import com.example.brannvarsling.utils.FirebaseUtils.firebaseAuth
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_login.*
-
-class LogInActivity : AppCompatActivity() {
-    private lateinit var auth: FirebaseAuth
-    private lateinit var registerButton: Button
 
 
     class LogInActivity : AppCompatActivity() {
         lateinit var logInEmail: String
         lateinit var logInPassword: String
         lateinit var logInInputsArray: Array<EditText>
+        private lateinit var binding: ActivityLoginBinding
 
 
         override fun onCreate(savedInstanceState: Bundle?) {
             super.onCreate(savedInstanceState)
-            setContentView(R.layout.activity_login)
+            binding = DataBindingUtil.setContentView(this,R.layout.activity_login)
+
 
 
             registrerButton.setOnClickListener {
@@ -67,6 +67,6 @@ class LogInActivity : AppCompatActivity() {
             }
         }
     }
-}
+
 
 
