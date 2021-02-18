@@ -83,7 +83,7 @@ class SignUpActivity : AppCompatActivity() {
         firebaseUser?.let {
             it.sendEmailVerification().addOnCompleteListener { task ->
                 if(task.isSuccessful) {
-                    toast(msg = "Email sendt til $userEmail")
+                    toast("Email sendt til $userEmail")
                 }
             }
         }
