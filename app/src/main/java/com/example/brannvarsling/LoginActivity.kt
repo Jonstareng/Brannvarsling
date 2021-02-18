@@ -20,7 +20,5 @@ class LogInActivity : AppCompatActivity() {
         registerButton.setOnClickListener{
             startActivity(Intent(this, SignUpActivity::class.java))
         }
-
-
     }
 }
