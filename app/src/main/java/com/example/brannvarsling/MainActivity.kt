@@ -36,7 +36,7 @@ class MainActivity : AppCompatActivity() {
             true
         }
 
-        signOut.setOnClickListener {
+        binding.signOut.setOnClickListener {
             firebaseAuth.signOut()
             startActivity(Intent(this, LogInActivity::class.java))
             toast("Du er nå logget ut")
