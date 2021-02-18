@@ -15,7 +15,6 @@ import com.example.brannvarsling.Fragments.Home
 import com.example.brannvarsling.databinding.ActivityMainBinding
 import com.example.brannvarsling.extensions.Extensions.toast
 import com.example.brannvarsling.utils.FirebaseUtils.firebaseAuth
-import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
@@ -39,7 +38,7 @@ class MainActivity : AppCompatActivity() {
             true
         }
 
-        signOut.setOnClickListener {
+        binding.signOut.setOnClickListener {
             firebaseAuth.signOut()
             startActivity(Intent(this, LogInActivity::class.java))
             toast("Du er nå logget ut")

@@ -27,7 +27,6 @@ class SignUpActivity : AppCompatActivity() {
             startActivity(Intent(this, LogInActivity::class.java))
             signIn()
         }
-
     }
 
     override fun onStart() {
