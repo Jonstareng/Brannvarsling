@@ -15,7 +15,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         setSupportActionBar(findViewById(R.id.toolbar))
-        /*
+
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         val homeFragment = Home()
@@ -27,16 +27,16 @@ class MainActivity : AppCompatActivity() {
             true
         }
 
-         */
+
 
     }
-    /*
+
     private fun setCurrentFragment(fragment: Fragment)=
         supportFragmentManager.beginTransaction().apply {
             replace(R.id.frameLayout,fragment)
             commit()
         }
-         */
+
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.menu_main, menu)
