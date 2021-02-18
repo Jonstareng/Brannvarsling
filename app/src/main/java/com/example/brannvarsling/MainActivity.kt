@@ -1,5 +1,6 @@
 package com.example.brannvarsling
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
@@ -12,6 +13,9 @@ import com.example.brannvarsling.Fragments.Calendar
 import com.example.brannvarsling.Fragments.Cases
 import com.example.brannvarsling.Fragments.Home
 import com.example.brannvarsling.databinding.ActivityMainBinding
+import com.example.brannvarsling.extensions.Extensions.toast
+import com.example.brannvarsling.utils.FirebaseUtils.firebaseAuth
+import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
@@ -33,6 +37,13 @@ class MainActivity : AppCompatActivity() {
                 R.id.ic_calendar->setCurrentFragment(calendarFragment)
             }
             true
+        }
+
+        signOut.setOnClickListener {
+            firebaseAuth.signOut()
+            startActivity(Intent(this, LogInActivity::class.java))
+            toast("Du er nå logget ut")
+            finish()
         }
     }
 
