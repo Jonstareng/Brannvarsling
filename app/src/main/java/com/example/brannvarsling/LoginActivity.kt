@@ -10,7 +10,6 @@ import com.example.brannvarsling.databinding.ActivityLoginBinding
 import com.example.brannvarsling.extensions.Extensions.toast
 import com.example.brannvarsling.utils.FirebaseUtils.firebaseAuth
 import com.google.firebase.auth.FirebaseAuth
-import kotlinx.android.synthetic.main.activity_login.*
 
 
     class LogInActivity : AppCompatActivity() {
@@ -26,17 +25,17 @@ import kotlinx.android.synthetic.main.activity_login.*
 
 
 
-            registrerButton.setOnClickListener {
+            binding.registrerButton.setOnClickListener {
                 startActivity(Intent(this, SignUpActivity::class.java))
             }
 
-            logInInputsArray = arrayOf(logInemail, logInpassword)
-            registrerButton.setOnClickListener {
+            logInInputsArray = arrayOf(binding.logInemail, binding.logInpassword)
+            binding.registrerButton.setOnClickListener {
                 startActivity(Intent(this, SignUpActivity::class.java))
                 finish()
             }
 
-            loginButton.setOnClickListener {
+            binding.loginButton.setOnClickListener {
                 signInUser()
             }
         }
@@ -44,8 +43,8 @@ import kotlinx.android.synthetic.main.activity_login.*
         private fun notEmpty(): Boolean = logInEmail.isNotEmpty() && logInPassword.isNotEmpty()
 
         private fun signInUser() {
-            logInEmail = logInemail.text.toString().trim()
-            logInPassword = logInpassword.text.toString().trim()
+            logInEmail = binding.logInemail.text.toString().trim()
+            logInPassword = binding.logInpassword.text.toString().trim()
 
             if (notEmpty()) {
                 firebaseAuth.signInWithEmailAndPassword(logInEmail, logInPassword)

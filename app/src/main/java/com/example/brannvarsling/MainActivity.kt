@@ -43,7 +43,6 @@ class MainActivity : AppCompatActivity() {
             startActivity(Intent(this, LogInActivity::class.java))
             toast("Du er nå logget ut")
             finish()
-        }
     }
 
     }
@@ -67,6 +66,4 @@ class MainActivity : AppCompatActivity() {
             else -> super.onOptionsItemSelected(item)
         }
     }
-
-
 }
