@@ -29,4 +29,6 @@
     <string name="registrer">registrer</string>
     <string name="logo">Logo</string>
     <string name="passord">Passord</string>
+    <string name="gjenta_passord">Gjenta passord</string>
+    <string name="bekreft_passord">Bekreft passord</string>
 </resources>

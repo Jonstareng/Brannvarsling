@@ -26,7 +26,7 @@
         android:id="@+id/Email"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="48dp"
+        android:layout_marginBottom="12dp"
         android:autofillHints=""
         android:ems="10"
         android:hint="@string/email"
@@ -41,7 +41,7 @@
         android:id="@+id/Password"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="284dp"
+        android:layout_marginBottom="400dp"
         android:ems="10"
         android:hint="@string/passord"
         android:importantForAutofill="no"
@@ -51,6 +51,22 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.405"
         app:layout_constraintStart_toStartOf="parent" />
+
+    <EditText
+        android:id="@+id/bekreftPassword"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="36dp"
+        android:ems="10"
+        android:hint="@string/bekreft_passord"
+        android:importantForAutofill="no"
+        android:inputType="textPassword"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toTopOf="@+id/OpprettBruker"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.405"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/Password" />
 
     <TextView
         android:id="@+id/textView"
@@ -63,24 +79,24 @@
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.699" />
+        app:layout_constraintVertical_bias="0.617" />
 
     <Button
-        android:id="@+id/Opprettbutton"
+        android:id="@+id/OpprettBruker"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="44dp"
+        android:layout_marginTop="124dp"
         android:text="@string/opprett"
-        app:layout_constraintEnd_toStartOf="@+id/button2"
-        app:layout_constraintHorizontal_bias="0.781"
+        app:layout_constraintEnd_toStartOf="@+id/avbryt"
+        app:layout_constraintHorizontal_bias="0.754"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/Password" />
 
     <Button
-        android:id="@+id/button2"
+        android:id="@+id/avbryt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="44dp"
+        android:layout_marginTop="124dp"
         android:layout_marginEnd="108dp"
         android:layout_marginRight="108dp"
         android:text="@string/avbryt"
