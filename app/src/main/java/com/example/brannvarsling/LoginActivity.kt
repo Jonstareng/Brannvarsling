@@ -3,18 +3,15 @@ package com.example.brannvarsling
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import android.widget.Button
 import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import com.example.brannvarsling.databinding.ActivityLoginBinding
 import com.example.brannvarsling.extensions.Extensions.toast
 import com.example.brannvarsling.utils.FirebaseUtils.firebaseAuth
-import com.google.firebase.auth.FirebaseAuth
-import kotlinx.android.synthetic.main.activity_main.*
 
 
-    class LogInActivity : AppCompatActivity() {
+class LogInActivity : AppCompatActivity() {
         lateinit var logInEmail: String
         lateinit var logInPassword: String
         lateinit var logInInputsArray: Array<EditText>
