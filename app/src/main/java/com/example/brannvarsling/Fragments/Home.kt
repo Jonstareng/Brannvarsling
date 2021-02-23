@@ -7,19 +7,21 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.FragmentContainerView
+import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import com.example.brannvarsling.R
 import com.example.brannvarsling.databinding.ActivityMainBinding
 import com.example.brannvarsling.databinding.FragmentHomeBinding
+import androidx.navigation.findNavController
 
 /**
  * A simple [Fragment] subclass as the default destination in the navigation.
  */
 class Home : Fragment() {
     private lateinit var binding: FragmentHomeBinding
-
 
     override fun onCreateView(
             inflater: LayoutInflater, container: ViewGroup?,
@@ -40,5 +42,4 @@ class Home : Fragment() {
             findNavController().navigate(R.id.action_home_to_calendar)
         }
     }
-
 }

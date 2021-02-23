@@ -3,14 +3,17 @@ plugins {
     id 'kotlin-android'
     id 'kotlin-kapt'
     id 'com.google.gms.google-services'
+    id "androidx.navigation.safeargs"
 }
 
 android {
 
     buildFeatures {
         dataBinding true
+        viewBinding true
 
     }
+
 
     compileSdkVersion 30
     buildToolsVersion "30.0.3"
@@ -54,6 +57,7 @@ dependencies {
     implementation 'com.google.firebase:firebase-firestore:22.1.0'
     implementation 'androidx.cardview:cardview:1.0.0'
     implementation 'androidx.multidex:multidex:2.0.1'
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     testImplementation 'junit:junit:4.13.1'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'

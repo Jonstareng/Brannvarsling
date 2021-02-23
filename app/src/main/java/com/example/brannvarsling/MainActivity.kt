@@ -7,6 +7,9 @@ import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.navigation.NavController
+import androidx.navigation.Navigation
+import androidx.navigation.fragment.NavHostFragment
 import com.example.brannvarsling.Fragments.Calendar
 import com.example.brannvarsling.Fragments.Cases
 import com.example.brannvarsling.Fragments.Home
@@ -21,11 +24,9 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this,R.layout.activity_main)
         setSupportActionBar(binding.toolbar)
-        setCurrentFragment(Home())
         val homeFragment = Home()
         val casesFragment = Cases()
         val calendarFragment = Calendar()
-
 
         binding.bottomNavigator.setOnNavigationItemSelectedListener {
             when(it.itemId){
@@ -35,11 +36,11 @@ class MainActivity : AppCompatActivity() {
             }
             true
         }
-    }
 
+    }
     private fun setCurrentFragment(fragment: Fragment)=
         supportFragmentManager.beginTransaction().apply {
-            replace(R.id.frameLayout,fragment)
+            replace(R.id.my_nav_host_fragment,fragment)
             commit()
         }
     private fun signOut(){

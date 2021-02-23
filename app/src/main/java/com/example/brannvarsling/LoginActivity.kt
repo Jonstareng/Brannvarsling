@@ -7,11 +7,12 @@ import android.widget.Button
 import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
+import androidx.navigation.ActivityNavigator
+import androidx.navigation.Navigation
 import com.example.brannvarsling.databinding.ActivityLoginBinding
 import com.example.brannvarsling.extensions.Extensions.toast
 import com.example.brannvarsling.utils.FirebaseUtils.firebaseAuth
 import com.google.firebase.auth.FirebaseAuth
-import kotlinx.android.synthetic.main.activity_main.*
 
 
     class LogInActivity : AppCompatActivity() {
@@ -25,7 +26,6 @@ import kotlinx.android.synthetic.main.activity_main.*
             super.onCreate(savedInstanceState)
             binding = DataBindingUtil.setContentView(this,R.layout.activity_login)
             binding.bottomNav.visibility = View.GONE
-
 
 
             binding.registrerButton.setOnClickListener {
