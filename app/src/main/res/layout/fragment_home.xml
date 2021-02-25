@@ -5,33 +5,88 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".Fragments.Home">
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/fragment_home"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-    <Button
-        android:id="@+id/button_calendar"
-        android:layout_width="100sp"
-        android:layout_height="100sp"
-        android:drawableTop="@drawable/calendar_today_24px"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.466"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.309" />
+        <ImageButton
+            android:id="@+id/button_calendar"
+            android:layout_width="100sp"
+            android:layout_height="100sp"
+            android:background="@color/white"
+            android:src="@drawable/calendar_today_24px"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.498"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.244" />
 
-    <Button
-        android:id="@+id/button_cases"
-        android:layout_width="100sp"
-        android:layout_height="100sp"
-        android:background="@color/blueJ"
-        android:drawableTop="@drawable/assignment_24px"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.466"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.518" />
+        <TextView
+            android:layout_width="100dp"
+            android:layout_height="20dp"
+            android:gravity="center_horizontal"
+            android:text="@string/calendar"
+            android:textColor="@color/black"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.498"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.358" />
+
+        <ImageButton
+            android:id="@+id/button_cases"
+            android:layout_width="100sp"
+            android:layout_height="100sp"
+            android:background="@color/white"
+            android:src="@drawable/assignment_24px"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.498"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.472" />
+
+        <TextView
+            android:layout_width="100dp"
+            android:layout_height="20dp"
+            android:gravity="center_horizontal"
+            android:text="@string/cases"
+            android:textColor="@color/black"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.498"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.559" />
+
+        <ImageButton
+            android:id="@+id/button_ny_skjema"
+            android:layout_width="100sp"
+            android:layout_height="100sp"
+            android:background="@color/white"
+            android:src="@drawable/description_24px"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.498"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.702" />
+
+        <TextView
+            android:layout_width="100dp"
+            android:layout_height="20dp"
+            android:gravity="center_horizontal"
+            android:text="@string/ny_skjema"
+            android:textColor="@color/black"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.498"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.763" />
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

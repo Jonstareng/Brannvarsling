@@ -21,10 +21,18 @@
         android:id="@+id/calendar"
         android:name="com.example.brannvarsling.Fragments.Calendar"
         android:label="fragment_calender"
-        tools:layout="@layout/fragment_calender" />
+        tools:layout="@layout/fragment_calender" >
+        <action
+            android:id="@+id/action_calendar_to_home"
+            app:destination="@id/home" />
+    </fragment>
     <fragment
         android:id="@+id/cases"
         android:name="com.example.brannvarsling.Fragments.Cases"
         android:label="fragment_cases"
-        tools:layout="@layout/fragment_cases" />
+        tools:layout="@layout/fragment_cases" >
+        <action
+            android:id="@+id/action_cases_to_home"
+            app:destination="@id/home" />
+    </fragment>
 </navigation>
