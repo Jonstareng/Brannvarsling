@@ -1,16 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+<navigation
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
     app:startDestination="@id/home">
-
     <fragment
         android:id="@+id/home"
         android:name="com.example.brannvarsling.Fragments.Home"
-        android:label="home"
+        android:label="fragment_home"
         tools:layout="@layout/fragment_home" >
-
         <action
             android:id="@+id/action_home_to_cases"
             app:destination="@id/cases" />
@@ -21,11 +20,19 @@
     <fragment
         android:id="@+id/calendar"
         android:name="com.example.brannvarsling.Fragments.Calendar"
-        android:label="Calendar"
-        tools:layout="@layout/fragment_calender"/>
+        android:label="fragment_calender"
+        tools:layout="@layout/fragment_calender" >
+        <action
+            android:id="@+id/action_calendar_to_home"
+            app:destination="@id/home" />
+    </fragment>
     <fragment
         android:id="@+id/cases"
         android:name="com.example.brannvarsling.Fragments.Cases"
-        android:label="Cases"
-        tools:layout="@layout/fragment_cases"/>
+        android:label="fragment_cases"
+        tools:layout="@layout/fragment_cases" >
+        <action
+            android:id="@+id/action_cases_to_home"
+            app:destination="@id/home" />
+    </fragment>
 </navigation>

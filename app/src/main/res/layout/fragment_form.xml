@@ -1,21 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".Fragments.Cases">
+    tools:context=".Fragments.Form">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/fragment_cases"
+        android:id="@+id/fragment_form"
         android:layout_height="match_parent"
         android:layout_width="match_parent"
         app:navGraph="@navigation/nav_graph"
         app:defaultNavHost="true">
 
         <TextView
-            android:id="@+id/casesT"
-            android:layout_width="46dp"
-            android:layout_height="27dp"
-            android:text="Cases"
+            android:id="@+id/formT"
+            android:layout_width="100dp"
+            android:layout_height="20dp"
+            android:text="@string/form"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.498"

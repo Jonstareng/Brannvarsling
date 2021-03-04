@@ -7,10 +7,16 @@ import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
+import androidx.navigation.NavController
+import androidx.navigation.Navigation
+import androidx.navigation.findNavController
+import androidx.navigation.fragment.NavHostFragment
 import com.example.brannvarsling.Fragments.Calendar
 import com.example.brannvarsling.Fragments.Cases
 import com.example.brannvarsling.Fragments.Home
 import com.example.brannvarsling.databinding.ActivityMainBinding
+import com.example.brannvarsling.databinding.FragmentHomeBinding
 import com.example.brannvarsling.extensions.Extensions.toast
 import com.example.brannvarsling.utils.FirebaseUtils.firebaseAuth
 
@@ -21,27 +27,25 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this,R.layout.activity_main)
         setSupportActionBar(binding.toolbar)
-        setCurrentFragment(Home())
-        val homeFragment = Home()
-        val casesFragment = Cases()
-        val calendarFragment = Calendar()
-
+        val fragmentHome = Home()
+        val fragmentCases = Cases()
+        val fragmentCalendar = Calendar()
 
         binding.bottomNavigator.setOnNavigationItemSelectedListener {
             when(it.itemId){
-                R.id.ic_home->setCurrentFragment(homeFragment)
-                R.id.ic_assignment->setCurrentFragment(casesFragment)
-                R.id.ic_calendar->setCurrentFragment(calendarFragment)
+                R.id.ic_home -> setCurrentFragment(fragmentHome)
             }
             true
         }
     }
-
     private fun setCurrentFragment(fragment: Fragment)=
         supportFragmentManager.beginTransaction().apply {
-            replace(R.id.frameLayout,fragment)
+            replace(R.id.my_nav_host_fragment,fragment)
             commit()
         }
+    private fun getCurrentFragment(): Fragment? {
+        return supportFragmentManager.findFragmentById(R.id.fragment_home)
+    }
     private fun signOut(){
             firebaseAuth.signOut()
             startActivity(Intent(this, LogInActivity::class.java))
