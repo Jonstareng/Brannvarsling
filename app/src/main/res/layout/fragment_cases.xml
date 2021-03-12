@@ -5,19 +5,18 @@
     tools:context=".Fragments.Cases">
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/fragment_cases"
         android:layout_height="match_parent"
         android:layout_width="match_parent"
         app:navGraph="@navigation/nav_graph"
         app:defaultNavHost="true">
 
-        <TextView
-            android:id="@+id/casesT"
-            android:layout_width="46dp"
-            android:layout_height="27dp"
-            android:text="Cases"
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_view_case"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.498"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.404" />

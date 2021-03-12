@@ -21,27 +21,25 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this,R.layout.activity_main)
         setSupportActionBar(binding.toolbar)
-        setCurrentFragment(Home())
-        val homeFragment = Home()
-        val casesFragment = Cases()
-        val calendarFragment = Calendar()
-
+        val fragmentHome = Home()
+        val fragmentCases = Cases()
+        val fragmentCalendar = Calendar()
 
         binding.bottomNavigator.setOnNavigationItemSelectedListener {
             when(it.itemId){
-                R.id.ic_home->setCurrentFragment(homeFragment)
-                R.id.ic_assignment->setCurrentFragment(casesFragment)
-                R.id.ic_calendar->setCurrentFragment(calendarFragment)
+                R.id.ic_home -> setCurrentFragment(fragmentHome)
             }
             true
         }
     }
-
     private fun setCurrentFragment(fragment: Fragment)=
         supportFragmentManager.beginTransaction().apply {
-            replace(R.id.frameLayout,fragment)
+            replace(R.id.my_nav_host_fragment,fragment)
             commit()
         }
+    private fun getCurrentFragment(): Fragment? {
+        return supportFragmentManager.findFragmentById(R.id.fragment_home)
+    }
     private fun signOut(){
             firebaseAuth.signOut()
             startActivity(Intent(this, LogInActivity::class.java))

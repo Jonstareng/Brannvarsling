@@ -1,26 +1,73 @@
 package com.example.brannvarsling
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.Button
+import android.view.View
+import android.widget.EditText
+import androidx.appcompat.app.AppCompatActivity
+import androidx.databinding.DataBindingUtil
+import androidx.navigation.ActivityNavigator
+import androidx.navigation.Navigation
+import com.example.brannvarsling.databinding.ActivityLoginBinding
+import com.example.brannvarsling.extensions.Extensions.toast
+import com.example.brannvarsling.utils.FirebaseUtils.firebaseAuth
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.ktx.auth
-import com.google.firebase.ktx.Firebase
+
 
 class LogInActivity : AppCompatActivity() {
-    private lateinit var auth: FirebaseAuth
-    private lateinit var registerButton: Button
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_login)
+        lateinit var logInEmail: String
+        lateinit var logInPassword: String
+        lateinit var logInInputsArray: Array<EditText>
+        private lateinit var binding: ActivityLoginBinding
 
 
-        registerButton.setOnClickListener{
-            startActivity(Intent(this, SignUpActivity::class.java))
+        override fun onCreate(savedInstanceState: Bundle?) {
+            super.onCreate(savedInstanceState)
+            binding = DataBindingUtil.setContentView(this,R.layout.activity_login)
+            binding.bottomNav.visibility = View.GONE
+
+
+            binding.registrerButton.setOnClickListener {
+                startActivity(Intent(this, SignUpActivity::class.java))
+            }
+
+            logInInputsArray = arrayOf(binding.logInemail, binding.logInpassword)
+            binding.registrerButton.setOnClickListener {
+                startActivity(Intent(this, SignUpActivity::class.java))
+                finish()
+            }
+
+            binding.loginButton.setOnClickListener {
+                signInUser()
+            }
         }
 
+        private fun notEmpty(): Boolean = logInEmail.isNotEmpty() && logInPassword.isNotEmpty()
 
+        private fun signInUser() {
+            logInEmail = binding.logInemail.text.toString().trim()
+            logInPassword = binding.logInpassword.text.toString().trim()
+
+            if (notEmpty()) {
+                firebaseAuth.signInWithEmailAndPassword(logInEmail, logInPassword)
+                    .addOnCompleteListener { signIn ->
+                        if (signIn.isSuccessful) {
+                            startActivity(Intent(this, MainActivity::class.java))
+                            toast("Innlogging vellykket!")
+                            finish()
+                        } else {
+                            toast("Innlogging mislykket")
+                        }
+                    }
+            } else {
+                logInInputsArray.forEach { input ->
+                    if (input.text.toString().trim().isEmpty()) {
+                        input.error = "${input.hint} er nødvendig"
+                    }
+                }
+            }
+        }
     }
-}
+
+
+

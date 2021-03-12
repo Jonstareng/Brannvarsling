@@ -6,10 +6,9 @@
     tools:context=".Fragments.Calendar">
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/fragment_calender"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:navGraph="@navigation/nav_graph"
-        app:defaultNavHost="true">
+        android:layout_height="match_parent">
 
         <Button
             android:id="@+id/buttonKalender"
@@ -31,6 +30,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
 
