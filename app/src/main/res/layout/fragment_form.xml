@@ -10,5 +10,51 @@
         android:layout_height="match_parent"
         android:layout_width="match_parent"
         app:navGraph="@navigation/nav_graph"
-        app:defaultNavHost="true"/>
+        app:defaultNavHost="true">
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/floatingActionButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="24dp"
+            android:layout_marginRight="24dp"
+            android:layout_marginBottom="75dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:src="@drawable/ic_add"
+            android:tint="@android:color/white"
+            app:backgroundTint="@color/blueJ"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            tools:ignore="ContentDescription" />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/floating_edit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="15dp"
+            android:focusable="true"
+            android:clickable="true"
+            android:visibility="invisible"
+            android:src="@drawable/ic_edit"
+            app:backgroundTint="@color/colorAccent"
+            app:layout_constraintBottom_toTopOf="@+id/floating_img"
+            app:layout_constraintEnd_toEndOf="@+id/floating_img"
+            tools:ignore="ContentDescription" />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/floating_img"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="15dp"
+            android:clickable="true"
+            android:visibility="invisible"
+            android:src="@drawable/ic_img"
+            app:backgroundTint="@color/colorAccent"
+            app:layout_constraintBottom_toTopOf="@+id/floatingActionButton"
+            app:layout_constraintEnd_toEndOf="@+id/floatingActionButton"
+            tools:ignore="ContentDescription"
+            android:focusable="true" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
 </layout>
