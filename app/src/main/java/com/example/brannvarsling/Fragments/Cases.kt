@@ -95,7 +95,7 @@ class Cases: Fragment() {
         //val type = binding.Type.text.toString()
 
         val user: MutableMap<String, Any> = HashMap()
-        user["Costumer"] = "costumer"
+        user["Customer"] = "customer"
         user["Type"] = "type"
 
 

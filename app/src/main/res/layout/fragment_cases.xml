@@ -5,19 +5,23 @@
     tools:context=".Fragments.Cases"
     >
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <LinearLayout
         android:id="@+id/fragment_cases"
         android:layout_height="match_parent"
         android:layout_width="match_parent"
-        android:layout_marginTop="55dp"
+        android:layout_marginTop="60dp"
         android:layout_marginBottom="60dp"
-        app:navGraph="@navigation/nav_graph"
-        app:defaultNavHost="true">
+        android:orientation="vertical">
+        <LinearLayout
+            android:id="@+id/recyclerLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerview_case"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="445dp"
             app:stackFromEnd="true"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -25,19 +29,23 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.232" />
+    </LinearLayout>
 
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/addCases"
+        <LinearLayout
+            android:id="@+id/buttonLayout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="5dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.902" />
+            android:layout_height="match_parent"
+            android:layout_marginTop="5dp"
+            android:padding="10dp">
+
+            <Button
+                android:id="@+id/addCases"
+                android:text="Add"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="10dp" />
+        </LinearLayout>
 
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    </LinearLayout>
     </layout>

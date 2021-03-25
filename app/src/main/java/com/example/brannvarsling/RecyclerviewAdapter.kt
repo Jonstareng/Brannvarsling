@@ -19,7 +19,7 @@ class RecyclerviewAdapter(options: FirestoreRecyclerOptions<FirebaseCases>) :
     }
 
     override fun onBindViewHolder(holder: ViewHolder, p1: Int, data: FirebaseCases) {
-        holder.tittel.text = data.Costumer
+        holder.tittel.text = data.Customer
         holder.type.text = data.Type
 
     }
