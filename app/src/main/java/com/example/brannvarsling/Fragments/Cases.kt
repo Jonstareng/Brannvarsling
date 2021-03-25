@@ -12,8 +12,11 @@ import android.widget.ArrayAdapter
 import android.widget.EditText
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
+import androidx.databinding.DataBindingUtil.setContentView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.example.brannvarsling.CasesModel
 import com.example.brannvarsling.R
 import com.example.brannvarsling.RecyclerviewAdapter
 import com.example.brannvarsling.dataClass.FirebaseCases
@@ -33,7 +36,6 @@ class Cases: Fragment() {
         return binding.root
     }
 
-    // Inflate the layout for this fragment
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         createRecyclerView()
