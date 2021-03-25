@@ -10,6 +10,16 @@
         android:layout_width="match_parent"
         app:navGraph="@navigation/nav_graph"
         app:defaultNavHost="true">
+        <Spinner
+            android:id="@+id/spinner"
+            android:layout_width="192dp"
+            android:layout_height="22dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="123dp"
+            app:layout_constraintBottom_toTopOf="@+id/imageView"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler_view_case"
