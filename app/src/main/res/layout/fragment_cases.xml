@@ -2,45 +2,50 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".Fragments.Cases">
+    tools:context=".Fragments.Cases"
+    >
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <LinearLayout
         android:id="@+id/fragment_cases"
         android:layout_height="match_parent"
         android:layout_width="match_parent"
-        app:navGraph="@navigation/nav_graph"
-        app:defaultNavHost="true">
-        <Spinner
-            android:id="@+id/spinner"
-            android:layout_width="192dp"
-            android:layout_height="22dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginBottom="123dp"
-            app:layout_constraintBottom_toTopOf="@+id/imageView"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+        android:layout_marginTop="60dp"
+        android:layout_marginBottom="60dp"
+        android:orientation="vertical">
+        <LinearLayout
+            android:id="@+id/recyclerLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recycler_view_case"
+            android:id="@+id/recyclerview_case"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="445dp"
+            app:stackFromEnd="true"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.404" />
+            app:layout_constraintVertical_bias="0.232" />
+    </LinearLayout>
 
-    <Spinner
-        android:id="@+id/spinner"
-        android:layout_width="192dp"
-        android:layout_height="22dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginBottom="123dp"
-        app:layout_constraintBottom_toTopOf="@+id/imageView"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        <LinearLayout
+            android:id="@+id/buttonLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="5dp"
+            android:padding="10dp">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+            <Button
+                android:id="@+id/addCases"
+                android:text="Add"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="10dp" />
+        </LinearLayout>
+
+
+    </LinearLayout>
     </layout>
