@@ -14,42 +14,42 @@ import com.example.brannvarsling.utils.FirebaseUtils.firebaseAuth
 import com.google.firebase.auth.FirebaseAuth
 
 
-class LogInActivity : AppCompatActivity() {
-        lateinit var logInEmail: String
-        lateinit var logInPassword: String
-        lateinit var logInInputsArray: Array<EditText>
-        private lateinit var binding: ActivityLoginBinding
+class LoginActivity : AppCompatActivity() {
+    lateinit var logInEmail: String
+    lateinit var logInPassword: String
+    lateinit var logInInputsArray: Array<EditText>
+    private lateinit var binding: ActivityLoginBinding
 
 
-        override fun onCreate(savedInstanceState: Bundle?) {
-            super.onCreate(savedInstanceState)
-            binding = DataBindingUtil.setContentView(this,R.layout.activity_login)
-            binding.bottomNav.visibility = View.GONE
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        binding = DataBindingUtil.setContentView(this,R.layout.activity_login)
+        binding.bottomNav.visibility = View.GONE
 
 
-            binding.registrerButton.setOnClickListener {
-                startActivity(Intent(this, SignUpActivity::class.java))
-            }
-
-            logInInputsArray = arrayOf(binding.logInemail, binding.logInpassword)
-            binding.registrerButton.setOnClickListener {
-                startActivity(Intent(this, SignUpActivity::class.java))
-                finish()
-            }
-
-            binding.loginButton.setOnClickListener {
-                signInUser()
-            }
+        binding.registrerButton.setOnClickListener {
+            startActivity(Intent(this, SignUpActivity::class.java))
         }
 
-        private fun notEmpty(): Boolean = logInEmail.isNotEmpty() && logInPassword.isNotEmpty()
+        logInInputsArray = arrayOf(binding.logInemail, binding.logInpassword)
+        binding.registrerButton.setOnClickListener {
+            startActivity(Intent(this, SignUpActivity::class.java))
+            finish()
+        }
 
-        private fun signInUser() {
-            logInEmail = binding.logInemail.text.toString().trim()
-            logInPassword = binding.logInpassword.text.toString().trim()
+        binding.loginButton.setOnClickListener {
+            signInUser()
+        }
+    }
 
-            if (notEmpty()) {
-                firebaseAuth.signInWithEmailAndPassword(logInEmail, logInPassword)
+    private fun notEmpty(): Boolean = logInEmail.isNotEmpty() && logInPassword.isNotEmpty()
+
+    private fun signInUser() {
+        logInEmail = binding.logInemail.text.toString().trim()
+        logInPassword = binding.logInpassword.text.toString().trim()
+
+        if (notEmpty()) {
+            firebaseAuth.signInWithEmailAndPassword(logInEmail, logInPassword)
                     .addOnCompleteListener { signIn ->
                         if (signIn.isSuccessful) {
                             startActivity(Intent(this, MainActivity::class.java))
@@ -59,15 +59,15 @@ class LogInActivity : AppCompatActivity() {
                             toast("Innlogging mislykket")
                         }
                     }
-            } else {
-                logInInputsArray.forEach { input ->
-                    if (input.text.toString().trim().isEmpty()) {
-                        input.error = "${input.hint} er nødvendig"
-                    }
+        } else {
+            logInInputsArray.forEach { input ->
+                if (input.text.toString().trim().isEmpty()) {
+                    input.error = "${input.hint} er nødvendig"
                 }
             }
         }
     }
+}
 
 
 
