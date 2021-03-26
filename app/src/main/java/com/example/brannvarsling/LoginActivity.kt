@@ -6,12 +6,9 @@ import android.view.View
 import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
-import androidx.navigation.ActivityNavigator
-import androidx.navigation.Navigation
 import com.example.brannvarsling.databinding.ActivityLoginBinding
 import com.example.brannvarsling.extensions.Extensions.toast
 import com.example.brannvarsling.utils.FirebaseUtils.firebaseAuth
-import com.google.firebase.auth.FirebaseAuth
 
 
 class LoginActivity : AppCompatActivity() {
