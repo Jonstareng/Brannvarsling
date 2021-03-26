@@ -61,7 +61,6 @@ class Cases: Fragment() {
                     }
                 }
     }
-
  */
     // Firestore recycleradapter
     private fun createRecyclerView(){
