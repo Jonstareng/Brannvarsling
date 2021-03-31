@@ -88,7 +88,6 @@ class Cases: Fragment() {
         binding.recyclerviewCase.layoutManager = LinearLayoutManager(context)
         binding.recyclerviewCase.adapter = adapterR
 
-
     }
 
     override fun onStart() {
@@ -102,6 +101,15 @@ class Cases: Fragment() {
     }
 
     private fun showDialog() {
+        val dialogFragment = AddDialogFragment()
+        val fragmentManager = activity?.supportFragmentManager
+        val transaction = fragmentManager?.beginTransaction()
+
+
+        transaction?.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+        transaction?.add(android.R.id.content, dialogFragment)?.addToBackStack(null)?.commit()
+    }
+    private fun showRecyclerviewDialog(){
         val dialogFragment = AddDialogFragment()
         val fragmentManager = activity?.supportFragmentManager
         val transaction = fragmentManager?.beginTransaction()

@@ -17,7 +17,7 @@ import com.example.brannvarsling.dataClass.FirebaseCases
 
 
 
-class AddDialogFragment: DialogFragment() {
+class RecyclerviewDialogFragment: DialogFragment() {
 
     private lateinit var binding: DialogWindowBinding
     private var db = FirebaseFirestore.getInstance()
@@ -42,34 +42,8 @@ class AddDialogFragment: DialogFragment() {
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val dialog = super.onCreateDialog(savedInstanceState)
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
-        binding.avbryt.setOnClickListener{
-            dismiss()
-        }
-        binding.button2.setOnClickListener{
-            writeToDb()
-        }
         return dialog
     }
-    private fun writeToDb() {
-        val user: MutableMap<String, Any> = HashMap()
-        val title = binding.textInputLayout2.editText?.text.toString()
-        val type = binding.textInputLayout3.editText?.text.toString()
 
-
-        if (title != "" || type != "") {
-
-            user["Customer"] = title
-            user["Type"] = type
-
-
-            db.collection("Test")
-                    .add(user)
-                    .addOnSuccessListener { documentReference -> Log.d(ContentValues.TAG, "DocumentSnapshot added with ID: " + documentReference.id) }
-                    .addOnFailureListener { e -> Log.w(ContentValues.TAG, "Error adding document", e) }
-            dismiss()
-        }
-        else
-            Toast.makeText(context, "Fyll ut alle feltene", Toast.LENGTH_LONG).show()
-    }
 
 }
