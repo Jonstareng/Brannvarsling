@@ -75,7 +75,7 @@
         app:layout_constraintVertical_bias="0.833" />
 
     <Button
-        android:id="@+id/avbryt"
+        android:id="@+id/buttonAvbryt"
         android:layout_width="175dp"
         android:layout_height="46dp"
         android:text="Avbryt"
