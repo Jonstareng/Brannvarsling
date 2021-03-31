@@ -37,12 +37,8 @@ import kotlinx.coroutines.NonCancellable.cancel
 
 class Cases: Fragment() {
     private lateinit var binding: FragmentCasesBinding
-    //private lateinit var binding2: DialogWindowBinding
-    //private val bind get() = binding2!!
-
     private var db = FirebaseFirestore.getInstance()
     var adapterR: RecyclerviewAdapter? = null
-    private var dialogFragment = AddDialogFragment()
 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
@@ -105,26 +101,11 @@ class Cases: Fragment() {
         adapterR?.stopListening()
     }
 
-
-    private fun writeToDb() {
-        //val costumer = binding.Costumer.text.toString()
-        //val type = binding.Type.text.toString()
-
-        val user: MutableMap<String, Any> = HashMap()
-        user["Customer"] = "customer"
-        user["Type"] = "type"
-
-
-// Add a new document with a generated ID
-        db.collection("Test")
-                .add(user)
-                .addOnSuccessListener { documentReference -> Log.d(TAG, "DocumentSnapshot added with ID: " + documentReference.id) }
-                .addOnFailureListener { e -> Log.w(TAG, "Error adding document", e) }
-    }
-
     private fun showDialog() {
+        val dialogFragment = AddDialogFragment()
         val fragmentManager = activity?.supportFragmentManager
         val transaction = fragmentManager?.beginTransaction()
+
 
         transaction?.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
         transaction?.add(android.R.id.content, dialogFragment)?.addToBackStack(null)?.commit()
