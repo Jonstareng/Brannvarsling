@@ -1,41 +1,25 @@
 package com.example.brannvarsling.Fragments
 
-import android.R.layout.simple_spinner_item
-import android.app.AlertDialog
-import android.app.Dialog
-import android.content.ContentValues.TAG
-import android.content.DialogInterface
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.AdapterView
-import android.widget.ArrayAdapter
-import android.widget.EditText
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
-import androidx.databinding.DataBindingUtil.setContentView
-import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import com.example.brannvarsling.CasesModel
 import com.example.brannvarsling.R
 import com.example.brannvarsling.RecyclerviewAdapter
 import com.example.brannvarsling.dataClass.FirebaseCases
-import com.example.brannvarsling.databinding.DialogWindowBinding
 import com.example.brannvarsling.databinding.FragmentCasesBinding
 import com.example.brannvarsling.dialogFragments.AddDialogFragment
+import com.example.brannvarsling.dialogFragments.RecyclerviewDialogFragment
 import com.firebase.ui.firestore.FirestoreRecyclerOptions
 import com.google.firebase.firestore.FirebaseFirestore
-import kotlinx.coroutines.InternalCoroutinesApi
-import kotlinx.coroutines.NonCancellable.cancel
 
 
-class Cases: Fragment() {
+class Cases: Fragment(), RecyclerviewAdapter.onItemClickListner {
     private lateinit var binding: FragmentCasesBinding
     private var db = FirebaseFirestore.getInstance()
     var adapterR: RecyclerviewAdapter? = null
@@ -49,11 +33,12 @@ class Cases: Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        Toast.makeText(context, "HEI", Toast.LENGTH_LONG).show()
 
         createRecyclerView()
         //spinnerMenu()
         binding.addCases.setOnClickListener {
-            showDialog()
+            showAddDialog()
         }
 
     }
@@ -83,7 +68,7 @@ class Cases: Fragment() {
                 .setQuery(query, FirebaseCases::class.java).build()
 
 
-        adapterR = RecyclerviewAdapter(option)
+        adapterR = RecyclerviewAdapter(option, this)
 
         binding.recyclerviewCase.layoutManager = LinearLayoutManager(context)
         binding.recyclerviewCase.adapter = adapterR
@@ -100,7 +85,7 @@ class Cases: Fragment() {
         adapterR?.stopListening()
     }
 
-    private fun showDialog() {
+    private fun showAddDialog() {
         val dialogFragment = AddDialogFragment()
         val fragmentManager = activity?.supportFragmentManager
         val transaction = fragmentManager?.beginTransaction()
@@ -109,14 +94,22 @@ class Cases: Fragment() {
         transaction?.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
         transaction?.add(android.R.id.content, dialogFragment)?.addToBackStack(null)?.commit()
     }
-    private fun showRecyclerviewDialog(){
-        val dialogFragment = AddDialogFragment()
+    private fun showRecyclerDialog() {
+        val dialogFragment = RecyclerviewDialogFragment()
         val fragmentManager = activity?.supportFragmentManager
         val transaction = fragmentManager?.beginTransaction()
 
 
         transaction?.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
         transaction?.add(android.R.id.content, dialogFragment)?.addToBackStack(null)?.commit()
+
+    }
+
+    override fun onItemClick(position: Int) {
+        showAddDialog()
+        val pos = position.toString()
+        Toast.makeText(context, pos, Toast.LENGTH_LONG).show()
+        adapterR?.notifyItemChanged(position)
     }
 }
 
