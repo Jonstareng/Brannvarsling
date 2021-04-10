@@ -33,7 +33,6 @@ class Cases: Fragment(), RecyclerviewAdapter.onItemClickListner {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        Toast.makeText(context, "HEI", Toast.LENGTH_LONG).show()
 
         createRecyclerView()
         //spinnerMenu()
