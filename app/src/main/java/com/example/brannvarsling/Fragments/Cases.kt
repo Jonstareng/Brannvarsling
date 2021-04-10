@@ -1,35 +1,27 @@
 package com.example.brannvarsling.Fragments
 
-import android.R.layout.simple_spinner_item
-import android.content.ContentValues.TAG
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.AdapterView
-import android.widget.ArrayAdapter
-import android.widget.EditText
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
-import androidx.databinding.DataBindingUtil.setContentView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import com.example.brannvarsling.CasesModel
 import com.example.brannvarsling.R
 import com.example.brannvarsling.RecyclerviewAdapter
 import com.example.brannvarsling.dataClass.FirebaseCases
 import com.example.brannvarsling.databinding.FragmentCasesBinding
+import com.example.brannvarsling.dialogFragments.AddDialogFragment
+import com.example.brannvarsling.dialogFragments.RecyclerviewDialogFragment
 import com.firebase.ui.firestore.FirestoreRecyclerOptions
 import com.google.firebase.firestore.FirebaseFirestore
 
 
-class Cases: Fragment(), RecyclerviewAdapter.OnItemClickListner{
+class Cases: Fragment(), RecyclerviewAdapter.onItemClickListner {
     private lateinit var binding: FragmentCasesBinding
     private var db = FirebaseFirestore.getInstance()
-    private lateinit var idUse: String
     var adapterR: RecyclerviewAdapter? = null
 
 
@@ -41,6 +33,7 @@ class Cases: Fragment(), RecyclerviewAdapter.OnItemClickListner{
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        Toast.makeText(context, "HEI", Toast.LENGTH_LONG).show()
 
         createRecyclerView()
         //spinnerMenu()
@@ -102,19 +95,17 @@ class Cases: Fragment(), RecyclerviewAdapter.OnItemClickListner{
         transaction?.add(android.R.id.content, dialogFragment)?.addToBackStack(null)?.commit()
     }
 
+
     override fun onItemClick(id: String) {
-        idUse = id
-        Toast.makeText(requireContext(), id, Toast.LENGTH_LONG).show()
-        val dialogFragment = RecyclerviewDialogFragment(idUse)
+
+        val dialogFragment = RecyclerviewDialogFragment(id)
         val fragmentManager = activity?.supportFragmentManager
         val transaction = fragmentManager?.beginTransaction()
+
 
         transaction?.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
         transaction?.add(android.R.id.content, dialogFragment)?.addToBackStack(null)?.commit()
     }
-
-
 }
-
 
 

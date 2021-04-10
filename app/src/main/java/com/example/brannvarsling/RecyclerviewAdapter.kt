@@ -4,13 +4,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.example.brannvarsling.dataClass.FirebaseCases
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter
 import com.firebase.ui.firestore.FirestoreRecyclerOptions
 
 
-class RecyclerviewAdapter(options: FirestoreRecyclerOptions<FirebaseCases>, private val listner: OnItemClickListner) :
+class RecyclerviewAdapter(options: FirestoreRecyclerOptions<FirebaseCases>, private val listner: onItemClickListner) :
         FirestoreRecyclerAdapter<FirebaseCases, RecyclerviewAdapter.ViewHolder>(options) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -37,11 +38,10 @@ class RecyclerviewAdapter(options: FirestoreRecyclerOptions<FirebaseCases>, priv
              if (position != RecyclerView.NO_POSITION){
                  listner.onItemClick(positionId)
              }
-
          }
 
      }
-    interface OnItemClickListner{
+    interface onItemClickListner{
         fun onItemClick(id: String)
     }
 
