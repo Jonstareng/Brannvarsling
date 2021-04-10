@@ -1,11 +1,14 @@
 package com.example.brannvarsling.dialogFragments
 
 import android.app.Dialog
+import android.content.ContentValues.TAG
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.Window
+import android.widget.Toast
 import androidx.fragment.app.DialogFragment
 import com.example.brannvarsling.databinding.DialogWindowBinding
 import com.google.firebase.firestore.FirebaseFirestore
@@ -43,6 +46,10 @@ class RecyclerviewDialogFragment(id: String) : DialogFragment() {
         binding.close.setOnClickListener{
             dismiss()
         }
+        binding.deleteRecyclerItem.setOnClickListener{
+            deleteItem()
+            dismiss()
+        }
         return dialog
     }
 
@@ -54,5 +61,14 @@ class RecyclerviewDialogFragment(id: String) : DialogFragment() {
             binding.displayCustomer.text = data?.Customer
             binding.displayType.text = data?.Type
         }
+    }
+    private fun deleteItem(){
+        val docRef = db.collection("Test").document(documentId)
+
+        docRef.delete()
+                .addOnSuccessListener{ Log.d(TAG,"DocumentSnapshot successfully deleted!")}
+                .addOnSuccessListener{e->Log.w(TAG,"Error deleting document")}
+        Toast.makeText(requireContext(), "Sak nr " + documentId + " slettet", Toast.LENGTH_SHORT).show()
+
     }
 }
