@@ -94,22 +94,17 @@ class Cases: Fragment(), RecyclerviewAdapter.onItemClickListner {
         transaction?.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
         transaction?.add(android.R.id.content, dialogFragment)?.addToBackStack(null)?.commit()
     }
-    private fun showRecyclerDialog() {
-        val dialogFragment = RecyclerviewDialogFragment()
+
+
+    override fun onItemClick(id: String) {
+
+        val dialogFragment = RecyclerviewDialogFragment(id)
         val fragmentManager = activity?.supportFragmentManager
         val transaction = fragmentManager?.beginTransaction()
 
 
         transaction?.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
         transaction?.add(android.R.id.content, dialogFragment)?.addToBackStack(null)?.commit()
-
-    }
-
-    override fun onItemClick(position: Int) {
-        showAddDialog()
-        val pos = position.toString()
-        Toast.makeText(context, pos, Toast.LENGTH_LONG).show()
-        adapterR?.notifyItemChanged(position)
     }
 }
 

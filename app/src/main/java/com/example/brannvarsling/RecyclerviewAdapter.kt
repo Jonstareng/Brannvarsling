@@ -33,14 +33,16 @@ class RecyclerviewAdapter(options: FirestoreRecyclerOptions<FirebaseCases>, priv
 
          override fun onClick(v: View?) {
              val position = adapterPosition
+             val pos = snapshots.getSnapshot(adapterPosition)
+             val positionId = pos.id
              if (position != RecyclerView.NO_POSITION){
-                 listner.onItemClick(position)
+                 listner.onItemClick(positionId)
              }
          }
 
      }
     interface onItemClickListner{
-        fun onItemClick(position: Int)
+        fun onItemClick(id: String)
     }
 
 
