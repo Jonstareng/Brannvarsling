@@ -37,24 +37,26 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="100dp"
         android:text="Kunde / Tiltakshaver:"
+        android:textColor="@color/black"
         app:layout_constraintEnd_toStartOf="@+id/kunde_text_edit"
         app:layout_constraintHorizontal_bias="0.164"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/textView4"
+        android:id="@+id/anlegg_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="28dp"
         android:text="Anleggssted:"
-        app:layout_constraintEnd_toStartOf="@+id/editText3"
+        android:textColor="@color/black"
+        app:layout_constraintEnd_toStartOf="@+id/anlegg_text_edit"
         app:layout_constraintHorizontal_bias="0.054"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/kunde_text" />
 
     <EditText
-        android:id="@+id/editText3"
+        android:id="@+id/anlegg_text_edit"
         android:layout_width="100dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
@@ -68,15 +70,16 @@
 
 
     <TextView
-        android:id="@+id/textView5"
+        android:id="@+id/adresse_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
         android:text="Adresse:"
+        android:textColor="@color/black"
         app:layout_constraintEnd_toStartOf="@+id/editText4"
         app:layout_constraintHorizontal_bias="0.038"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView4" />
+        app:layout_constraintTop_toBottomOf="@+id/anlegg_text" />
 
     <EditText
         android:id="@+id/editText4"
@@ -89,19 +92,21 @@
         android:textSize="15sp"
         android:inputType="text"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editText3" />
+        app:layout_constraintTop_toBottomOf="@+id/anlegg_text_edit" />
 
     <TextView
+        android:id="@+id/overforing_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="4dp"
         android:layout_marginLeft="4dp"
         android:layout_marginTop="80dp"
         android:text="Alarmoverføring til:"
+        android:textColor="@color/black"
         app:layout_constraintEnd_toStartOf="@+id/editText5"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView5" />
+        app:layout_constraintTop_toBottomOf="@+id/adresse_text" />
 
     <EditText
         android:id="@+id/editText5"
