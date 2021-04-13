@@ -43,8 +43,6 @@ class Cases: Fragment() {
         binding.addCases.setOnClickListener{
             writeToDb()
         }
-
-
     }
 /*
             private fun spinnerMenu() {
@@ -104,6 +102,4 @@ class Cases: Fragment() {
                 .addOnSuccessListener { documentReference -> Log.d(TAG, "DocumentSnapshot added with ID: " + documentReference.id) }
                 .addOnFailureListener { e -> Log.w(TAG, "Error adding document", e) }
     }
-
-
 }

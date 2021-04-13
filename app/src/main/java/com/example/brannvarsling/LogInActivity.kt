@@ -11,7 +11,7 @@ import com.example.brannvarsling.extensions.Extensions.toast
 import com.example.brannvarsling.utils.FirebaseUtils.firebaseAuth
 
 
-class LoginActivity : AppCompatActivity() {
+class LogInActivity : AppCompatActivity() {
     lateinit var logInEmail: String
     lateinit var logInPassword: String
     lateinit var logInInputsArray: Array<EditText>
