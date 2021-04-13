@@ -8,15 +8,20 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.Window
+import android.widget.EditText
+import android.widget.Toast
 import androidx.fragment.app.DialogFragment
 import com.example.brannvarsling.databinding.DialogWindowBinding
 import com.google.firebase.firestore.FirebaseFirestore
+import com.example.brannvarsling.dataClass.FirebaseCases
+
 
 
 class AddDialogFragment: DialogFragment() {
 
     private lateinit var binding: DialogWindowBinding
     private var db = FirebaseFirestore.getInstance()
+    private var data = FirebaseCases()
 
 
     override fun onCreateView(
@@ -42,26 +47,29 @@ class AddDialogFragment: DialogFragment() {
         }
         binding.button2.setOnClickListener{
             writeToDb()
-            dismiss()
         }
         return dialog
     }
     private fun writeToDb() {
-        //val costumer = binding.Costumer.text.toString()
-        //val type = binding.Type.text.toString()
-
         val user: MutableMap<String, Any> = HashMap()
-        user["Customer"] = "customer"
-        user["Type"] = "type"
+        val title = binding.textInputLayout2.editText?.text.toString()
+        val type = binding.textInputLayout3.editText?.text.toString()
 
 
-// Add a new document with a generated ID
-        db.collection("Test")
-                .add(user)
-                .addOnSuccessListener { documentReference -> Log.d(ContentValues.TAG, "DocumentSnapshot added with ID: " + documentReference.id) }
-                .addOnFailureListener { e -> Log.w(ContentValues.TAG, "Error adding document", e) }
+        if (title != "" || type != "") {
+
+            user["Customer"] = title
+            user["Type"] = type
+
+
+            db.collection("Test")
+                    .add(user)
+                    .addOnSuccessListener { documentReference -> Log.d(ContentValues.TAG, "DocumentSnapshot added with ID: " + documentReference.id) }
+                    .addOnFailureListener { e -> Log.w(ContentValues.TAG, "Error adding document", e) }
+            dismiss()
+        }
+        else
+            Toast.makeText(context, "Fyll ut alle feltene", Toast.LENGTH_LONG).show()
     }
-
-
 
 }
