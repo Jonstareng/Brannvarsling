@@ -7,12 +7,10 @@ import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentTransaction
-import com.example.brannvarsling.Fragments.Calendar
-import com.example.brannvarsling.Fragments.Cases
-import com.example.brannvarsling.Fragments.Home
+import com.example.brannvarsling.fragments.Calendar
+import com.example.brannvarsling.fragments.Cases
+import com.example.brannvarsling.fragments.Home
 import com.example.brannvarsling.databinding.ActivityMainBinding
-import com.example.brannvarsling.dialogFragments.RecyclerviewDialogFragment
 import com.example.brannvarsling.extensions.Extensions.toast
 import com.example.brannvarsling.utils.FirebaseUtils.firebaseAuth
 

@@ -10,7 +10,7 @@
 
     <EditText
         android:id="@+id/tittel_edit_text"
-        android:layout_width="100dp"
+        android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:hint="Tittel"
         android:textSize="20sp"
@@ -20,14 +20,13 @@
 
     <EditText
         android:id="@+id/kunde_text_edit"
-        android:layout_width="100dp"
+        android:layout_width="200dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="35dp"
-        android:textSize="15sp"
+        android:layout_marginTop="36dp"
         android:hint="kunde"
-        android:inputType="text"
+        android:textSize="15sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintHorizontal_bias="0.691"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tittel_edit_text" />
 
@@ -55,19 +54,18 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/kunde_text" />
 
+
     <EditText
         android:id="@+id/anlegg_text_edit"
-        android:layout_width="100dp"
+        android:layout_width="200dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
-        android:layout_marginEnd="156dp"
-        android:layout_marginRight="156dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="64dp"
+        android:layout_marginRight="64dp"
         android:hint="sted"
         android:textSize="15sp"
-        android:inputType="text"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/kunde_text_edit" />
-
 
     <TextView
         android:id="@+id/adresse_text"
@@ -83,14 +81,13 @@
 
     <EditText
         android:id="@+id/editText4"
-        android:layout_width="100dp"
+        android:layout_width="200dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
-        android:layout_marginEnd="156dp"
-        android:layout_marginRight="156dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="64dp"
+        android:layout_marginRight="64dp"
         android:hint="adresse"
         android:textSize="15sp"
-        android:inputType="text"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/anlegg_text_edit" />
 
@@ -110,13 +107,12 @@
 
     <EditText
         android:id="@+id/editText5"
-        android:layout_width="100dp"
+        android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="52dp"
-        android:layout_marginEnd="156dp"
-        android:layout_marginRight="156dp"
+        android:layout_marginEnd="64dp"
+        android:layout_marginRight="64dp"
         android:hint="sted"
-        android:inputType="text"
         android:textSize="15sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editText4" />

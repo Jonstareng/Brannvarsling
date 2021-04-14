@@ -3,91 +3,114 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".Fragments.Form">
+    tools:context=".fragments.Form">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/parent_layout"
+
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:navGraph="@navigation/nav_graph"
-        app:defaultNavHost="true">
+        android:layout_height="wrap_content"
+        android:layout_marginTop="55dp"
+        android:orientation="vertical">
 
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/button_submit"
-            android:layout_width="80dp"
-            android:layout_height="50dp"
-            android:layout_marginBottom="44dp"
-            android:text="Lagre"
-            android:textAllCaps="false"
-            android:textColor="@color/white"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.347"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/floatingActionButton"
-            app:layout_constraintVertical_bias="0.0" />
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/button_fjern"
-            android:layout_width="80dp"
-            android:layout_height="50dp"
-            android:layout_marginBottom="44dp"
-            android:text="Tøm"
-            android:textAllCaps="false"
-            android:textColor="@color/white"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.679"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/floatingActionButton"
-            app:layout_constraintVertical_bias="0.0" />
 
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/floatingActionButton"
-            android:layout_width="wrap_content"
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="500dp">
+        <LinearLayout
+            android:id="@+id/scrollLayout"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="16dp"
-            android:layout_marginRight="16dp"
-            android:layout_marginBottom="120dp"
-            android:clickable="true"
-            android:focusable="true"
-            android:src="@drawable/ic_add"
-            android:tint="@android:color/white"
-            app:backgroundTint="@color/blueJ"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            tools:ignore="ContentDescription" />
+            android:orientation="vertical"
+            android:gravity="bottom">
+        </LinearLayout>
+        </ScrollView>
 
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/floating_title"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="15dp"
-            android:focusable="true"
-            android:clickable="true"
-            android:visibility="invisible"
-            android:src="@drawable/ic_title"
-            app:backgroundTint="@color/colorAccent"
-            app:layout_constraintBottom_toTopOf="@+id/floating_spm"
-            app:layout_constraintEnd_toEndOf="@+id/floating_spm"
-            tools:ignore="ContentDescription" />
+            android:gravity="end"
+            android:orientation="horizontal"
+            android:visibility="visible"
+            android:layout_marginRight="10dp"
+            android:layout_marginEnd="10dp">
 
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/floating_spm"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="15dp"
-            android:clickable="true"
-            android:visibility="invisible"
-            android:src="@drawable/ic_text"
-            app:backgroundTint="@color/colorAccent"
-            app:layout_constraintBottom_toTopOf="@+id/floatingActionButton"
-            app:layout_constraintEnd_toEndOf="@+id/floatingActionButton"
-            tools:ignore="ContentDescription"
-            android:focusable="true" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/floating_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:layout_marginBottom="15dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:src="@drawable/ic_title"
+                android:visibility="invisible"
+                app:backgroundTint="@color/colorAccent"
+                tools:ignore="ContentDescription"
+                android:layout_marginStart="15dp" />
 
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/floating_spm"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:layout_marginBottom="15dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:src="@drawable/ic_text"
+                android:visibility="invisible"
+                app:backgroundTint="@color/colorAccent"
+                tools:ignore="ContentDescription"
+                android:layout_marginStart="15dp" />
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/floatingActionButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:layout_marginBottom="15dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:src="@drawable/ic_add"
+                android:tint="@android:color/white"
+                app:backgroundTint="@color/blueJ"
+                tools:ignore="ContentDescription"
+                android:layout_marginStart="15dp" />
+        </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="bottom"
+                android:layout_gravity="center">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/button_submit"
+                android:layout_width="80dp"
+                android:layout_height="50dp"
+                android:layout_marginBottom="4dp"
+                android:layout_marginRight="10dp"
+                android:text="Lagre"
+                android:textAllCaps="false"
+                android:textColor="@color/white"
+                android:layout_marginEnd="10dp" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/button_fjern"
+                android:layout_width="80dp"
+                android:layout_height="50dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginBottom="4dp"
+                android:text="Tøm"
+                android:textAllCaps="false"
+                android:textColor="@color/white"
+                android:layout_marginEnd="10dp" />
+
+            </LinearLayout>
+
+        </LinearLayout>
 
 </layout>

@@ -4,7 +4,7 @@ package com.example.brannvarsling
 
 class CasesModel(
         var tittel: String = "",
-        var tiltakshaver: String = "",
+        var kunde: String = "",
         var anleggssted: String = "",
         var adresse: String = "",
         var overforing: String = "",
