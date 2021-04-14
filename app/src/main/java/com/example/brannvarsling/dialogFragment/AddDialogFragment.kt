@@ -60,6 +60,9 @@ class AddDialogFragment: DialogFragment() {
 
             user["Customer"] = title
             user["Type"] = type
+            user["Year"] = ""
+            user["Month"] = ""
+            user["Day"] = ""
 
 
             db.collection("Test")
