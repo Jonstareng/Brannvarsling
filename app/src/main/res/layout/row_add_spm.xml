@@ -16,7 +16,7 @@
         android:hint="Beskrivelse her"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:inputType="phone" />
+        android:inputType="text" />
 
     <TextView
         android:id="@+id/text_ja"

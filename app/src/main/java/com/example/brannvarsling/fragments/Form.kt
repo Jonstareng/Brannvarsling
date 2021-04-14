@@ -36,7 +36,7 @@ class Form: Fragment() {
             savedInstanceState: Bundle?): View {
 
         // Inflate the layout for this fragment
-        binding = FragmentFormBinding.inflate(inflater, container, false)
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_form, container, false)
         return binding.root
 
     }
@@ -56,7 +56,7 @@ class Form: Fragment() {
 
         // Lagre knapp. (Skal kunne lagre skjema som pdf, og i arraylist for å laste opp til firebase)
         binding.buttonSubmit.setOnClickListener {
-            saveData()
+           saveData()
         }
 
         // Bare en knapp for floatingbutton
@@ -124,7 +124,7 @@ class Form: Fragment() {
         val checkboxJa = R.id.checkbox_ja.toString().toBoolean()
         val checkboxNei = R.id.checkbox_nei.toString().toBoolean()
 
-        if (tittel != "" || kunde != "" || anlegg != "" || adresse != "" || overforing != "" || sporsmal !="") {
+        if (tittel !="" || kunde != "" || anlegg != "" || adresse != "" || overforing != "" || sporsmal !="") {
 
             skjema["Tittel"] = tittel
             skjema["Kunde"] = kunde
@@ -137,6 +137,7 @@ class Form: Fragment() {
                     .add(skjema)
                     .addOnSuccessListener { documentReference -> Log.d(ContentValues.TAG, "Skjema lagt til med ID: " + documentReference.id) }
                     .addOnFailureListener { e -> Log.w(ContentValues.TAG, "Error adding form", e) }
+
             }
         else
             Toast.makeText(context, "Fyll ut alle feltene", Toast.LENGTH_LONG).show()

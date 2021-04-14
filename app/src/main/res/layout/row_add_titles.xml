@@ -13,10 +13,12 @@
         android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:hint="Tittel"
+        android:inputType="text"
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:importantForAutofill="no"/>
 
     <EditText
         android:id="@+id/kunde_text_edit"
@@ -24,11 +26,13 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="36dp"
         android:hint="kunde"
+        android:inputType="text"
         android:textSize="15sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.691"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tittel_edit_text" />
+        app:layout_constraintTop_toBottomOf="@+id/tittel_edit_text"
+        android:importantForAutofill="no"/>
 
     <TextView
         android:id="@+id/kunde_text"
@@ -62,17 +66,19 @@
         android:layout_marginTop="8dp"
         android:layout_marginEnd="64dp"
         android:layout_marginRight="64dp"
-        android:hint="sted"
+        android:hint="@string/sted"
+        android:inputType="text"
         android:textSize="15sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/kunde_text_edit" />
+        app:layout_constraintTop_toBottomOf="@+id/kunde_text_edit"
+        android:importantForAutofill="no"/>
 
     <TextView
         android:id="@+id/adresse_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
-        android:text="Adresse:"
+        android:text="@string/adresse"
         android:textColor="@color/black"
         app:layout_constraintEnd_toStartOf="@+id/editText4"
         app:layout_constraintHorizontal_bias="0.038"
@@ -87,9 +93,11 @@
         android:layout_marginEnd="64dp"
         android:layout_marginRight="64dp"
         android:hint="adresse"
+        android:inputType="text"
         android:textSize="15sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/anlegg_text_edit" />
+        app:layout_constraintTop_toBottomOf="@+id/anlegg_text_edit"
+        android:importantForAutofill="no"/>
 
     <TextView
         android:id="@+id/overforing_text"
@@ -103,7 +111,8 @@
         app:layout_constraintEnd_toStartOf="@+id/editText5"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/adresse_text" />
+        app:layout_constraintTop_toBottomOf="@+id/adresse_text"
+        />
 
     <EditText
         android:id="@+id/editText5"
@@ -113,9 +122,11 @@
         android:layout_marginEnd="64dp"
         android:layout_marginRight="64dp"
         android:hint="sted"
+        android:inputType="text"
         android:textSize="15sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editText4" />
+        app:layout_constraintTop_toBottomOf="@+id/editText4"
+        android:importantForAutofill="no"/>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
