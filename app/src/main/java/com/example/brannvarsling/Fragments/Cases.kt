@@ -33,33 +33,13 @@ class Cases: Fragment(), RecyclerviewAdapter.onItemClickListner {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        Toast.makeText(context, "HEI", Toast.LENGTH_LONG).show()
 
         createRecyclerView()
-        //spinnerMenu()
         binding.addCases.setOnClickListener {
             showAddDialog()
         }
 
     }
-
-    /*
-                private fun spinnerMenu() {
-                    val caseChoice = arrayOf("Brannvarsling", "Nødlys")
-                    val arrayAdapter = context?.let { ArrayAdapter(it, simple_spinner_item, caseChoice) }
-                    binding.spinner.adapter = arrayAdapter
-                    binding.spinner.onItemSelectedListener = object :
-                            AdapterView.OnItemSelectedListener {
-                            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                                val text: String = parent?.getItemAtPosition(position).toString()
-                }
-                        override fun onNothingSelected(parent: AdapterView<*>?) {
-
-                        }
-                    }
-        }
-     */
-    // Firestore recycleradapter
     private fun createRecyclerView() {
         val query = db.collection("Test")
 
