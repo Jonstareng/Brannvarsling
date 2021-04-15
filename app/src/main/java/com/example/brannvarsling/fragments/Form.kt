@@ -16,6 +16,7 @@ import androidx.fragment.app.Fragment
 import com.example.brannvarsling.R
 import com.example.brannvarsling.dataClass.FirebaseCases
 import com.example.brannvarsling.R.layout.row_add_titles
+import com.example.brannvarsling.dataClass.SkjemaFirebase
 import com.example.brannvarsling.databinding.FragmentFormBinding
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
@@ -36,7 +37,7 @@ class Form: Fragment() {
 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-            savedInstanceState: Bundle?): View {
+                              savedInstanceState: Bundle?): View {
 
         // Inflate the layout for this fragment
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_form, container, false)
@@ -59,7 +60,7 @@ class Form: Fragment() {
 
         // Lagre knapp. (Skal kunne lagre skjema som pdf, og i arraylist for å laste opp til firebase)
         binding.buttonSubmit.setOnClickListener {
-           saveData()
+            saveData(view)
         }
 
         // Bare en knapp for floatingbutton
@@ -81,7 +82,7 @@ class Form: Fragment() {
     }
 
     private fun setVisibility(clicked: Boolean) {
-        if(!clicked) {
+        if (!clicked) {
             binding.floatingSpm.visibility = View.VISIBLE
             binding.floatingTitle.visibility = View.VISIBLE
         } else {
@@ -104,7 +105,7 @@ class Form: Fragment() {
 
     @SuppressLint("InflateParams")
     private fun addNewSpm() {
-        val inflater = LayoutInflater.from(requireContext()).inflate(R.layout.row_add_spm,null)
+        val inflater = LayoutInflater.from(requireContext()).inflate(R.layout.row_add_spm, null)
         binding.scrollLayout.addView(inflater, binding.scrollLayout.childCount)
     }
 
@@ -115,36 +116,46 @@ class Form: Fragment() {
         binding.scrollLayout.addView(inflater, binding.scrollLayout.childCount)
     }
 
-    private fun saveData() {
+    private fun saveData(v: View) {
         val skjema: MutableMap<String, Any> = HashMap()
+        val data = SkjemaFirebase()
 
-        val tittel = R.id.tittel_edit_text.toString()
-        val kunde = R.id.kunde_text_edit.toString()
-        val anlegg = R.id.anlegg_text_edit.toString()
-        val adresse = R.id.editText4.toString()
-        val overforing = R.id.editText5.toString()
-        val sporsmal = R.id.text_spm.toString()
+        val tittel: EditText = v.findViewById(R.id.tittel_edit_text)
+        val kunde: EditText = v.findViewById(R.id.kunde_text_edit)
+        val anlegg: EditText = v.findViewById(R.id.anlegg_text_edit)
+        val adresse: EditText = v.findViewById(R.id.editText4)
+        val overforing: EditText = v.findViewById(R.id.editText5)
+        val sporsmal: EditText = v.findViewById(R.id.text_spm)
         val checkboxJa = R.id.checkbox_ja.toString().toBoolean()
         val checkboxNei = R.id.checkbox_nei.toString().toBoolean()
 
-        if (tittel !="" || kunde != "" || anlegg != "" || adresse != "" || overforing != "" || sporsmal !="") {
-
-            skjema["Tittel"] = tittel
-            skjema["Kunde"] = kunde
-            skjema["Anleggssted"] = anlegg
-            skjema["Adresse"] = adresse
-            skjema["Alarmoverføring"] = overforing
-            skjema["Innhold"] = sporsmal
-
-            db.collection("Saker")
-                    .add(skjema)
-                    .addOnSuccessListener { documentReference -> Log.d(ContentValues.TAG, "Skjema lagt til med ID: " + documentReference.id) }
-                    .addOnFailureListener { e -> Log.w(ContentValues.TAG, "Error adding form", e) }
-
-            }
-        else
-            Toast.makeText(context, "Fyll ut alle feltene", Toast.LENGTH_LONG).show()
-        }
+        Toast.makeText(context, "${data.Tittel}", Toast.LENGTH_LONG).show()
+        data.Tittel = tittel.text.toString()
+        data.Kunde = kunde.text.toString()
+        data.Anleggssted = anlegg.text.toString()
+        data.Adresse = adresse.text.toString()
+        data.overføring = overforing.text.toString()
+        data.spormal = sporsmal.text.toString()
+        val tittelData = data.Tittel.toString()
+        val kundeData = data.Kunde.toString()
+        val anleggData = data.Anleggssted.toString()
+        val adresseData = data.Adresse.toString()
+        val overforingData = data.overføring.toString()
+        val sporsmalData = data.spormal.toString()
 
 
+        skjema["Tittel"] = tittelData
+        skjema["Kunde"] = kundeData
+        skjema["Anleggssted"] = anleggData
+        skjema["Adresse"] = adresseData
+        skjema["Alarmoverføring"] = overforingData
+        skjema["Innhold"] = sporsmalData
+
+        db.collection("Saker")
+                .add(skjema)
+                .addOnSuccessListener { documentReference -> Log.d(ContentValues.TAG, "Skjema lagt til med ID: " + documentReference.id) }
+                .addOnFailureListener { e -> Log.w(ContentValues.TAG, "Error adding form", e) }
+
+
+    }
 }
