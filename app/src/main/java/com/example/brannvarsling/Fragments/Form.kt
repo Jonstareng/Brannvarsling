@@ -6,11 +6,15 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
+import android.widget.EditText
+import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import com.example.brannvarsling.CasesModel
 import com.example.brannvarsling.R
+import com.example.brannvarsling.dataClass.FirebaseCases
 import com.example.brannvarsling.databinding.FragmentFormBinding
+import com.google.firebase.auth.FirebaseAuth
 
 
 class Form: Fragment() {
@@ -46,7 +50,7 @@ class Form: Fragment() {
         }
 
         binding.buttonSubmit.setOnClickListener {
-
+            saveData(view)
         }
 
         binding.floatingActionButton.setOnClickListener {
@@ -96,6 +100,14 @@ class Form: Fragment() {
     private fun addNewTitle() {
         val inflater = LayoutInflater.from(context).inflate(R.layout.row_add_titles, null)
         binding.parentLayout.addView(inflater, binding.parentLayout.childCount)
+
+    }
+    private fun saveData(v: View) {
+
+        val title: EditText = v.findViewById(R.id.tittel_edit_text)
+        val data = FirebaseCases()
+        data.Customer = title.text.toString()
+        Toast.makeText(context, "${data.Customer}", Toast.LENGTH_LONG).show()
     }
 
 }
