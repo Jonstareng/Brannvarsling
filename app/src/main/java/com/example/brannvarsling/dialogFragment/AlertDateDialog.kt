@@ -157,7 +157,7 @@ class AlertDateDialog(id: String, customer: String, type: String): DialogFragmen
         val intent = Intent(context, BroadcastReceiver::class.java)
         intent.putExtra("title", "title")
         intent.putExtra("text", "text")
-        val pending = PendingIntent.getBroadcast(context, 42, intent, PendingIntent.FLAG_UPDATE_CURRENT)
+        val pending = PendingIntent.getBroadcast(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
         // Schdedule notification
         // Schdedule notification
         val manager = requireContext().getSystemService(Context.ALARM_SERVICE) as AlarmManager
@@ -167,7 +167,7 @@ class AlertDateDialog(id: String, customer: String, type: String): DialogFragmen
         val intent = Intent(context, BroadcastReceiver::class.java)
         intent.putExtra("title", title)
         intent.putExtra("text", text)
-        val pending = PendingIntent.getBroadcast(context, 42, intent, PendingIntent.FLAG_UPDATE_CURRENT)
+        val pending = PendingIntent.getBroadcast(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
         // Cancel notification
         val manager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
         manager.cancel(pending)

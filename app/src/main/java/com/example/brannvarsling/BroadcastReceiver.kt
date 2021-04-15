@@ -22,7 +22,7 @@ class BroadcastReceiver: BroadcastReceiver(){
         // Show notification
         // Show notification
         val manager = context!!.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-        manager.notify(42, notification)
+        manager.notify(0, notification)
     }
 }
 
