@@ -17,6 +17,7 @@ import com.example.brannvarsling.R
 import com.example.brannvarsling.dataClass.FirebaseCases
 import com.example.brannvarsling.R.layout.row_add_titles
 import com.example.brannvarsling.dataClass.SkjemaFirebase
+import com.example.brannvarsling.dataClass.Test
 import com.example.brannvarsling.databinding.FragmentFormBinding
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
@@ -25,6 +26,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 class Form: Fragment() {
     private lateinit var binding: FragmentFormBinding
     private var db = FirebaseFirestore.getInstance()
+    private var list = ArrayList<Test>()
     //private var skjemaList = ArrayList<CasesModel>()
 
     // FloatingActionBar animasjoner
@@ -118,14 +120,28 @@ class Form: Fragment() {
 
     private fun saveData(v: View) {
         val skjema: MutableMap<String, Any> = HashMap()
+        list.clear()
         val data = SkjemaFirebase()
+        var fin: View?
+        val count = binding.scrollLayout.childCount
+        var pluss = 0
 
-        val tittel: EditText = v.findViewById(R.id.tittel_edit_text)
-        val kunde: EditText = v.findViewById(R.id.kunde_text_edit)
-        val anlegg: EditText = v.findViewById(R.id.anlegg_text_edit)
-        val adresse: EditText = v.findViewById(R.id.editText4)
-        val overforing: EditText = v.findViewById(R.id.editText5)
-        val sporsmal: EditText = v.findViewById(R.id.text_spm)
+        for (i in 0 until count){
+            fin = binding.scrollLayout.getChildAt(i)
+
+            val sporsmal: EditText = fin.findViewById(R.id.text_spm)
+            val sporsmalTest = Test()
+            sporsmalTest.spormal = sporsmal.text.toString()
+            list.add(sporsmalTest)
+        }
+        fin = binding.scrollLayout
+
+        val tittel: EditText = fin.findViewById(R.id.tittel_edit_text)
+        val kunde: EditText = fin.findViewById(R.id.kunde_text_edit)
+        val anlegg: EditText = fin.findViewById(R.id.anlegg_text_edit)
+        val adresse: EditText = fin.findViewById(R.id.editText4)
+        val overforing: EditText = fin.findViewById(R.id.editText5)
+
         val checkboxJa = R.id.checkbox_ja.toString().toBoolean()
         val checkboxNei = R.id.checkbox_nei.toString().toBoolean()
 
@@ -135,22 +151,22 @@ class Form: Fragment() {
         data.Anleggssted = anlegg.text.toString()
         data.Adresse = adresse.text.toString()
         data.overføring = overforing.text.toString()
-        data.spormal = sporsmal.text.toString()
+        //data.spormal = sporsmal.text.toString()
         val tittelData = data.Tittel.toString()
         val kundeData = data.Kunde.toString()
         val anleggData = data.Anleggssted.toString()
         val adresseData = data.Adresse.toString()
         val overforingData = data.overføring.toString()
-        val sporsmalData = data.spormal.toString()
-
 
         skjema["Tittel"] = tittelData
         skjema["Kunde"] = kundeData
         skjema["Anleggssted"] = anleggData
         skjema["Adresse"] = adresseData
         skjema["Alarmoverføring"] = overforingData
-        skjema["Innhold"] = sporsmalData
-
+        for (i in 0 until list.size) {
+            skjema["$pluss Innhold"] = list[i].spormal.toString()
+            pluss++
+        }
         db.collection("Saker")
                 .add(skjema)
                 .addOnSuccessListener { documentReference -> Log.d(ContentValues.TAG, "Skjema lagt til med ID: " + documentReference.id) }

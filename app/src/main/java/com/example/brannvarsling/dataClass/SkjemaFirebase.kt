@@ -6,6 +6,5 @@ data class SkjemaFirebase(
         var Innhold: String? = null ,
         var Adresse: String? = null,
         var Anleggssted: String? = null,
-        var overføring: String? = null,
-        var spormal: String? = null
+        var overføring: String? = null
 )
