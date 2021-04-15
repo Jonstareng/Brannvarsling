@@ -88,9 +88,7 @@ class RecyclerviewDialogFragment(id: String) : DialogFragment() {
             val data = documentSnapshot.toObject(DialogFragmentItems::class.java)
             binding.displayCustomer.text = data?.Customer
             binding.displayType.text = data?.Type
-            binding.displayYear.text = data?.Year
-            binding.displayMonth.text = data?.Month
-            binding.displayDay.text = data?.Day
+            binding.displayDate.text = data?.date
             customer = data?.Customer.toString()
             type = data?.Type.toString()
         }
@@ -103,10 +101,6 @@ class RecyclerviewDialogFragment(id: String) : DialogFragment() {
                 .addOnSuccessListener{ e->Log.w(TAG, "Error deleting document")}
         Toast.makeText(requireContext(), "Sak $customer slettet", Toast.LENGTH_SHORT).show()
     }
-    private fun getCurrentDate(){
-        val simpleDateFormat = SimpleDateFormat("yyyy.MM.dd", Locale.ENGLISH)
-        currentDateAndTime = simpleDateFormat.format(Date())
-    }
 
     private fun alertDialog(id: String, c: String, t: String) {
         val dialogFragment = AlertDateDialog(documentId, customer, type)
@@ -118,7 +112,6 @@ class RecyclerviewDialogFragment(id: String) : DialogFragment() {
          */
         val fragmentManager = activity?.supportFragmentManager
         val transaction = fragmentManager?.beginTransaction()
-
 
         transaction?.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
         transaction?.add(android.R.id.content, dialogFragment)?.addToBackStack(null)?.commit()
