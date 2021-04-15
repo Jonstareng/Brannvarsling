@@ -1,8 +1,11 @@
 package com.example.brannvarsling.dialogFragments
 
 import android.app.Dialog
+import android.content.ActivityNotFoundException
 import android.content.ContentValues
+import android.content.Intent
 import android.os.Bundle
+import android.provider.MediaStore
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -48,12 +51,25 @@ class AddDialogFragment: DialogFragment() {
         binding.button2.setOnClickListener{
             writeToDb()
         }
+        binding.buttonVedlegg.setOnClickListener{
+
+        }
         return dialog
     }
+    val REQUEST_IMAGE_CAPTURE = 1
+    private fun dispatchTakePictureIntent() {
+        val takePictureIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+        try {
+            startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE)
+        } catch (e: ActivityNotFoundException) {
+            //
+        }
+    }
+
     private fun writeToDb() {
         val user: MutableMap<String, Any> = HashMap()
-        val title = binding.textInputLayout2.editText?.text.toString()
-        val type = binding.textInputLayout3.editText?.text.toString()
+        val title = binding.editTextTextPersonName.text.toString()
+        val type = binding.editTextTextMultiLine.text.toString()
 
 
         if (title != "" || type != "") {
