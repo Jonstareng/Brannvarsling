@@ -109,8 +109,17 @@
                 android:textColor="@color/white"
                 android:layout_marginEnd="10dp" />
 
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/button_lagre_pdf"
+                    android:layout_width="80dp"
+                    android:layout_height="50dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginBottom="4dp"
+                    android:text="PDF"
+                    android:textAllCaps="false"
+                    android:textColor="@color/white"
+                    android:layout_marginEnd="10dp" />
+
             </LinearLayout>
-
         </LinearLayout>
-
 </layout>
