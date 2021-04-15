@@ -1,8 +1,8 @@
 package com.example.brannvarsling.dataClass
 
  data class FirebaseCases(
-         val Customer: String? = null ,
-         val Type: String? = null
+         var Customer: String? = null ,
+         var Type: String? = null
  )
 
 

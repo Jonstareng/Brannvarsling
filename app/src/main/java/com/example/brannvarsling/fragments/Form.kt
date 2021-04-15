@@ -9,12 +9,15 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
+import android.widget.EditText
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import com.example.brannvarsling.R
+import com.example.brannvarsling.dataClass.FirebaseCases
 import com.example.brannvarsling.R.layout.row_add_titles
 import com.example.brannvarsling.databinding.FragmentFormBinding
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 
 
@@ -98,7 +101,7 @@ class Form: Fragment() {
             binding.floatingActionButton.startAnimation(rotateClose)
         }
     }
-    
+
     @SuppressLint("InflateParams")
     private fun addNewSpm() {
         val inflater = LayoutInflater.from(requireContext()).inflate(R.layout.row_add_spm,null)

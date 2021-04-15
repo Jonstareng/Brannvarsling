@@ -67,10 +67,6 @@ class RecyclerviewDialogFragment(id: String) : DialogFragment() {
         val dialog = super.onCreateDialog(savedInstanceState)
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         getData()
-       // spinnerYear()
-       // spinnerMonth()
-        //spinnerDay(month)
-        createNotificationChannel()
         binding.close.setOnClickListener{
             dismiss()
         }
@@ -92,9 +88,7 @@ class RecyclerviewDialogFragment(id: String) : DialogFragment() {
             val data = documentSnapshot.toObject(DialogFragmentItems::class.java)
             binding.displayCustomer.text = data?.Customer
             binding.displayType.text = data?.Type
-            binding.displayYear.text = data?.Year
-            binding.displayMonth.text = data?.Month
-            binding.displayDay.text = data?.Day
+            binding.displayDate.text = data?.date
             customer = data?.Customer.toString()
             type = data?.Type.toString()
         }
@@ -107,39 +101,6 @@ class RecyclerviewDialogFragment(id: String) : DialogFragment() {
                 .addOnSuccessListener{ e->Log.w(TAG, "Error deleting document")}
         Toast.makeText(requireContext(), "Sak $customer slettet", Toast.LENGTH_SHORT).show()
     }
-    private fun createNotificationChannel(){
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
-            val notificationName = "Case notification"
-            val descriptionText = "Notification description"
-            val importance = NotificationManager.IMPORTANCE_DEFAULT
-            val channel: NotificationChannel = NotificationChannel(channelID, notificationName, importance).apply {
-                description= descriptionText
-            }
-            val notificationManager: NotificationManager = (requireActivity().getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager)!!
-            notificationManager.createNotificationChannel(channel)
-        }
-
-    }
-    private fun sendNotification(){
-            val intent = Intent(requireContext(), MainActivity::class.java).apply {
-                flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-            }
-            val pendingIntent: PendingIntent = PendingIntent.getActivity(requireContext(), 0, intent, 0)
-            val builder = NotificationCompat.Builder(requireContext(), channelID)
-                    .setSmallIcon(R.drawable.assignment_24px)
-                    .setContentTitle("Kontroll for $customer")
-                    .setContentText("kontroll må gjennomføres innen 1 uke")
-                    .setContentIntent(pendingIntent)
-                    .setPriority(NotificationCompat.PRIORITY_DEFAULT)
-
-            with(NotificationManagerCompat.from(requireContext())) {
-                notify(notificationId, builder.build())
-        }
-    }
-    private fun getCurrentDate(){
-        val simpleDateFormat = SimpleDateFormat("yyyy.MM.dd", Locale.ENGLISH)
-        currentDateAndTime = simpleDateFormat.format(Date())
-    }
 
     private fun alertDialog(id: String, c: String, t: String) {
         val dialogFragment = AlertDateDialog(documentId, customer, type)
@@ -151,7 +112,6 @@ class RecyclerviewDialogFragment(id: String) : DialogFragment() {
          */
         val fragmentManager = activity?.supportFragmentManager
         val transaction = fragmentManager?.beginTransaction()
-
 
         transaction?.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
         transaction?.add(android.R.id.content, dialogFragment)?.addToBackStack(null)?.commit()
