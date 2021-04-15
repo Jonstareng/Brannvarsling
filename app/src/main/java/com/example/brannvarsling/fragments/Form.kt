@@ -126,6 +126,7 @@ class Form: Fragment() {
         val adresse: EditText = v.findViewById(R.id.editText4)
         val overforing: EditText = v.findViewById(R.id.editText5)
         val sporsmal: EditText = v.findViewById(R.id.text_spm)
+
         val checkboxJa = R.id.checkbox_ja.toString().toBoolean()
         val checkboxNei = R.id.checkbox_nei.toString().toBoolean()
 
