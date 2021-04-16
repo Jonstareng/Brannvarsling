@@ -115,7 +115,7 @@ class Form: Fragment() {
 
     @SuppressLint("InflateParams")
     private fun addNewTitle() {
-        val inflater = LayoutInflater.from(requireContext()).inflate(R.layout.row_add_title, null)
+        val inflater = LayoutInflater.from(requireContext()).inflate(R.layout.row_add_titles, null)
         binding.scrollLayout.addView(inflater, binding.scrollLayout.childCount)
     }
 
@@ -127,7 +127,6 @@ class Form: Fragment() {
         var pluss2 = 0
         var f: View?
         val count = binding.scrollLayout.childCount
-
 
         for (i in 0 until count) {
             f = binding.scrollLayout.getChildAt(i)

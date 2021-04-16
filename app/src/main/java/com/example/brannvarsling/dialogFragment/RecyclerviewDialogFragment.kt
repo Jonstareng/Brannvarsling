@@ -23,11 +23,13 @@ import com.example.brannvarsling.MainActivity
 import com.example.brannvarsling.R
 import com.example.brannvarsling.dataClass.DialogFragmentItems
 import com.example.brannvarsling.dataClass.FirebaseCases
+import com.example.brannvarsling.dataClass.Test
 import com.example.brannvarsling.databinding.RecyclerdialogWindowBinding
 import com.example.brannvarsling.dialogFragment.AlertDateDialog
 import com.google.firebase.firestore.FirebaseFirestore
 import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.collections.ArrayList
 
 
 class RecyclerviewDialogFragment(id: String) : DialogFragment() {
@@ -39,11 +41,7 @@ class RecyclerviewDialogFragment(id: String) : DialogFragment() {
     private var db = FirebaseFirestore.getInstance()
     private var data = FirebaseCases()
     private val documentId = id
-    private var year = ""
-    private var day = ""
-    private var notificationDate = ""
-    private val channelID = "Cases ID"
-    private val notificationId = 101
+    private var list = ArrayList<Test>()
     private var customer = ""
     private var type = ""
 
@@ -83,7 +81,6 @@ class RecyclerviewDialogFragment(id: String) : DialogFragment() {
     private fun getData() {
         val docRef = db.collection("Test").document(documentId)
 
-
         docRef.get().addOnSuccessListener { documentSnapshot ->
             val data = documentSnapshot.toObject(DialogFragmentItems::class.java)
             binding.displayCustomer.text = data?.Customer
@@ -116,5 +113,9 @@ class RecyclerviewDialogFragment(id: String) : DialogFragment() {
 
         transaction?.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
         transaction?.add(android.R.id.content, dialogFragment)?.addToBackStack(null)?.commit()
+    }
+    private fun openForm(){
+
+
     }
 }
