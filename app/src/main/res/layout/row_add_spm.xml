@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
+<layout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="horizontal"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:orientation="horizontal">
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/add_spm">
 
 
     <EditText
@@ -67,11 +69,13 @@
         android:layout_width="56dp"
         android:layout_height="48dp"
         android:background="@drawable/ic_delete"
+        android:clickable="true"
         app:layout_constraintBottom_toBottomOf="@+id/checkbox_nei"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.673"
         app:layout_constraintStart_toEndOf="@+id/checkbox_nei"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="1.0" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

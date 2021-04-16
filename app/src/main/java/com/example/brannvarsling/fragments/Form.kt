@@ -9,8 +9,11 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
+import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
+import androidx.core.view.children
+import androidx.core.view.get
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import com.example.brannvarsling.R
@@ -27,6 +30,7 @@ class Form: Fragment() {
     private lateinit var binding: FragmentFormBinding
     private var db = FirebaseFirestore.getInstance()
     private var list = ArrayList<Test>()
+    private var listTitle = ArrayList<SkjemaFirebase>()
     //private var skjemaList = ArrayList<CasesModel>()
 
     // FloatingActionBar animasjoner
@@ -62,7 +66,7 @@ class Form: Fragment() {
 
         // Lagre knapp. (Skal kunne lagre skjema som pdf, og i arraylist for å laste opp til firebase)
         binding.buttonSubmit.setOnClickListener {
-            saveData(view)
+            saveData()
         }
 
         // Bare en knapp for floatingbutton
@@ -71,9 +75,8 @@ class Form: Fragment() {
         }
 
         binding.buttonFjern.setOnClickListener {
-
+            binding.scrollLayout.removeAllViews()
         }
-
     }
 
 
@@ -109,69 +112,75 @@ class Form: Fragment() {
     private fun addNewSpm() {
         val inflater = LayoutInflater.from(requireContext()).inflate(R.layout.row_add_spm, null)
         binding.scrollLayout.addView(inflater, binding.scrollLayout.childCount)
-    }
 
+    }
 
     @SuppressLint("InflateParams")
     private fun addNewTitle() {
-        val inflater = LayoutInflater.from(requireContext()).inflate(row_add_titles, null)
+        val inflater = LayoutInflater.from(requireContext()).inflate(R.layout.row_add_title, null)
         binding.scrollLayout.addView(inflater, binding.scrollLayout.childCount)
     }
 
-    private fun saveData(v: View) {
+    private fun saveData() {
         val skjema: MutableMap<String, Any> = HashMap()
         list.clear()
-        val data = SkjemaFirebase()
-        var fin: View?
-        val count = binding.scrollLayout.childCount
+        listTitle.clear()
         var pluss = 0
+        var pluss2 = 0
+        var f: View?
+        val count = binding.scrollLayout.childCount
 
-        for (i in 0 until count){
-            fin = binding.scrollLayout.getChildAt(i)
 
-            val sporsmal: EditText = fin.findViewById(R.id.text_spm)
-            val sporsmalTest = Test()
-            sporsmalTest.spormal = sporsmal.text.toString()
-            list.add(sporsmalTest)
+        for (i in 0 until count) {
+            f = binding.scrollLayout.getChildAt(i)
+            var int = f.id.toString().toInt()
+
+            if (int == R.id.add_spm) {
+                val sporsmal: EditText = f.findViewById(R.id.text_spm)
+                val sporsmalTest = Test()
+                sporsmalTest.spormal = sporsmal.text.toString()
+                if(sporsmal.editableText.isNotEmpty()) {
+                    list.add(sporsmalTest)
+                }
+                else{
+                    Toast.makeText(requireContext(), "Du mangler å fylle ut et spørsmåls felt", Toast.LENGTH_LONG).show()
+                }
+
+            } else {
+                val tittel: EditText = f.findViewById(R.id.text_title)
+                val skjemaR = SkjemaFirebase()
+                skjemaR.title = tittel.text.toString()
+                if(tittel.editableText.isNotEmpty()) {
+                    listTitle.add(skjemaR)
+                }
+                else{
+                    Toast.makeText(requireContext(), "Du mangler å fylle ut et tittel felt", Toast.LENGTH_LONG).show()
+                }
+            }
         }
-        fin = binding.scrollLayout
-
-        val tittel: EditText = fin.findViewById(R.id.tittel_edit_text)
-        val kunde: EditText = fin.findViewById(R.id.kunde_text_edit)
-        val anlegg: EditText = fin.findViewById(R.id.anlegg_text_edit)
-        val adresse: EditText = fin.findViewById(R.id.editText4)
-        val overforing: EditText = fin.findViewById(R.id.editText5)
-
-        val checkboxJa = R.id.checkbox_ja.toString().toBoolean()
-        val checkboxNei = R.id.checkbox_nei.toString().toBoolean()
-
-        Toast.makeText(context, "${data.Tittel}", Toast.LENGTH_LONG).show()
-        data.Tittel = tittel.text.toString()
-        data.Kunde = kunde.text.toString()
-        data.Anleggssted = anlegg.text.toString()
-        data.Adresse = adresse.text.toString()
-        data.overføring = overforing.text.toString()
-        //data.spormal = sporsmal.text.toString()
-        val tittelData = data.Tittel.toString()
-        val kundeData = data.Kunde.toString()
-        val anleggData = data.Anleggssted.toString()
-        val adresseData = data.Adresse.toString()
-        val overforingData = data.overføring.toString()
-
-        skjema["Tittel"] = tittelData
-        skjema["Kunde"] = kundeData
-        skjema["Anleggssted"] = anleggData
-        skjema["Adresse"] = adresseData
-        skjema["Alarmoverføring"] = overforingData
-        for (i in 0 until list.size) {
-            skjema["$pluss Innhold"] = list[i].spormal.toString()
-            pluss++
-        }
-        db.collection("Saker")
-                .add(skjema)
-                .addOnSuccessListener { documentReference -> Log.d(ContentValues.TAG, "Skjema lagt til med ID: " + documentReference.id) }
-                .addOnFailureListener { e -> Log.w(ContentValues.TAG, "Error adding form", e) }
+        val samletListSize = list.size + listTitle.size
+            if(listTitle.isNotEmpty() && list.isNotEmpty() && count == samletListSize) {
 
 
+                for (i in 0 until list.size) {
+                    skjema["$pluss Spørsmål"] = list[i].spormal.toString()
+                    pluss++
+                    Toast.makeText(requireContext(), list[i].spormal, Toast.LENGTH_LONG).show()
+                }
+
+                for (i in 0 until listTitle.size) {
+
+                    Toast.makeText(requireContext(), listTitle[i].title, Toast.LENGTH_LONG).show()
+                    skjema["$pluss2 Tittel"] = listTitle[i].title.toString()
+                    pluss2++
+                }
+
+                db.collection("Saker")
+                        .add(skjema)
+                        .addOnSuccessListener { documentReference -> Log.d(ContentValues.TAG, "Skjema lagt til med ID: " + documentReference.id) }
+                        .addOnFailureListener { e -> Log.w(ContentValues.TAG, "Error adding form", e) }
+            }
     }
 }
+
+
