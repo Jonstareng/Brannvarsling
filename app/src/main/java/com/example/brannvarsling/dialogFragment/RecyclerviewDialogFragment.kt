@@ -1,13 +1,7 @@
 package com.example.brannvarsling.dialogFragments
 
 import android.app.Dialog
-import android.app.NotificationChannel
-import android.app.NotificationManager
-import android.app.PendingIntent
 import android.content.ContentValues.TAG
-import android.content.Context
-import android.content.Intent
-import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -15,20 +9,14 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.Window
 import android.widget.Toast
-import androidx.core.app.NotificationCompat
-import androidx.core.app.NotificationManagerCompat
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.FragmentTransaction
-import com.example.brannvarsling.MainActivity
-import com.example.brannvarsling.R
 import com.example.brannvarsling.dataClass.DialogFragmentItems
 import com.example.brannvarsling.dataClass.FirebaseCases
 import com.example.brannvarsling.dataClass.Test
 import com.example.brannvarsling.databinding.RecyclerdialogWindowBinding
 import com.example.brannvarsling.dialogFragment.AlertDateDialog
 import com.google.firebase.firestore.FirebaseFirestore
-import java.text.SimpleDateFormat
-import java.util.*
 import kotlin.collections.ArrayList
 
 
@@ -44,6 +32,7 @@ class RecyclerviewDialogFragment(id: String) : DialogFragment() {
     private var list = ArrayList<Test>()
     private var customer = ""
     private var type = ""
+    val sakerId = db.collection("Saker").document(documentId).id
 
 
     override fun onCreateView(
@@ -74,6 +63,9 @@ class RecyclerviewDialogFragment(id: String) : DialogFragment() {
         }
         binding.saveDate.setOnClickListener {
             alertDialog(documentId, customer, type)
+        }
+        binding.openForm.setOnClickListener{
+            openForm()
         }
         return dialog
     }
@@ -115,7 +107,12 @@ class RecyclerviewDialogFragment(id: String) : DialogFragment() {
         transaction?.add(android.R.id.content, dialogFragment)?.addToBackStack(null)?.commit()
     }
     private fun openForm(){
+        val dialogFragment = FormDialogFragment(sakerId)
 
+        val fragmentManager = activity?.supportFragmentManager
+        val transaction = fragmentManager?.beginTransaction()
 
+        transaction?.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+        transaction?.add(android.R.id.content, dialogFragment)?.addToBackStack(null)?.commit()
     }
 }

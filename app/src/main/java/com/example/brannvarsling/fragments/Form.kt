@@ -127,7 +127,7 @@ class Form: Fragment() {
         var pluss2 = 0
         var f: View?
         val count = binding.scrollLayout.childCount
-
+        val skjemaR = SkjemaFirebase()
         for (i in 0 until count) {
             f = binding.scrollLayout.getChildAt(i)
             var int = f.id.toString().toInt()
@@ -140,41 +140,41 @@ class Form: Fragment() {
                     list.add(sporsmalTest)
                 }
                 else{
-                    Toast.makeText(requireContext(), "Du mangler å fylle ut et spørsmåls felt", Toast.LENGTH_LONG).show()
+                    Toast.makeText(requireContext(), "Du mangler å fylle ut et spørsmåls feltene", Toast.LENGTH_LONG).show()
                 }
 
             } else {
-                val tittel: EditText = f.findViewById(R.id.text_title)
-                val skjemaR = SkjemaFirebase()
-                skjemaR.title = tittel.text.toString()
-                if(tittel.editableText.isNotEmpty()) {
-                    listTitle.add(skjemaR)
-                }
-                else{
-                    Toast.makeText(requireContext(), "Du mangler å fylle ut et tittel felt", Toast.LENGTH_LONG).show()
+                val tittel: EditText = f.findViewById(R.id.tittel_edit_text)
+                val kunde: EditText = f.findViewById(R.id.kunde_text_edit)
+                val anlegg: EditText = f.findViewById(R.id.anlegg_text_edit)
+                val overforing: EditText = f.findViewById(R.id.overforing_edit_text)
+                val adresse: EditText = f.findViewById(R.id.adresse_edit_text)
+                skjemaR.Tittel = tittel.text.toString()
+                skjemaR.Kunde = kunde.text.toString()
+                skjemaR.Anlegg = anlegg.text.toString()
+                skjemaR.Overforing = overforing.text.toString()
+                skjemaR.Adresse = adresse.text.toString()
+                if(tittel.editableText.isEmpty() && kunde.editableText.isEmpty() && anlegg.editableText.isEmpty() && overforing.editableText.isEmpty() && adresse.editableText.isEmpty()) {
+                    Toast.makeText(requireContext(), "Du mangler å fylle ut et tittel feltene", Toast.LENGTH_LONG).show()
                 }
             }
         }
-        val samletListSize = list.size + listTitle.size
-            if(listTitle.isNotEmpty() && list.isNotEmpty() && count == samletListSize) {
-
+            if(list.isNotEmpty()) {
 
                 for (i in 0 until list.size) {
                     skjema["$pluss Spørsmål"] = list[i].spormal.toString()
                     pluss++
                     Toast.makeText(requireContext(), list[i].spormal, Toast.LENGTH_LONG).show()
                 }
+                    skjema["Tittel"] = skjemaR.Tittel.toString()
+                    skjema["Kunde"] = skjemaR.Kunde.toString()
+                    skjema["Anlegg"] = skjemaR.Anlegg.toString()
+                    skjema["Overforing"] = skjemaR.Overforing.toString()
+                    skjema["Adresse"] = skjemaR.Adresse.toString()
 
-                for (i in 0 until listTitle.size) {
-
-                    Toast.makeText(requireContext(), listTitle[i].title, Toast.LENGTH_LONG).show()
-                    skjema["$pluss2 Tittel"] = listTitle[i].title.toString()
-                    pluss2++
-                }
-
-                db.collection("Saker")
-                        .add(skjema)
-                        .addOnSuccessListener { documentReference -> Log.d(ContentValues.TAG, "Skjema lagt til med ID: " + documentReference.id) }
+                db.collection("Saker").document(skjemaR.Tittel.toString())
+                        .set(skjema)
+                        .addOnSuccessListener { documentReference -> Log.d(ContentValues.TAG, "Skjema lagt til med ID: ") }
                         .addOnFailureListener { e -> Log.w(ContentValues.TAG, "Error adding form", e) }
             }
     }

@@ -1,6 +1,7 @@
 package com.example.brannvarsling.dialogFragments
 
 import android.Manifest
+import android.R
 import android.app.Dialog
 import android.content.ActivityNotFoundException
 import android.content.ContentValues
@@ -14,6 +15,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.Window
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
 import android.widget.EditText
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
@@ -32,6 +35,7 @@ class AddDialogFragment: DialogFragment() {
     private var data = FirebaseCases()
     private var CAMERA_PERMISSION_CODE = 1
     private var CAMERA_REQUEST_CODE = 2
+    private var documentId = ""
 
 
     override fun onCreateView(
@@ -103,7 +107,6 @@ class AddDialogFragment: DialogFragment() {
       */
     }
 
-
     private fun writeToDb() {
         val user: MutableMap<String, Any> = HashMap()
         val title = binding.editTextTextPersonName.text.toString()
@@ -125,6 +128,22 @@ class AddDialogFragment: DialogFragment() {
         }
         else
             Toast.makeText(context, "Fyll ut alle feltene", Toast.LENGTH_LONG).show()
+    }
+    private fun spinner() {
+        val caseChoice = arrayOf("2021", "2022", "2023", "2024", "2025")
+        val arrayAdapter = ArrayAdapter(requireContext(), R.layout.simple_dropdown_item_1line, caseChoice)
+        binding.spinner.adapter = arrayAdapter
+        binding.spinner.onItemSelectedListener = object :
+                AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                documentId = parent?.getItemAtPosition(position).toString()
+                arrayAdapter.notifyDataSetChanged()
+
+            }
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+
+            }
+        }
     }
 
 }
