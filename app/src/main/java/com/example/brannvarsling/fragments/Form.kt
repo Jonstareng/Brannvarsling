@@ -14,12 +14,10 @@ import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import com.example.brannvarsling.R
-import com.example.brannvarsling.dataClass.FirebaseCases
 import com.example.brannvarsling.R.layout.row_add_titles
 import com.example.brannvarsling.dataClass.SkjemaFirebase
 import com.example.brannvarsling.dataClass.Test
 import com.example.brannvarsling.databinding.FragmentFormBinding
-import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 
 
@@ -71,7 +69,7 @@ class Form: Fragment() {
         }
 
         binding.buttonFjern.setOnClickListener {
-
+            binding.scrollLayout.removeViewAt(0)
         }
 
     }
@@ -151,13 +149,13 @@ class Form: Fragment() {
         data.Anleggssted = anlegg.text.toString()
         data.Adresse = adresse.text.toString()
         data.overføring = overforing.text.toString()
-        //data.spormal = sporsmal.text.toString()
+
         val tittelData = data.Tittel.toString()
         val kundeData = data.Kunde.toString()
         val anleggData = data.Anleggssted.toString()
         val adresseData = data.Adresse.toString()
         val overforingData = data.overføring.toString()
-        val sporsmalData = data.spormal.toString()
+
 
 
         skjema["Tittel"] = tittelData
