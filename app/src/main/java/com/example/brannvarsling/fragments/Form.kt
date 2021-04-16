@@ -17,12 +17,10 @@ import androidx.core.view.get
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import com.example.brannvarsling.R
-import com.example.brannvarsling.dataClass.FirebaseCases
 import com.example.brannvarsling.R.layout.row_add_titles
 import com.example.brannvarsling.dataClass.SkjemaFirebase
 import com.example.brannvarsling.dataClass.Test
 import com.example.brannvarsling.databinding.FragmentFormBinding
-import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 
 

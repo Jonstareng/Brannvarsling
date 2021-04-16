@@ -1,35 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout
+<androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="horizontal">
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/add_spm">
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
 
     <EditText
         android:id="@+id/text_spm"
         android:layout_width="230dp"
         android:layout_height="50dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginLeft="40dp"
+        android:layout_marginTop="16dp"
         android:hint="Beskrivelse her"
+        android:inputType="text"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:inputType="text" />
+        android:layout_marginStart="40dp"
+        android:importantForAutofill="no" />
 
     <TextView
         android:id="@+id/text_ja"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="20dp"
-        android:layout_marginRight="20dp"
+        android:layout_width="25dp"
+        android:layout_height="22dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginBottom="60dp"
         android:text="Ja"
         android:textColor="@color/black"
         android:textSize="15sp"
+        app:layout_constraintBottom_toTopOf="@+id/checkbox_ja"
         app:layout_constraintEnd_toStartOf="@+id/text_nei"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -37,12 +39,12 @@
         android:id="@+id/text_nei"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="104dp"
-        android:layout_marginRight="104dp"
+        android:layout_marginEnd="72dp"
+        android:layout_marginRight="72dp"
+        android:text="Nei"
         android:textColor="@color/black"
         android:textSize="15sp"
-        android:text="Nei"
+        app:layout_constraintBottom_toTopOf="@+id/checkbox_nei"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -50,17 +52,21 @@
         android:id="@+id/checkbox_ja"
         android:layout_width="27dp"
         android:layout_height="37dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginLeft="4dp"
+        android:layout_marginTop="4dp"
         app:layout_constraintStart_toEndOf="@+id/text_spm"
         app:layout_constraintTop_toBottomOf="@+id/text_ja" />
 
     <CheckBox
         android:id="@+id/checkbox_nei"
-        android:layout_width="25dp"
-        android:layout_height="37dp"
+        android:layout_width="30dp"
+        android:layout_height="39dp"
         android:layout_marginStart="16dp"
         android:layout_marginLeft="16dp"
+        android:layout_marginTop="4dp"
+        app:layout_constraintEnd_toStartOf="@+id/button_delete"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toEndOf="@+id/checkbox_ja"
         app:layout_constraintTop_toBottomOf="@+id/text_nei" />
 
@@ -68,14 +74,9 @@
         android:id="@+id/button_delete"
         android:layout_width="56dp"
         android:layout_height="48dp"
+        android:layout_marginTop="12dp"
         android:background="@drawable/ic_delete"
-        android:clickable="true"
-        app:layout_constraintBottom_toBottomOf="@+id/checkbox_nei"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.673"
-        app:layout_constraintStart_toEndOf="@+id/checkbox_nei"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
+        app:layout_constraintTop_toTopOf="parent" />
 
-</layout>
+</androidx.constraintlayout.widget.ConstraintLayout>
