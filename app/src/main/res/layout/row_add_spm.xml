@@ -8,7 +8,6 @@
     android:layout_height="match_parent"
     android:id="@+id/add_spm">
 
-
     <EditText
         android:id="@+id/text_spm"
         android:layout_width="230dp"
