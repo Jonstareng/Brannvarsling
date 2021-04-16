@@ -1,9 +1,12 @@
 package com.example.brannvarsling.dialogFragments
 
+import android.Manifest
 import android.app.Dialog
 import android.content.ActivityNotFoundException
 import android.content.ContentValues
 import android.content.Intent
+import android.content.pm.PackageManager
+import android.graphics.Camera
 import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
@@ -13,6 +16,8 @@ import android.view.ViewGroup
 import android.view.Window
 import android.widget.EditText
 import android.widget.Toast
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.DialogFragment
 import com.example.brannvarsling.databinding.DialogWindowBinding
 import com.google.firebase.firestore.FirebaseFirestore
@@ -25,6 +30,8 @@ class AddDialogFragment: DialogFragment() {
     private lateinit var binding: DialogWindowBinding
     private var db = FirebaseFirestore.getInstance()
     private var data = FirebaseCases()
+    private var CAMERA_PERMISSION_CODE = 1
+    private var CAMERA_REQUEST_CODE = 2
 
 
     override fun onCreateView(
@@ -52,31 +59,63 @@ class AddDialogFragment: DialogFragment() {
             writeToDb()
         }
         binding.buttonVedlegg.setOnClickListener{
+            dispatchTakePictureIntent()
 
         }
         return dialog
     }
     val REQUEST_IMAGE_CAPTURE = 1
     private fun dispatchTakePictureIntent() {
-        val takePictureIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+        if (ContextCompat.checkSelfPermission(
+                requireContext(),
+                Manifest.permission.CAMERA
+            ) == PackageManager.PERMISSION_GRANTED
+        ) {
+            val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+            startActivityForResult(intent, CAMERA_REQUEST_CODE)
+        } else {
+            ActivityCompat.requestPermissions(
+                requireActivity(),
+                arrayOf(Manifest.permission.CAMERA),
+                CAMERA_PERMISSION_CODE
+            )
+        }
+         fun onRequestPermissionsResult(
+            requestCode: Int,
+            permissions: Array<out String>,
+            grantResults: IntArray
+        ) {
+            super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+            if (requestCode == CAMERA_PERMISSION_CODE){
+                if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED){
+                    val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+                    startActivityForResult(intent, CAMERA_REQUEST_CODE)
+                }
+            }
+        }
+        /*   val takePictureIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
         try {
             startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE)
         } catch (e: ActivityNotFoundException) {
             //
         }
+
+      */
     }
+
 
     private fun writeToDb() {
         val user: MutableMap<String, Any> = HashMap()
         val title = binding.editTextTextPersonName.text.toString()
-        val type = binding.editTextTextMultiLine.text.toString()
+        val type = binding.editTextTextPersonName2.text.toString()
+        val description = binding.editTextTextMultiLine.text.toString()
 
 
         if (title != "" || type != "") {
 
             user["Customer"] = title
             user["Type"] = type
-
+            user["Description"] = description
 
             db.collection("Test")
                     .add(user)

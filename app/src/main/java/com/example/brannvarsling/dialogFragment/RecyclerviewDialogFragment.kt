@@ -60,6 +60,7 @@ class RecyclerviewDialogFragment(id: String) : DialogFragment() {
             val data = documentSnapshot.toObject(FirebaseCases::class.java)
             binding.displayCustomer.text = data?.Customer
             binding.displayType.text = data?.Type
+            binding.displayDescription.text =data?.Description
         }
     }
     private fun deleteItem(){
