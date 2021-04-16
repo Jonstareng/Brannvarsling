@@ -7,7 +7,7 @@
     app:startDestination="@id/home">
     <fragment
         android:id="@+id/SecondFragment"
-        android:name="com.example.brannvarsling.Fragments.SecondFragment"
+        android:name="com.example.brannvarsling.fragments.SecondFragment"
         android:label="@string/second_fragment_label"
         tools:layout="@layout/fragment_second">
         <action
@@ -18,7 +18,7 @@
     </fragment>
     <fragment
         android:id="@+id/home"
-        android:name="com.example.brannvarsling.Fragments.Home"
+        android:name="com.example.brannvarsling.fragments.Home"
         android:label="fragment_home"
         tools:layout="@layout/fragment_home" >
         <action
@@ -30,7 +30,7 @@
     </fragment>
     <fragment
         android:id="@+id/calendar"
-        android:name="com.example.brannvarsling.Fragments.Calendar"
+        android:name="com.example.brannvarsling.fragments.Calendar"
         android:label="fragment_calender"
         tools:layout="@layout/fragment_calender" >
         <action
@@ -39,7 +39,7 @@
     </fragment>
     <fragment
         android:id="@+id/cases"
-        android:name="com.example.brannvarsling.Fragments.Cases"
+        android:name="com.example.brannvarsling.fragments.Cases"
         android:label="fragment_cases"
         tools:layout="@layout/fragment_cases" >
         <action

@@ -1,4 +1,4 @@
-package com.example.brannvarsling.Fragments
+package com.example.brannvarsling.fragments
 
 import android.os.Bundle
 import android.view.LayoutInflater
