@@ -42,10 +42,10 @@
 
             <Button
                 android:id="@+id/addCases"
-                android:text="Add"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginBottom="10dp" />
+                android:layout_height="100dp"
+                android:layout_gravity="bottom"
+                android:text="Legg til" />
         </LinearLayout>
 
     </LinearLayout>
