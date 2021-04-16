@@ -91,6 +91,7 @@ class RecyclerviewDialogFragment(id: String) : DialogFragment() {
             binding.displayDate.text = data?.date
             customer = data?.Customer.toString()
             type = data?.Type.toString()
+            binding.displayDescription.text =data?.Description
         }
     }
     private fun deleteItem(){
