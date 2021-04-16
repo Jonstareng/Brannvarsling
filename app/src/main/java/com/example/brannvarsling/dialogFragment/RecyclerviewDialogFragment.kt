@@ -88,10 +88,10 @@ class RecyclerviewDialogFragment(id: String) : DialogFragment() {
             val data = documentSnapshot.toObject(DialogFragmentItems::class.java)
             binding.displayCustomer.text = data?.Customer
             binding.displayType.text = data?.Type
-            binding.displayDescription.text = data?.Description
             binding.displayDate.text = data?.date
             customer = data?.Customer.toString()
             type = data?.Type.toString()
+            binding.displayDescription.text =data?.Description
         }
     }
     private fun deleteItem(){
