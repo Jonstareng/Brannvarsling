@@ -32,6 +32,7 @@ class RecyclerviewDialogFragment(id: String) : DialogFragment() {
     private var list = ArrayList<Test>()
     private var customer = ""
     private var type = ""
+    private var desc =""
     val sakerId = db.collection("Saker").document(documentId).id
 
 
@@ -62,7 +63,7 @@ class RecyclerviewDialogFragment(id: String) : DialogFragment() {
             dismiss()
         }
         binding.saveDate.setOnClickListener {
-            alertDialog(documentId, customer, type)
+            alertDialog()
         }
         binding.openForm.setOnClickListener{
             openForm()
@@ -80,6 +81,7 @@ class RecyclerviewDialogFragment(id: String) : DialogFragment() {
             binding.displayDate.text = data?.date
             customer = data?.Customer.toString()
             type = data?.Type.toString()
+            desc = data?.Description.toString()
             binding.displayDescription.text =data?.Description
         }
     }
@@ -92,8 +94,8 @@ class RecyclerviewDialogFragment(id: String) : DialogFragment() {
         Toast.makeText(requireContext(), "Sak $customer slettet", Toast.LENGTH_SHORT).show()
     }
 
-    private fun alertDialog(id: String, c: String, t: String) {
-        val dialogFragment = AlertDateDialog(documentId, customer, type)
+    private fun alertDialog() {
+        val dialogFragment = AlertDateDialog(documentId, customer, type, desc)
         /*val manager = activity?.supportFragmentManager
         if (manager != null) {
             dialogFragment.show(manager, "Varslings dato")

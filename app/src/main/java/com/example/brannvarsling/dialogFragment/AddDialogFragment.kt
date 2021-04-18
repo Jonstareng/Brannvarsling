@@ -25,7 +25,7 @@ import androidx.fragment.app.DialogFragment
 import com.example.brannvarsling.databinding.DialogWindowBinding
 import com.google.firebase.firestore.FirebaseFirestore
 import com.example.brannvarsling.dataClass.FirebaseCases
-
+import kotlin.random.Random
 
 
 class AddDialogFragment: DialogFragment() {
@@ -36,6 +36,8 @@ class AddDialogFragment: DialogFragment() {
     private var CAMERA_PERMISSION_CODE = 1
     private var CAMERA_REQUEST_CODE = 2
     private var documentId = ""
+    private var count = 0
+
 
 
     override fun onCreateView(
@@ -56,6 +58,7 @@ class AddDialogFragment: DialogFragment() {
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val dialog = super.onCreateDialog(savedInstanceState)
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        count = Random(9999999999).nextInt()
         binding.avbryt.setOnClickListener{
             dismiss()
         }
@@ -119,15 +122,19 @@ class AddDialogFragment: DialogFragment() {
             user["Customer"] = title
             user["Type"] = type
             user["Description"] = description
+            user["NotificationID"] = count.toString()
 
             db.collection("Test")
                     .add(user)
                     .addOnSuccessListener { documentReference -> Log.d(ContentValues.TAG, "DocumentSnapshot added with ID: " + documentReference.id) }
                     .addOnFailureListener { e -> Log.w(ContentValues.TAG, "Error adding document", e) }
+            count = Random(9999999999).nextInt()
             dismiss()
         }
-        else
+        else {
             Toast.makeText(context, "Fyll ut alle feltene", Toast.LENGTH_LONG).show()
+        }
+
     }
     private fun spinner() {
         val caseChoice = arrayOf("2021", "2022", "2023", "2024", "2025")
