@@ -110,7 +110,6 @@ class Form: Fragment() {
     private fun addNewSpm() {
         val inflater = LayoutInflater.from(requireContext()).inflate(R.layout.row_add_spm, null)
         binding.scrollLayout.addView(inflater, binding.scrollLayout.childCount)
-
     }
 
     @SuppressLint("InflateParams")

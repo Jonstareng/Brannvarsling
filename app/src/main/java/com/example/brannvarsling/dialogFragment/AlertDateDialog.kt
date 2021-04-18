@@ -15,8 +15,10 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.annotation.RequiresApi
+import androidx.core.content.ContextCompat.getSystemService
 import androidx.fragment.app.DialogFragment
 import com.example.brannvarsling.BroadcastReceiver
+import com.example.brannvarsling.R
 import com.example.brannvarsling.databinding.AlertdateWindowBinding
 import com.google.firebase.firestore.FirebaseFirestore
 import java.util.*
@@ -51,8 +53,8 @@ class AlertDateDialog(id: String, customer: String, type: String): DialogFragmen
         spinnerYear()
         spinnerMonth()
         spinnerDay(month)
+        createNotificationChannel()
         cancelNotification(requireContext(),"","")
-        startAlarm()
         onCreateDialog(savedInstanceState)
     }
 
@@ -159,10 +161,26 @@ class AlertDateDialog(id: String, customer: String, type: String): DialogFragmen
         intent.putExtra("text", "text")
         val pending = PendingIntent.getBroadcast(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
         // Schdedule notification
-        // Schdedule notification
         val manager = requireContext().getSystemService(Context.ALARM_SERVICE) as AlarmManager
-        manager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, 3000, pending)
+        manager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, 1000, pending)
     }
+    private fun createNotificationChannel() {
+        // Create the NotificationChannel, but only on API 26+ because
+        // the NotificationChannel class is new and not in the support library
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val name = getString(R.string.app_name)
+            val descriptionText = getString(R.string.app_name)
+            val importance = NotificationManager.IMPORTANCE_DEFAULT
+            val channel = NotificationChannel(channelID, name, importance).apply {
+                description = descriptionText
+            }
+            // Register the channel with the system
+            val notificationManager: NotificationManager =
+                    activity?.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+            notificationManager.createNotificationChannel(channel)
+        }
+    }
+
     private fun cancelNotification(context: Context, title: String?, text: String?) {
         val intent = Intent(context, BroadcastReceiver::class.java)
         intent.putExtra("title", title)

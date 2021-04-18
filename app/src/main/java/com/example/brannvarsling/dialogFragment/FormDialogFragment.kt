@@ -58,7 +58,6 @@ class FormDialogFragment(sakerId: String) : DialogFragment() {
         val docRef = db.collection("Saker").document("Brannsystem")
         Toast.makeText(requireContext(), "$documentId", Toast.LENGTH_LONG).show()
 
-
         docRef.get().addOnSuccessListener { documentSnapshot ->
             val data = documentSnapshot.toObject(SkjemaFirebase::class.java)
             binding.adresseText.text = data?.Adresse
@@ -66,8 +65,6 @@ class FormDialogFragment(sakerId: String) : DialogFragment() {
             binding.kundeText.text = data?.Kunde
             binding.overforingText.text = data?.Overforing
             binding.tittelText.text = data?.Tittel
-
-
 
         }
     }
