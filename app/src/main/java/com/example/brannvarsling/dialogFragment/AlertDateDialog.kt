@@ -17,15 +17,17 @@ import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.DialogFragment
 import com.example.brannvarsling.BroadcastReceiver
+import com.example.brannvarsling.R
+import com.example.brannvarsling.dataClass.FirebaseCases
 import com.example.brannvarsling.databinding.AlertdateWindowBinding
 import com.google.firebase.firestore.FirebaseFirestore
 import java.util.*
 import kotlin.collections.HashMap
 
 
-class AlertDateDialog(id: String, customer: String, type: String): DialogFragment() {
+class AlertDateDialog(id: String, customer: String, type: String, desc: String): DialogFragment() {
     private lateinit var binding: AlertdateWindowBinding
-    private lateinit var month: String
+    private var month = ""
     private lateinit var case: Array<String>
     private lateinit var pendingIntent: PendingIntent
     private var db = FirebaseFirestore.getInstance()
@@ -34,7 +36,10 @@ class AlertDateDialog(id: String, customer: String, type: String): DialogFragmen
     private val documentId = id
     private val customer = customer
     private val type = type
+    private var desc = desc
+    private var count = ""
     private val channelID = "Cases ID"
+
 
     override fun onCreateView(
             inflater: LayoutInflater,
@@ -51,8 +56,8 @@ class AlertDateDialog(id: String, customer: String, type: String): DialogFragmen
         spinnerYear()
         spinnerMonth()
         spinnerDay(month)
-        cancelNotification(requireContext(),"","")
-        startAlarm()
+        getData()
+        createNotificationChannel()
         onCreateDialog(savedInstanceState)
     }
 
@@ -61,8 +66,10 @@ class AlertDateDialog(id: String, customer: String, type: String): DialogFragmen
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val dialog = super.onCreateDialog(savedInstanceState)
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        getData()
         binding.settDateButton.setOnClickListener{
             saveToDB()
+            cancelNotification()
             scheduleNotification()
             dismiss()
         }
@@ -85,7 +92,6 @@ class AlertDateDialog(id: String, customer: String, type: String): DialogFragmen
         }
     }
     private fun spinnerMonth() {
-        month = ""
         val caseChoice = arrayOf("01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12")
         val arrayAdapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, caseChoice)
         binding.spinnerMonth.adapter = arrayAdapter
@@ -128,11 +134,15 @@ class AlertDateDialog(id: String, customer: String, type: String): DialogFragmen
     }
     private fun saveToDB() {
         val data: MutableMap<String, Any> = HashMap()
-        val date = "$year.$month.$day"
+        val date = "$year$month$day"
 
-            data["Customer"] = customer
-            data["Type"] = type
-            data["Date"] = date
+
+        data["Customer"] = customer
+        data["Type"] = type
+        data["Date"] = date
+        data["Description"] = desc
+        data["NotificationID"] = count
+
 
 
             db.collection("Test")
@@ -142,34 +152,55 @@ class AlertDateDialog(id: String, customer: String, type: String): DialogFragmen
                     .addOnFailureListener { e -> Log.w(ContentValues.TAG, "Error adding document", e) }
             dismiss()
         }
-    private fun startAlarm(){
-        val intent = Intent(requireContext(), BroadcastReceiver::class.java)
-        pendingIntent = PendingIntent.getService(requireContext(), 0, intent, 0)
-        val alarmManager: AlarmManager = activity?.getSystemService(Context.ALARM_SERVICE) as AlarmManager
-        val calendar: Calendar = Calendar.getInstance()
-        calendar.timeInMillis = System.currentTimeMillis() - 5000
-        alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.timeInMillis, pendingIntent)
-        Toast.makeText(requireContext(), "Starting Service Alarm", Toast.LENGTH_LONG).show()
+    private fun getData() {
+        val docRef = db.collection("Test").document(documentId)
+
+        docRef.get().addOnSuccessListener { documentSnapshot ->
+            val data = documentSnapshot.toObject(FirebaseCases::class.java)
+            count = data?.NotificationID.toString()
+
+        }
     }
 
     @RequiresApi(Build.VERSION_CODES.M)
     private fun scheduleNotification(){
+        var id = count.toInt()
         val intent = Intent(context, BroadcastReceiver::class.java)
-        intent.putExtra("title", "title")
-        intent.putExtra("text", "text")
+        intent.putExtra("title", customer)
+        intent.putExtra("text", type)
         val pending = PendingIntent.getBroadcast(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
         // Schdedule notification
-        // Schdedule notification
+        val calendar: Calendar = Calendar.getInstance()
+        calendar.set(year.toInt(),month.toInt() - 1,day.toInt(),21,11, 0)
+        val time = calendar.timeInMillis
+        Toast.makeText(context, "Varsling satt $id", Toast.LENGTH_LONG).show()
         val manager = requireContext().getSystemService(Context.ALARM_SERVICE) as AlarmManager
-        manager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, 3000, pending)
+        manager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, time, pending)
     }
-    private fun cancelNotification(context: Context, title: String?, text: String?) {
+    private fun createNotificationChannel() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val name = getString(R.string.app_name)
+            val descriptionText = getString(R.string.app_name)
+            val importance = NotificationManager.IMPORTANCE_DEFAULT
+            val channel = NotificationChannel(channelID, name, importance).apply {
+                description = descriptionText
+            }
+            // Register the channel with the system
+            val notificationManager: NotificationManager =
+                    activity?.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+            notificationManager.createNotificationChannel(channel)
+        }
+    }
+
+    private fun cancelNotification() {
+        var count = 0
         val intent = Intent(context, BroadcastReceiver::class.java)
-        intent.putExtra("title", title)
-        intent.putExtra("text", text)
-        val pending = PendingIntent.getBroadcast(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
+        intent.putExtra("title", customer)
+        intent.putExtra("text", type)
+        val pending = PendingIntent.getBroadcast(context, count, intent, PendingIntent.FLAG_UPDATE_CURRENT)
         // Cancel notification
-        val manager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
+        val manager = context?.getSystemService(Context.ALARM_SERVICE) as AlarmManager
         manager.cancel(pending)
+        count++
     }
 }

@@ -1,13 +1,7 @@
 package com.example.brannvarsling.dialogFragments
 
 import android.app.Dialog
-import android.app.NotificationChannel
-import android.app.NotificationManager
-import android.app.PendingIntent
 import android.content.ContentValues.TAG
-import android.content.Context
-import android.content.Intent
-import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -15,19 +9,15 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.Window
 import android.widget.Toast
-import androidx.core.app.NotificationCompat
-import androidx.core.app.NotificationManagerCompat
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.FragmentTransaction
-import com.example.brannvarsling.MainActivity
-import com.example.brannvarsling.R
 import com.example.brannvarsling.dataClass.DialogFragmentItems
 import com.example.brannvarsling.dataClass.FirebaseCases
+import com.example.brannvarsling.dataClass.Test
 import com.example.brannvarsling.databinding.RecyclerdialogWindowBinding
 import com.example.brannvarsling.dialogFragment.AlertDateDialog
 import com.google.firebase.firestore.FirebaseFirestore
-import java.text.SimpleDateFormat
-import java.util.*
+import kotlin.collections.ArrayList
 
 
 class RecyclerviewDialogFragment(id: String) : DialogFragment() {
@@ -39,13 +29,11 @@ class RecyclerviewDialogFragment(id: String) : DialogFragment() {
     private var db = FirebaseFirestore.getInstance()
     private var data = FirebaseCases()
     private val documentId = id
-    private var year = ""
-    private var day = ""
-    private var notificationDate = ""
-    private val channelID = "Cases ID"
-    private val notificationId = 101
+    private var list = ArrayList<Test>()
     private var customer = ""
     private var type = ""
+    private var desc =""
+    val sakerId = db.collection("Saker").document(documentId).id
 
 
     override fun onCreateView(
@@ -75,14 +63,16 @@ class RecyclerviewDialogFragment(id: String) : DialogFragment() {
             dismiss()
         }
         binding.saveDate.setOnClickListener {
-            alertDialog(documentId, customer, type)
+            alertDialog()
+        }
+        binding.openForm.setOnClickListener{
+            openForm()
         }
         return dialog
     }
 
     private fun getData() {
         val docRef = db.collection("Test").document(documentId)
-
 
         docRef.get().addOnSuccessListener { documentSnapshot ->
             val data = documentSnapshot.toObject(DialogFragmentItems::class.java)
@@ -91,6 +81,7 @@ class RecyclerviewDialogFragment(id: String) : DialogFragment() {
             binding.displayDate.text = data?.date
             customer = data?.Customer.toString()
             type = data?.Type.toString()
+            desc = data?.Description.toString()
             binding.displayDescription.text =data?.Description
         }
     }
@@ -103,14 +94,23 @@ class RecyclerviewDialogFragment(id: String) : DialogFragment() {
         Toast.makeText(requireContext(), "Sak $customer slettet", Toast.LENGTH_SHORT).show()
     }
 
-    private fun alertDialog(id: String, c: String, t: String) {
-        val dialogFragment = AlertDateDialog(documentId, customer, type)
+    private fun alertDialog() {
+        val dialogFragment = AlertDateDialog(documentId, customer, type, desc)
         /*val manager = activity?.supportFragmentManager
         if (manager != null) {
             dialogFragment.show(manager, "Varslings dato")
         }
 
          */
+        val fragmentManager = activity?.supportFragmentManager
+        val transaction = fragmentManager?.beginTransaction()
+
+        transaction?.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+        transaction?.add(android.R.id.content, dialogFragment)?.addToBackStack(null)?.commit()
+    }
+    private fun openForm(){
+        val dialogFragment = FormDialogFragment(sakerId)
+
         val fragmentManager = activity?.supportFragmentManager
         val transaction = fragmentManager?.beginTransaction()
 

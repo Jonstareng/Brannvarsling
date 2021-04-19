@@ -27,8 +27,6 @@ import java.util.*
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
 
-   // private val notificationDate = "2021.04.12 14:15"
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this,R.layout.activity_main)
@@ -41,11 +39,6 @@ class MainActivity : AppCompatActivity() {
             }
             true
         }
-        /*if (currentDateAndTime == notificationDate ){
-            sendNotification()
-        }
-
-         */
 
     }
     private fun setCurrentFragment(fragment: Fragment)=

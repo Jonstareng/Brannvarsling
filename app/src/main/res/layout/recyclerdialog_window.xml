@@ -55,27 +55,27 @@
 
         <Button
             android:id="@+id/delete_recycler_item"
-            android:layout_width="match_parent"
+            android:layout_width="150dp"
             android:layout_height="wrap_content"
             android:text="Slett"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintHorizontal_bias="0.498"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/displayCustomer"
             app:layout_constraintVertical_bias="0.906" />
 
         <Button
             android:id="@+id/close"
-            android:layout_width="match_parent"
+            android:layout_width="150dp"
             android:layout_height="wrap_content"
             android:text="Tilbake"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintHorizontal_bias="0.498"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/displayCustomer"
-            app:layout_constraintVertical_bias="0.991" />
+            app:layout_constraintVertical_bias="0.976" />
 
         <TextView
             android:id="@+id/displayDescription"
@@ -91,15 +91,27 @@
 
         <Button
             android:id="@+id/saveDate"
-            android:layout_width="match_parent"
+            android:layout_width="150dp"
             android:layout_height="wrap_content"
             android:text="Lagre dato"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintHorizontal_bias="0.498"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/displayCustomer"
-            app:layout_constraintVertical_bias="0.707" />
+            app:layout_constraintVertical_bias="0.822" />
+
+        <Button
+            android:id="@+id/openForm"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:text="Åpne skjema"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.498"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/displayCustomer"
+            app:layout_constraintVertical_bias="0.74" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

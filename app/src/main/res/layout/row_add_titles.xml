@@ -81,13 +81,13 @@
         android:layout_marginTop="24dp"
         android:text="@string/adresse"
         android:textColor="@color/black"
-        app:layout_constraintEnd_toStartOf="@+id/editText4"
+        app:layout_constraintEnd_toStartOf="@+id/adresse_edit_text"
         app:layout_constraintHorizontal_bias="0.038"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/anlegg_text" />
 
     <EditText
-        android:id="@+id/editText4"
+        android:id="@+id/adresse_edit_text"
         android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
@@ -109,14 +109,14 @@
         android:layout_marginTop="80dp"
         android:text="Alarmoverføring til:"
         android:textColor="@color/black"
-        app:layout_constraintEnd_toStartOf="@+id/editText5"
+        app:layout_constraintEnd_toStartOf="@+id/overforing_edit_text"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/adresse_text"
         />
 
     <EditText
-        android:id="@+id/editText5"
+        android:id="@+id/overforing_edit_text"
         android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="52dp"
@@ -126,7 +126,7 @@
         android:inputType="text"
         android:textSize="15sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editText4"
+        app:layout_constraintTop_toBottomOf="@+id/adresse_edit_text"
         android:importantForAutofill="no"/>
 
 
