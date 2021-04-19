@@ -56,7 +56,7 @@ class FormDialogFragment(sakerId: String) : DialogFragment() {
     private fun getFormData(){
 
         val docRef = db.collection("Saker").document("Brannsystem")
-        Toast.makeText(requireContext(), "$documentId", Toast.LENGTH_LONG).show()
+        Toast.makeText(requireContext(),documentId, Toast.LENGTH_LONG).show()
 
         docRef.get().addOnSuccessListener { documentSnapshot ->
             val data = documentSnapshot.toObject(SkjemaFirebase::class.java)
