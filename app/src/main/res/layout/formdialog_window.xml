@@ -150,12 +150,14 @@
             android:gravity="bottom">
         </LinearLayout>
     </ScrollView>
-    <Button
-        android:id="@+id/savePdf"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="lagre som PDF"
-        android:layout_gravity="center"
-        />
+
+        <Button
+            android:id="@+id/savePdf"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="lagre som PDF"
+            android:drawableRight="@drawable/ic_download_arrow"
+            />
     </LinearLayout>
 </layout>
