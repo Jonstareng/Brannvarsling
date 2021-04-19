@@ -2,12 +2,15 @@ package com.example.brannvarsling.dialogFragments
 
 import android.Manifest
 import android.R
+import android.app.Activity.RESULT_OK
 import android.app.Dialog
 import android.content.ActivityNotFoundException
 import android.content.ContentValues
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Camera
+import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
@@ -15,12 +18,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.Window
-import android.widget.AdapterView
-import android.widget.ArrayAdapter
-import android.widget.EditText
-import android.widget.Toast
+import android.widget.*
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.core.content.ContextCompat.checkSelfPermission
 import androidx.fragment.app.DialogFragment
 import com.example.brannvarsling.databinding.DialogWindowBinding
 import com.google.firebase.firestore.FirebaseFirestore
@@ -31,6 +32,9 @@ import kotlin.random.Random
 class AddDialogFragment: DialogFragment() {
 
     private lateinit var binding: DialogWindowBinding
+    private lateinit var imageView: ImageView
+    private val pickImage = 100
+    private var imageUri: Uri? = null
     private var db = FirebaseFirestore.getInstance()
     private var data = FirebaseCases()
     private var CAMERA_PERMISSION_CODE = 1
@@ -66,13 +70,23 @@ class AddDialogFragment: DialogFragment() {
             writeToDb()
         }
         binding.buttonVedlegg.setOnClickListener{
-            dispatchTakePictureIntent()
+           // dispatchTakePictureIntent()
+            val gallery = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI)
+            startActivityForResult(gallery, pickImage)
 
         }
         return dialog
     }
     val REQUEST_IMAGE_CAPTURE = 1
-    private fun dispatchTakePictureIntent() {
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (resultCode == RESULT_OK && requestCode == pickImage) {
+            imageUri = data?.data
+            imageView.setImageURI(imageUri)
+                }
+    }
+     private fun dispatchTakePictureIntent() {
         if (ContextCompat.checkSelfPermission(
                 requireContext(),
                 Manifest.permission.CAMERA
@@ -100,14 +114,10 @@ class AddDialogFragment: DialogFragment() {
                 }
             }
         }
-        /*   val takePictureIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-        try {
-            startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE)
-        } catch (e: ActivityNotFoundException) {
-            //
-        }
 
-      */
+
+
+
     }
 
     private fun writeToDb() {
