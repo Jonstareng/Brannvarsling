@@ -1,26 +1,31 @@
 package com.example.brannvarsling.dialogFragments
 
 import android.app.Dialog
+import android.content.ContentValues.TAG
+import android.graphics.Color
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.Window
+import android.widget.EditText
+import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.DialogFragment
 import com.example.brannvarsling.R
 import com.example.brannvarsling.databinding.FormdialogWindowBinding
 import com.google.firebase.firestore.FirebaseFirestore
 import com.example.brannvarsling.dataClass.SkjemaFirebase
-import com.google.firebase.firestore.DocumentReference
+import com.example.brannvarsling.dataClass.Test
 
 
-class FormDialogFragment(sakerId: String) : DialogFragment() {
+class FormDialogFragment(sakerId: String, formType: String) : DialogFragment() {
 
     private lateinit var binding: FormdialogWindowBinding
     private var db = FirebaseFirestore.getInstance()
-    private var list = ArrayList<SkjemaFirebase>()
-    private var documentId = sakerId
+    private var list = ArrayList<String>()
+    private val documentId = formType
 
 
     override fun onCreateView(
@@ -49,14 +54,15 @@ class FormDialogFragment(sakerId: String) : DialogFragment() {
         return dialog
     }
     private fun addNewSpm() {
-        val inflater = LayoutInflater.from(requireContext()).inflate(R.layout.row_add_spm, null)
+        val inflater = LayoutInflater.from(requireContext()).inflate(R.layout.row_get_spm, null)
         binding.formLayout.addView(inflater, binding.formLayout.childCount)
     }
 
-    private fun getFormData(){
+    private fun getFormData() {
+        val docRef = db.collection("Saker").document(documentId)
+        val ref = db.collection("Saker").document(documentId).collection("Spørsmål")
+        var count = 3
 
-        val docRef = db.collection("Saker").document("Brannsystem")
-        Toast.makeText(requireContext(),documentId, Toast.LENGTH_LONG).show()
 
         docRef.get().addOnSuccessListener { documentSnapshot ->
             val data = documentSnapshot.toObject(SkjemaFirebase::class.java)
@@ -67,6 +73,23 @@ class FormDialogFragment(sakerId: String) : DialogFragment() {
             binding.tittelText.text = data?.Tittel
 
         }
+        ref.get().addOnSuccessListener { document ->
+
+            document.forEach {
+                val data = it.data
+                list.add(data.values.toString())
+            }
+            var f: View?
+            for (i in 0 until list.size) {
+                f = binding.formLayout
+                val spm: TextView = f.findViewById(R.id.text_add_spm)
+                var test = Test()
+                test.spormal = list[i]
+                spm.setText(test.spormal)
+                addNewSpm()
+            }
+        }
+
     }
 
 }
