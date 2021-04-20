@@ -7,6 +7,7 @@ import android.graphics.Paint
 import android.graphics.pdf.PdfDocument
 import android.graphics.pdf.PdfDocument.PageInfo.Builder
 import android.os.Build.VERSION_CODES.R
+import android.content.ContentValues.TAG
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -15,6 +16,7 @@ import android.view.ViewGroup
 import android.view.Window
 import android.widget.Button
 import android.widget.TextView
+import android.widget.EditText
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.DialogFragment
@@ -24,13 +26,16 @@ import com.google.firebase.firestore.FirebaseFirestore
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
+import com.example.brannvarsling.dataClass.Test
 
-class FormDialogFragment(sakerId: String) : DialogFragment() {
+
+class FormDialogFragment(sakerId: String, formType: String) : DialogFragment() {
 
     private lateinit var binding: FormdialogWindowBinding
     private var db = FirebaseFirestore.getInstance()
-    private var list = ArrayList<SkjemaFirebase>()
-    private var documentId = sakerId
+    private var list = ArrayList<String>()
+    private var list2 = ArrayList<String>()
+    private val documentId = formType
 
     private var editText: TextView? = null
     private var btnCreate: Button? = null
@@ -71,18 +76,19 @@ class FormDialogFragment(sakerId: String) : DialogFragment() {
         return dialog
     }
 
-/*
+
     private fun addNewSpm() {
-        val inflater = LayoutInflater.from(requireContext()).inflate(R.layout.row_add_spm, null)
+        val inflater = LayoutInflater.from(requireContext()).inflate(com.example.brannvarsling.R.layout.row_get_spm, null)
         binding.formLayout.addView(inflater, binding.formLayout.childCount)
     }
-*/
 
 
-    private fun getFormData(){
 
-        val docRef = db.collection("Saker").document("Brannsystem")
-        Toast.makeText(requireContext(), documentId, Toast.LENGTH_LONG).show()
+    private fun getFormData() {
+        val docRef = db.collection("Saker").document(documentId)
+        val ref = db.collection("Saker").document(documentId).collection("Spørsmål")
+        var count = 0
+
 
         docRef.get().addOnSuccessListener { documentSnapshot ->
             val data = documentSnapshot.toObject(SkjemaFirebase::class.java)
@@ -93,8 +99,26 @@ class FormDialogFragment(sakerId: String) : DialogFragment() {
             binding.tittelText.text = data?.Tittel
 
         }
-    }
+        ref.get().addOnSuccessListener { snapshot ->
+           val data =  snapshot.documents.size
+                list2.add(data.toString())
+                count++
+                Toast.makeText(requireContext(), "$data", Toast.LENGTH_LONG).show()
 
+
+            Toast.makeText(requireContext(), "$list2", Toast.LENGTH_LONG).show()
+            var f: View?
+            addNewSpm()
+            for (i in 0 until list2.size) {
+                f = binding.formLayout
+                val spm: TextView = f.findViewById(com.example.brannvarsling.R.id.text_add_spm)
+                var test = Test()
+                test.spormal = list2[i]
+                spm.setText(test.spormal)
+                addNewSpm()
+            }
+        }
+    }
 
     @RequiresApi(R)
     fun createPdf(sometext: String) {

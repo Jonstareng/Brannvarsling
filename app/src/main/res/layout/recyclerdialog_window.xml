@@ -53,6 +53,17 @@
             app:layout_constraintTop_toTopOf="@+id/displayCustomer"
             app:layout_constraintVertical_bias="0.176" />
 
+        <Spinner
+            android:id="@+id/spinnerForm"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.495"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.564" />
+
         <Button
             android:id="@+id/delete_recycler_item"
             android:layout_width="150dp"

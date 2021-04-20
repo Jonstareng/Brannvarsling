@@ -1,5 +1,6 @@
-package com.example.brannvarsling.dialogFragment
+package com.example.brannvarsling.dialogFragments
 
+import android.R
 import android.app.Dialog
 import android.content.ContentValues.TAG
 import android.os.Bundle
@@ -8,6 +9,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.Window
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.FragmentTransaction
@@ -15,23 +18,27 @@ import com.example.brannvarsling.dataClass.DialogFragmentItems
 import com.example.brannvarsling.dataClass.FirebaseCases
 import com.example.brannvarsling.dataClass.Test
 import com.example.brannvarsling.databinding.RecyclerdialogWindowBinding
+import com.example.brannvarsling.dialogFragment.AlertDateDialog
+import com.example.brannvarsling.dialogFragment.FormDialogFragment
 import com.google.firebase.firestore.FirebaseFirestore
+import kotlin.collections.ArrayList
 
 
 class RecyclerviewDialogFragment(id: String) : DialogFragment() {
 
     private lateinit var binding: RecyclerdialogWindowBinding
-    private lateinit var currentDateAndTime: String
    // private lateinit var month: String
     //private lateinit var case: Array<String>
     private var db = FirebaseFirestore.getInstance()
     private var data = FirebaseCases()
     private val documentId = id
-    private var list = ArrayList<Test>()
+    private var list = ArrayList<String>()
     private var customer = ""
     private var type = ""
     private var desc =""
-    private val sakerId = db.collection("Saker").document(documentId).id
+    private var formType = ""
+    private lateinit var caseChoice: ArrayList<String>
+    val sakerId = db.collection("Saker").document(documentId).id
 
 
     override fun onCreateView(
@@ -46,6 +53,7 @@ class RecyclerviewDialogFragment(id: String) : DialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         onCreateDialog(savedInstanceState)
+        spinnerForm()
     }
 
 
@@ -91,6 +99,30 @@ class RecyclerviewDialogFragment(id: String) : DialogFragment() {
                 .addOnSuccessListener{ e->Log.w(TAG, "Error deleting document")}
         Toast.makeText(requireContext(), "Sak $customer slettet", Toast.LENGTH_SHORT).show()
     }
+    private fun spinnerForm() {
+        db.collection("Saker").get().addOnSuccessListener { documents ->
+            for (document in documents) {
+                val data = document.id
+                list.add(data)
+                // Toast.makeText(context, "$list", Toast.LENGTH_LONG).show()
+            }
+
+            val arrayAdapter = ArrayAdapter(requireContext(), R.layout.simple_dropdown_item_1line, list)
+            binding.spinnerForm.adapter = arrayAdapter
+            arrayAdapter.setDropDownViewResource(R.layout.simple_spinner_dropdown_item)
+            binding.spinnerForm.onItemSelectedListener = object :
+                    AdapterView.OnItemSelectedListener {
+                override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                    formType = parent?.getItemAtPosition(position).toString()
+                    arrayAdapter.notifyDataSetChanged()
+                }
+
+                override fun onNothingSelected(parent: AdapterView<*>?) {
+
+                }
+            }
+        }
+    }
 
     private fun alertDialog() {
         val dialogFragment = AlertDateDialog(documentId, customer, type, desc)
@@ -107,7 +139,7 @@ class RecyclerviewDialogFragment(id: String) : DialogFragment() {
         transaction?.add(android.R.id.content, dialogFragment)?.addToBackStack(null)?.commit()
     }
     private fun openForm(){
-        val dialogFragment = FormDialogFragment(sakerId)
+        val dialogFragment = FormDialogFragment(sakerId, formType)
 
         val fragmentManager = activity?.supportFragmentManager
         val transaction = fragmentManager?.beginTransaction()
