@@ -65,6 +65,7 @@ class Form: Fragment() {
         // Lagre knapp. (Skal kunne lagre skjema som pdf, og i arraylist for å laste opp til firebase)
         binding.buttonSubmit.setOnClickListener {
             saveData()
+            binding.scrollLayout.removeAllViews()
         }
 
         // Bare en knapp for floatingbutton
@@ -120,10 +121,11 @@ class Form: Fragment() {
 
     private fun saveData() {
         val skjema: MutableMap<String, Any> = HashMap()
+        val skjemaS: MutableMap<String, Any> = HashMap()
+
         list.clear()
         listTitle.clear()
         var pluss = 0
-        var pluss2 = 0
         var f: View?
         val count = binding.scrollLayout.childCount
         val skjemaR = SkjemaFirebase()
@@ -159,11 +161,9 @@ class Form: Fragment() {
             }
         }
             if(list.isNotEmpty()) {
-
                 for (i in 0 until list.size) {
-                    skjema["$pluss Spørsmål"] = list[i].spormal.toString()
+                    skjemaS["$pluss Spørsmål"] = list[i].spormal.toString()
                     pluss++
-                    Toast.makeText(requireContext(), list[i].spormal, Toast.LENGTH_LONG).show()
                 }
                     skjema["Tittel"] = skjemaR.Tittel.toString()
                     skjema["Kunde"] = skjemaR.Kunde.toString()
@@ -173,6 +173,11 @@ class Form: Fragment() {
 
                 db.collection("Saker").document(skjemaR.Tittel.toString())
                         .set(skjema)
+                        .addOnSuccessListener { documentReference -> Log.d(ContentValues.TAG, "Skjema lagt til med ID: ") }
+                        .addOnFailureListener { e -> Log.w(ContentValues.TAG, "Error adding form", e) }
+
+                db.collection("Saker").document(skjemaR.Tittel.toString()).collection("Spørsmål")
+                        .add(skjemaS)
                         .addOnSuccessListener { documentReference -> Log.d(ContentValues.TAG, "Skjema lagt til med ID: ") }
                         .addOnFailureListener { e -> Log.w(ContentValues.TAG, "Error adding form", e) }
             }

@@ -84,7 +84,6 @@ class AlertDateDialog(id: String, customer: String, type: String, desc: String):
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                 year = parent?.getItemAtPosition(position).toString()
                 arrayAdapter.notifyDataSetChanged()
-
             }
             override fun onNothingSelected(parent: AdapterView<*>?) {
 
