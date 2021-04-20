@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
@@ -14,7 +13,7 @@ import com.example.brannvarsling.RecyclerviewAdapter
 import com.example.brannvarsling.dataClass.FirebaseCases
 import com.example.brannvarsling.databinding.FragmentCasesBinding
 import com.example.brannvarsling.dialogFragments.AddDialogFragment
-import com.example.brannvarsling.dialogFragments.RecyclerviewDialogFragment
+import com.example.brannvarsling.dialogFragment.RecyclerviewDialogFragment
 import com.firebase.ui.firestore.FirestoreRecyclerOptions
 import com.google.firebase.firestore.FirebaseFirestore
 

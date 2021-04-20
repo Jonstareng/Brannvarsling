@@ -1,4 +1,4 @@
-package com.example.brannvarsling.dialogFragments
+package com.example.brannvarsling.dialogFragment
 
 import android.app.Dialog
 import android.content.ContentValues.TAG
@@ -15,10 +15,7 @@ import com.example.brannvarsling.dataClass.DialogFragmentItems
 import com.example.brannvarsling.dataClass.FirebaseCases
 import com.example.brannvarsling.dataClass.Test
 import com.example.brannvarsling.databinding.RecyclerdialogWindowBinding
-import com.example.brannvarsling.dialogFragment.AlertDateDialog
-import com.example.brannvarsling.dialogFragment.FormDialogFragment
 import com.google.firebase.firestore.FirebaseFirestore
-import kotlin.collections.ArrayList
 
 
 class RecyclerviewDialogFragment(id: String) : DialogFragment() {
@@ -34,7 +31,7 @@ class RecyclerviewDialogFragment(id: String) : DialogFragment() {
     private var customer = ""
     private var type = ""
     private var desc =""
-    val sakerId = db.collection("Saker").document(documentId).id
+    private val sakerId = db.collection("Saker").document(documentId).id
 
 
     override fun onCreateView(
