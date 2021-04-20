@@ -34,6 +34,7 @@ class FormDialogFragment(sakerId: String, formType: String) : DialogFragment() {
     private lateinit var binding: FormdialogWindowBinding
     private var db = FirebaseFirestore.getInstance()
     private var list = ArrayList<String>()
+    private var list2 = ArrayList<String>()
     private val documentId = formType
 
     private var editText: TextView? = null
@@ -75,18 +76,18 @@ class FormDialogFragment(sakerId: String, formType: String) : DialogFragment() {
         return dialog
     }
 
-/*
+
     private fun addNewSpm() {
-        val inflater = LayoutInflater.from(requireContext()).inflate(R.layout.row_get_spm, null)
+        val inflater = LayoutInflater.from(requireContext()).inflate(com.example.brannvarsling.R.layout.row_get_spm, null)
         binding.formLayout.addView(inflater, binding.formLayout.childCount)
     }
-*/
+
 
 
     private fun getFormData() {
         val docRef = db.collection("Saker").document(documentId)
         val ref = db.collection("Saker").document(documentId).collection("Spørsmål")
-        var count = 3
+        var count = 0
 
 
         docRef.get().addOnSuccessListener { documentSnapshot ->
@@ -98,24 +99,26 @@ class FormDialogFragment(sakerId: String, formType: String) : DialogFragment() {
             binding.tittelText.text = data?.Tittel
 
         }
-        ref.get().addOnSuccessListener { document ->
+        ref.get().addOnSuccessListener { snapshot ->
+           val data =  snapshot.documents.size
+                list2.add(data.toString())
+                count++
+                Toast.makeText(requireContext(), "$data", Toast.LENGTH_LONG).show()
 
-            document.forEach {
-                val data = it.data
-                list.add(data.values.toString())
-            }
+
+            Toast.makeText(requireContext(), "$list2", Toast.LENGTH_LONG).show()
             var f: View?
-            for (i in 0 until list.size) {
+            addNewSpm()
+            for (i in 0 until list2.size) {
                 f = binding.formLayout
-                val spm: TextView = f.findViewById(R.id.text_add_spm)
+                val spm: TextView = f.findViewById(com.example.brannvarsling.R.id.text_add_spm)
                 var test = Test()
-                test.spormal = list[i]
+                test.spormal = list2[i]
                 spm.setText(test.spormal)
+                addNewSpm()
             }
         }
-
     }
-
 
     @RequiresApi(R)
     fun createPdf(sometext: String) {

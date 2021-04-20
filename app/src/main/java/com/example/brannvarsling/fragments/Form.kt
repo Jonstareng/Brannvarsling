@@ -65,7 +65,6 @@ class Form: Fragment() {
         // Lagre knapp. (Skal kunne lagre skjema som pdf, og i arraylist for å laste opp til firebase)
         binding.buttonSubmit.setOnClickListener {
             saveData()
-            binding.scrollLayout.removeAllViews()
         }
 
         // Bare en knapp for floatingbutton
@@ -141,7 +140,7 @@ class Form: Fragment() {
                     list.add(sporsmalTest)
                 }
                 else{
-                    Toast.makeText(requireContext(), "Du mangler å fylle ut et spørsmåls feltene", Toast.LENGTH_LONG).show()
+                    Toast.makeText(requireContext(), "Du mangler å fylle ut et av spørsmåls feltene", Toast.LENGTH_LONG).show()
                 }
 
             } else {
@@ -161,6 +160,7 @@ class Form: Fragment() {
             }
         }
             if(list.isNotEmpty()) {
+
                 for (i in 0 until list.size) {
                     skjemaS["$pluss Spørsmål"] = list[i].spormal.toString()
                     pluss++
@@ -180,6 +180,7 @@ class Form: Fragment() {
                         .add(skjemaS)
                         .addOnSuccessListener { documentReference -> Log.d(ContentValues.TAG, "Skjema lagt til med ID: ") }
                         .addOnFailureListener { e -> Log.w(ContentValues.TAG, "Error adding form", e) }
+                Toast.makeText(requireContext(), "Skjema lagret", Toast.LENGTH_LONG).show()
             }
     }
 }
