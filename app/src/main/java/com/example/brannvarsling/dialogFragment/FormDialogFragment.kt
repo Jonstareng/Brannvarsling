@@ -1,44 +1,43 @@
 package com.example.brannvarsling.dialogFragment
 
+
+import android.Manifest
 import android.app.Dialog
-import android.graphics.Canvas
-import android.graphics.Color
-import android.graphics.Paint
-import android.graphics.pdf.PdfDocument
-import android.graphics.pdf.PdfDocument.PageInfo.Builder
-import android.os.Build.VERSION_CODES.R
-import android.content.ContentValues.TAG
+import android.content.pm.PackageManager
+import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.Window
-import android.widget.Button
 import android.widget.TextView
-import android.widget.EditText
 import android.widget.Toast
-import androidx.annotation.RequiresApi
+import androidx.core.content.ContextCompat.checkSelfPermission
 import androidx.fragment.app.DialogFragment
 import com.example.brannvarsling.dataClass.SkjemaFirebase
+import com.example.brannvarsling.dataClass.Test
 import com.example.brannvarsling.databinding.FormdialogWindowBinding
 import com.google.firebase.firestore.FirebaseFirestore
-import java.io.File
+import com.itextpdf.text.Document
+import com.itextpdf.text.Paragraph
+import com.itextpdf.text.pdf.PdfWriter
 import java.io.FileOutputStream
-import java.io.IOException
-import com.example.brannvarsling.dataClass.Test
+import java.text.SimpleDateFormat
+import java.util.*
+import kotlin.collections.ArrayList
 
 
 class FormDialogFragment(sakerId: String, formType: String) : DialogFragment() {
 
+    private val STORAGE_CODE: Int = 100;
     private lateinit var binding: FormdialogWindowBinding
     private var db = FirebaseFirestore.getInstance()
     private var list = ArrayList<String>()
     private var list2 = ArrayList<String>()
     private val documentId = formType
 
-    private var editText: TextView? = null
-    private var btnCreate: Button? = null
+
+
 
     override fun onCreateView(
             inflater: LayoutInflater,
@@ -48,21 +47,76 @@ class FormDialogFragment(sakerId: String, formType: String) : DialogFragment() {
         binding = FormdialogWindowBinding.inflate(inflater, container, false)
         return binding.root
     }
-    @RequiresApi(R)
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         onCreateDialog(savedInstanceState)
 
-        btnCreate = binding.savePdf
-        this.editText = binding.tittelText
 
-        btnCreate!!.setOnClickListener {
-            createPdf(editText.toString())
+
+
+        binding.savePdf.setOnClickListener {
+            if (Build.VERSION.SDK_INT > Build.VERSION_CODES.M) {
+                if (checkSelfPermission(requireContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                        == PackageManager.PERMISSION_DENIED) {
+                    val permissions = arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                    requestPermissions(permissions, STORAGE_CODE)
+                }
+                else {
+                    savePdf()
+                }
+            }
+            else {
+                savePdf()
+            }
         }
 
     }
 
+    private fun savePdf() {
+        val mDoc = Document()
+        val mFileName = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(System.currentTimeMillis())
+        val mFilePath = this.context?.getExternalFilesDir(null)?.path + "/" + mFileName + ".pdf"
+        try {
+            PdfWriter.getInstance(mDoc, FileOutputStream(mFilePath))
+            // åpne pdf dokumentet for skriving
+            mDoc.open()
 
+            // signatur av oppretter
+            mDoc.addAuthor("Mr.Jensen")
+
+            // Pdf innhold
+            val mTittel =  binding.tittelText.text.toString()
+            val mKunde = binding.kundeText.text.toString()
+            val mAdresse = binding.adresseText.text.toString()
+            val mAnleggTekst = binding.anleggText.text.toString()
+            val mOverforingTekst = binding.overforingText.text.toString()
+
+            //Add
+            mDoc.add(Paragraph(mTittel + "\n" + mKunde + "\n" + mAdresse + "\n" + mAnleggTekst + "\n" + mOverforingTekst))
+            mDoc.close()
+
+            //Sted Lagret
+            Toast.makeText(requireContext(), "$mFileName.pdf \n er lagret i \n $mFilePath", Toast.LENGTH_LONG).show()
+        }
+        catch (e: Exception) {
+            Toast.makeText(requireContext(), e.message, Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        when(requestCode) {
+            STORAGE_CODE -> {
+                if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    savePdf()
+                }
+                else {
+                    Toast.makeText(requireContext(), "Denied..", Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
+    }
 
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
@@ -92,68 +146,34 @@ class FormDialogFragment(sakerId: String, formType: String) : DialogFragment() {
 
         docRef.get().addOnSuccessListener { documentSnapshot ->
             val data = documentSnapshot.toObject(SkjemaFirebase::class.java)
+
+            binding.tittelText.text = data?.Tittel
+            binding.kundeText.text = data?.Kunde
             binding.adresseText.text = data?.Adresse
             binding.anleggText.text = data?.Anlegg
-            binding.kundeText.text = data?.Kunde
             binding.overforingText.text = data?.Overforing
-            binding.tittelText.text = data?.Tittel
+
 
         }
         ref.get().addOnSuccessListener { snapshot ->
            val data =  snapshot.documents.size
                 list2.add(data.toString())
                 count++
-                Toast.makeText(requireContext(), "$data", Toast.LENGTH_LONG).show()
+                //Toast.makeText(requireContext(), "$data", Toast.LENGTH_LONG).show()
 
 
-            Toast.makeText(requireContext(), "$list2", Toast.LENGTH_LONG).show()
+            //Toast.makeText(requireContext(), "$list2", Toast.LENGTH_LONG).show()
             var f: View?
             addNewSpm()
             for (i in 0 until list2.size) {
                 f = binding.formLayout
                 val spm: TextView = f.findViewById(com.example.brannvarsling.R.id.text_add_spm)
-                var test = Test()
+                val test = Test()
                 test.spormal = list2[i]
-                spm.setText(test.spormal)
+                spm.text = test.spormal
                 addNewSpm()
             }
         }
-    }
-
-    @RequiresApi(R)
-    fun createPdf(sometext: String) {
-        // create a new document
-        val document = PdfDocument()
-        // crate a page description
-        val pageInfo: PdfDocument.PageInfo = Builder(300, 600, 1).create()
-        // start a page
-        val page: PdfDocument.Page = document.startPage(pageInfo)
-        val canvas: Canvas = page.canvas
-        val paint = Paint()
-        paint.color = Color.RED
-        paint.color = Color.BLACK
-        canvas.drawText(sometext, 80F, 50F, paint)
-        // finish the page
-        document.finishPage(page)
-
-        // write the document content
-        val directoryPath = this.context?.getExternalFilesDir(null)?.path + "/mypdf/"
-        val file = File(directoryPath)
-        if (!file.exists()) {
-            file.run {
-                mkdirs() }
-        }
-        val targetPdf = directoryPath + "test-2.pdf"
-        val filePath = File(targetPdf)
-        try {
-            document.writeTo(FileOutputStream(filePath))
-            Toast.makeText(requireContext(), "Done  $directoryPath", Toast.LENGTH_LONG).show()
-        } catch (e: IOException) {
-            Log.e("main", "error $e")
-            Toast.makeText(requireContext(), "Something wrong: $e", Toast.LENGTH_LONG).show()
-        }
-        // close the document
-        document.close()
     }
 
 }

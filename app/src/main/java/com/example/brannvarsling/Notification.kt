@@ -10,16 +10,13 @@ import android.graphics.BitmapFactory
 import android.graphics.Color
 import android.media.RingtoneManager
 import android.os.Build
-import android.os.Bundle
 import androidx.core.app.NotificationCompat
-import androidx.core.app.NotificationManagerCompat
-import androidx.fragment.app.Fragment
 import java.util.*
 
 private var channelID = "ChannelID"
 private var notificationId = 101
 private lateinit var mNotification: Notification
-private val mNotificationId: Int = 1000
+private const val mNotificationId: Int = 1000
 private lateinit var builder: android.app.Notification
 
 

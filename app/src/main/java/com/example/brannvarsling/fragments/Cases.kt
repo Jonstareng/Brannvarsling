@@ -13,7 +13,7 @@ import com.example.brannvarsling.RecyclerviewAdapter
 import com.example.brannvarsling.dataClass.FirebaseCases
 import com.example.brannvarsling.databinding.FragmentCasesBinding
 import com.example.brannvarsling.dialogFragments.AddDialogFragment
-import com.example.brannvarsling.dialogFragment.RecyclerviewDialogFragment
+import com.example.brannvarsling.dialogFragments.RecyclerviewDialogFragment
 import com.firebase.ui.firestore.FirestoreRecyclerOptions
 import com.google.firebase.firestore.FirebaseFirestore
 
