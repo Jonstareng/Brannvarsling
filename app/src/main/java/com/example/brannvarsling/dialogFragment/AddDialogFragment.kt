@@ -40,7 +40,7 @@ class AddDialogFragment: DialogFragment() {
     private var CAMERA_PERMISSION_CODE = 1
     private var CAMERA_REQUEST_CODE = 2
     private var documentId = ""
-    private var count = 0
+    private var counter = ""
 
 
 
@@ -62,18 +62,18 @@ class AddDialogFragment: DialogFragment() {
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val dialog = super.onCreateDialog(savedInstanceState)
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
-        count = Random(9999999999).nextInt()
+        getNotifyCounter()
         binding.avbryt.setOnClickListener{
             dismiss()
         }
         binding.button2.setOnClickListener{
             writeToDb()
+            notificationCounter()
         }
         binding.buttonVedlegg.setOnClickListener{
            // dispatchTakePictureIntent()
             val gallery = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI)
             startActivityForResult(gallery, pickImage)
-
         }
         return dialog
     }
@@ -114,10 +114,6 @@ class AddDialogFragment: DialogFragment() {
                 }
             }
         }
-
-
-
-
     }
 
     private fun writeToDb() {
@@ -132,13 +128,12 @@ class AddDialogFragment: DialogFragment() {
             user["Customer"] = title
             user["Type"] = type
             user["Description"] = description
-            user["NotificationID"] = count.toString()
+            user["NotificationID"] = counter
 
             db.collection("Test")
                     .add(user)
                     .addOnSuccessListener { documentReference -> Log.d(ContentValues.TAG, "DocumentSnapshot added with ID: " + documentReference.id) }
                     .addOnFailureListener { e -> Log.w(ContentValues.TAG, "Error adding document", e) }
-            count = Random(9999999999).nextInt()
             dismiss()
         }
         else {
@@ -159,6 +154,24 @@ class AddDialogFragment: DialogFragment() {
             }
             override fun onNothingSelected(parent: AdapterView<*>?) {
 
+            }
+        }
+    }
+    private fun notificationCounter() {
+        val number: MutableMap<String, Any> = HashMap()
+        val newCounter: Int = counter.toInt() + 1
+        newCounter.toLong()
+        number["Counter"] = newCounter
+        db.collection("NotificationIds").document("qsK39UawP1XXeoTCrPcn").set(number)
+
+    }
+    private fun getNotifyCounter() {
+
+        val ref = db.collection("NotificationIds").document("qsK39UawP1XXeoTCrPcn")
+
+        ref.get().addOnSuccessListener { snapshot ->
+            if (snapshot.exists()) {
+                counter = snapshot.get("Counter").toString()
             }
         }
     }

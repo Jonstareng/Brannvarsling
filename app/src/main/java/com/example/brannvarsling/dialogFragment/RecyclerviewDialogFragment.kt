@@ -57,6 +57,7 @@ class RecyclerviewDialogFragment(id: String) : DialogFragment() {
         super.onViewCreated(view, savedInstanceState)
         onCreateDialog(savedInstanceState)
         spinnerForm()
+        getData()
     }
 
 
@@ -87,11 +88,12 @@ class RecyclerviewDialogFragment(id: String) : DialogFragment() {
             val data = documentSnapshot.toObject(DialogFragmentItems::class.java)
             binding.displayCustomer.text = data?.Customer
             binding.displayType.text = data?.Type
-            binding.displayDate.text = data?.date
+            binding.displayDate.text = data?.Date
+            binding.displayDescription.text = data?.Description
             customer = data?.Customer.toString()
             type = data?.Type.toString()
             desc = data?.Description.toString()
-            binding.displayDescription.text = data?.Description
+
         }
     }
 
@@ -171,10 +173,8 @@ class RecyclerviewDialogFragment(id: String) : DialogFragment() {
     }
 
     private fun getNotifyCounter() {
-        val number: MutableMap<String, Any> = HashMap()
 
         val ref = db.collection("NotificationIds").document("qsK39UawP1XXeoTCrPcn")
-        var newCounter: Int
 
         ref.get().addOnSuccessListener { snapshot ->
             if (snapshot.exists()) {
