@@ -26,6 +26,7 @@ class RecyclerviewAdapter(options: FirestoreRecyclerOptions<FirebaseCases>, priv
        var tittel: TextView = itemView.findViewById(R.id.recyclerview_item_title)
          var type: TextView = itemView.findViewById(R.id.recyclerview_item_type)
 
+
          init {
              itemView.setOnClickListener(this)
          }

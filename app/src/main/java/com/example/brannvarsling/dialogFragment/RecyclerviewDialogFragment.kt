@@ -18,7 +18,6 @@ import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.FragmentTransaction
 import com.example.brannvarsling.dataClass.DialogFragmentItems
 import com.example.brannvarsling.dataClass.FirebaseCases
-import com.example.brannvarsling.dataClass.Test
 import com.example.brannvarsling.databinding.RecyclerdialogWindowBinding
 import com.example.brannvarsling.dialogFragment.AlertDateDialog
 import com.example.brannvarsling.dialogFragment.FormDialogFragment
@@ -29,24 +28,26 @@ import kotlin.collections.ArrayList
 class RecyclerviewDialogFragment(id: String) : DialogFragment() {
 
     private lateinit var binding: RecyclerdialogWindowBinding
-   // private lateinit var month: String
+
+    // private lateinit var month: String
     //private lateinit var case: Array<String>
     private var db = FirebaseFirestore.getInstance()
     private var data = FirebaseCases()
     private val documentId = id
     private var list = ArrayList<String>()
+    private var counter: Long = 0
     private var customer = ""
     private var type = ""
-    private var desc =""
+    private var desc = ""
     private var formType = ""
     private lateinit var caseChoice: ArrayList<String>
     val sakerId = db.collection("Saker").document(documentId).id
 
 
     override fun onCreateView(
-            inflater: LayoutInflater,
-            container: ViewGroup?,
-            savedInstanceState: Bundle?
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
     ): View? {
         binding = RecyclerdialogWindowBinding.inflate(inflater, container, false)
         return binding.root
@@ -63,16 +64,17 @@ class RecyclerviewDialogFragment(id: String) : DialogFragment() {
         val dialog = super.onCreateDialog(savedInstanceState)
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         getData()
-        binding.close.setOnClickListener{
+        getNotifyCounter()
+        binding.close.setOnClickListener {
             dismiss()
         }
-        binding.deleteRecyclerItem.setOnClickListener{
+        binding.deleteRecyclerItem.setOnClickListener {
             slettDialog()
         }
         binding.saveDate.setOnClickListener {
             alertDialog()
         }
-        binding.openForm.setOnClickListener{
+        binding.openForm.setOnClickListener {
             openForm()
         }
         return dialog
@@ -89,17 +91,19 @@ class RecyclerviewDialogFragment(id: String) : DialogFragment() {
             customer = data?.Customer.toString()
             type = data?.Type.toString()
             desc = data?.Description.toString()
-            binding.displayDescription.text =data?.Description
+            binding.displayDescription.text = data?.Description
         }
     }
-    private fun deleteItem(){
+
+    private fun deleteItem() {
         val docRef = db.collection("Test").document(documentId)
 
         docRef.delete()
-                .addOnSuccessListener{ Log.d(TAG, "DocumentSnapshot successfully deleted!")}
-                .addOnSuccessListener{ e->Log.w(TAG, "Error deleting document")}
+            .addOnSuccessListener { Log.d(TAG, "DocumentSnapshot successfully deleted!") }
+            .addOnSuccessListener { e -> Log.w(TAG, "Error deleting document") }
         Toast.makeText(requireContext(), "Sak $customer slettet", Toast.LENGTH_SHORT).show()
     }
+
     private fun spinnerForm() {
         db.collection("Saker").get().addOnSuccessListener { documents ->
             for (document in documents) {
@@ -108,12 +112,18 @@ class RecyclerviewDialogFragment(id: String) : DialogFragment() {
                 // Toast.makeText(context, "$list", Toast.LENGTH_LONG).show()
             }
 
-            val arrayAdapter = ArrayAdapter(requireContext(), R.layout.simple_dropdown_item_1line, list)
+            val arrayAdapter =
+                ArrayAdapter(requireContext(), R.layout.simple_dropdown_item_1line, list)
             binding.spinnerForm.adapter = arrayAdapter
             arrayAdapter.setDropDownViewResource(R.layout.simple_spinner_dropdown_item)
             binding.spinnerForm.onItemSelectedListener = object :
-                    AdapterView.OnItemSelectedListener {
-                override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                AdapterView.OnItemSelectedListener {
+                override fun onItemSelected(
+                    parent: AdapterView<*>?,
+                    view: View?,
+                    position: Int,
+                    id: Long
+                ) {
                     formType = parent?.getItemAtPosition(position).toString()
                     arrayAdapter.notifyDataSetChanged()
                 }
@@ -125,33 +135,32 @@ class RecyclerviewDialogFragment(id: String) : DialogFragment() {
         }
     }
 
-    private fun alertDialog() {
-        val dialogFragment = AlertDateDialog(documentId, customer, type, desc)
-        /*val manager = activity?.supportFragmentManager
-        if (manager != null) {
-            dialogFragment.show(manager, "Varslings dato")
-        }
-
-         */
-        val fragmentManager = activity?.supportFragmentManager
-        val transaction = fragmentManager?.beginTransaction()
-
-        transaction?.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
-        transaction?.add(android.R.id.content, dialogFragment)?.addToBackStack(null)?.commit()
-    }
-    private fun slettDialog(){
+    private fun slettDialog() {
         val builder = AlertDialog.Builder(activity)
         builder.setMessage("Er du sikker på at du vil slette $customer")
-            .setCancelable(false).setPositiveButton("Slett", DialogInterface.OnClickListener{ dialog, id ->
+            .setCancelable(false)
+            .setPositiveButton("Slett", DialogInterface.OnClickListener { dialog, id ->
                 deleteItem()
-                dialog.dismiss()
-            }).setNegativeButton("Avbryt", DialogInterface.OnClickListener{ dialog, id ->
+                dismiss()
+            }).setNegativeButton("Avbryt", DialogInterface.OnClickListener { dialog, id ->
                 dialog.dismiss()
             })
         val alert = builder.create()
         alert.show()
     }
-    private fun openForm(){
+
+    private fun alertDialog() {
+        val builder = AlertDateDialog(documentId, customer, type, desc, counter)
+
+        val fragmentManager = activity?.supportFragmentManager
+        val transaction = fragmentManager?.beginTransaction()
+
+        transaction?.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+        transaction?.add(android.R.id.content, builder)?.addToBackStack(null)?.commit()
+
+    }
+
+    private fun openForm() {
         val dialogFragment = FormDialogFragment(sakerId, formType)
 
         val fragmentManager = activity?.supportFragmentManager
@@ -159,5 +168,18 @@ class RecyclerviewDialogFragment(id: String) : DialogFragment() {
 
         transaction?.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
         transaction?.add(android.R.id.content, dialogFragment)?.addToBackStack(null)?.commit()
+    }
+
+    private fun getNotifyCounter() {
+        val number: MutableMap<String, Any> = HashMap()
+
+        val ref = db.collection("NotificationIds").document("qsK39UawP1XXeoTCrPcn")
+        var newCounter: Int
+
+        ref.get().addOnSuccessListener { snapshot ->
+            if (snapshot.exists()) {
+                counter = snapshot.get("Counter") as Long
+            }
+        }
     }
 }

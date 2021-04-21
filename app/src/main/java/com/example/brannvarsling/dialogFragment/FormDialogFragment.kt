@@ -16,7 +16,7 @@ import android.widget.Toast
 import androidx.core.content.ContextCompat.checkSelfPermission
 import androidx.fragment.app.DialogFragment
 import com.example.brannvarsling.dataClass.SkjemaFirebase
-import com.example.brannvarsling.dataClass.Test
+import com.example.brannvarsling.dataClass.Spm
 import com.example.brannvarsling.databinding.FormdialogWindowBinding
 import com.google.firebase.firestore.FirebaseFirestore
 import com.itextpdf.text.Document
@@ -52,8 +52,6 @@ class FormDialogFragment(sakerId: String, formType: String) : DialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         onCreateDialog(savedInstanceState)
-
-
 
 
         binding.savePdf.setOnClickListener {
@@ -131,11 +129,6 @@ class FormDialogFragment(sakerId: String, formType: String) : DialogFragment() {
     }
 
 
-    private fun addNewSpm() {
-        val inflater = LayoutInflater.from(requireContext()).inflate(com.example.brannvarsling.R.layout.row_get_spm, null)
-        binding.formLayout.addView(inflater, binding.formLayout.childCount)
-    }
-
 
 
     private fun getFormData() {
@@ -152,8 +145,6 @@ class FormDialogFragment(sakerId: String, formType: String) : DialogFragment() {
             binding.adresseText.text = data?.Adresse
             binding.anleggText.text = data?.Anlegg
             binding.overforingText.text = data?.Overforing
-
-
         }
         ref.get().addOnSuccessListener { snapshot ->
             for(value in snapshot) {
@@ -162,12 +153,11 @@ class FormDialogFragment(sakerId: String, formType: String) : DialogFragment() {
                     list.add(values.toString())
                 }
             }
-
             for (i in 0 until list.size) {
                 val view: View = LayoutInflater.from(requireContext()).inflate(com.example.brannvarsling.R.layout.row_get_spm, null)
                 binding.formLayout.addView(view, binding.formLayout.childCount)
                 val spm: TextView = view.findViewById(com.example.brannvarsling.R.id.text_add_spm)
-                val test = Test()
+                val test = Spm()
                 val item = list[i]
                 test.spormal = "$count. $item"
                 spm.setText(test.spormal)

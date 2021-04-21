@@ -1,5 +1,5 @@
 package com.example.brannvarsling.dataClass
 
-data class Test(
+data class Spm(
         var spormal: String? = null
 )
