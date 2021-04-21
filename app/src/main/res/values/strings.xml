@@ -42,5 +42,9 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="adresse">Adresse:</string>
     <string name="sted">sted</string>
+    <string name="ja">Ja</string>
+    <string name="nei">Nei</string>
+    <string name="benevnelse">Benevnelse</string>
+    <string name="PDF">PDF</string>
 
 </resources>
