@@ -2,6 +2,7 @@ package com.example.brannvarsling.dialogFragment
 
 
 import android.Manifest
+import android.app.ActionBar
 import android.app.Dialog
 import android.content.pm.PackageManager
 import android.os.Build
@@ -29,7 +30,7 @@ import kotlin.collections.ArrayList
 
 class FormDialogFragment(sakerId: String, formType: String) : DialogFragment() {
 
-    private val STORAGE_CODE: Int = 100
+    private val STORAGE_CODE: Int = 100;
     private lateinit var binding: FormdialogWindowBinding
     private var db = FirebaseFirestore.getInstance()
     private var list = ArrayList<String>()
@@ -85,7 +86,6 @@ class FormDialogFragment(sakerId: String, formType: String) : DialogFragment() {
             // signatur av oppretter
             mDoc.addAuthor("Mr.Jensen")
 
-
             // Pdf innhold
             val mTittel =  binding.tittelText.text.toString()
             val mKunde = binding.kundeText.text.toString()
@@ -111,8 +111,7 @@ class FormDialogFragment(sakerId: String, formType: String) : DialogFragment() {
             STORAGE_CODE -> {
                 if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     savePdf()
-                }
-                else {
+                } else {
                     Toast.makeText(requireContext(), "Denied..", Toast.LENGTH_SHORT).show()
                 }
             }
@@ -142,7 +141,7 @@ class FormDialogFragment(sakerId: String, formType: String) : DialogFragment() {
     private fun getFormData() {
         val docRef = db.collection("Saker").document(documentId)
         val ref = db.collection("Saker").document(documentId).collection("Spørsmål")
-        var count = 0
+        var count = 1
 
 
         docRef.get().addOnSuccessListener { documentSnapshot ->
@@ -157,26 +156,26 @@ class FormDialogFragment(sakerId: String, formType: String) : DialogFragment() {
 
         }
         ref.get().addOnSuccessListener { snapshot ->
-           val data =  snapshot.documents.size
-                list2.add(data.toString())
-                count++
-            //Toast.makeText(requireContext(), "$data", Toast.LENGTH_LONG).show()
-
-
-            //Toast.makeText(requireContext(), "$list2", Toast.LENGTH_LONG).show()
-            var f: View?
-            addNewSpm()
-            for (i in 0 until list2.size) {
-                f = binding.formLayout
-                val spm: TextView = f.findViewById(com.example.brannvarsling.R.id.text_add_spm)
-                val test = Test()
-                test.spormal = list2[i]
-                spm.text = test.spormal
-                addNewSpm()
+            for(value in snapshot) {
+                value.data.mapValues {
+                    val values = it.value
+                    list.add(values.toString())
+                }
             }
+
+            for (i in 0 until list.size) {
+                val view: View = LayoutInflater.from(requireContext()).inflate(com.example.brannvarsling.R.layout.row_get_spm, null)
+                binding.formLayout.addView(view, binding.formLayout.childCount)
+                val spm: TextView = view.findViewById(com.example.brannvarsling.R.id.text_add_spm)
+                val test = Test()
+                val item = list[i]
+                test.spormal = "$count. $item"
+                spm.setText(test.spormal)
+                count++
+            }
+
         }
     }
-
 }
 
 
