@@ -1,8 +1,10 @@
 package com.example.brannvarsling.dialogFragments
 
 import android.R
+import android.app.AlertDialog
 import android.app.Dialog
 import android.content.ContentValues.TAG
+import android.content.DialogInterface
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -65,8 +67,7 @@ class RecyclerviewDialogFragment(id: String) : DialogFragment() {
             dismiss()
         }
         binding.deleteRecyclerItem.setOnClickListener{
-            deleteItem()
-            dismiss()
+            slettDialog()
         }
         binding.saveDate.setOnClickListener {
             alertDialog()
@@ -137,6 +138,18 @@ class RecyclerviewDialogFragment(id: String) : DialogFragment() {
 
         transaction?.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
         transaction?.add(android.R.id.content, dialogFragment)?.addToBackStack(null)?.commit()
+    }
+    private fun slettDialog(){
+        val builder = AlertDialog.Builder(activity)
+        builder.setMessage("Er du sikker på at du vil slette $customer")
+            .setCancelable(false).setPositiveButton("Slett", DialogInterface.OnClickListener{ dialog, id ->
+                deleteItem()
+                dialog.dismiss()
+            }).setNegativeButton("Avbryt", DialogInterface.OnClickListener{ dialog, id ->
+                dialog.dismiss()
+            })
+        val alert = builder.create()
+        alert.show()
     }
     private fun openForm(){
         val dialogFragment = FormDialogFragment(sakerId, formType)
