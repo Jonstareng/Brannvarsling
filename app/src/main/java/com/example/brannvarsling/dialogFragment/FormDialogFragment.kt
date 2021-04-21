@@ -29,7 +29,7 @@ import kotlin.collections.ArrayList
 
 class FormDialogFragment(sakerId: String, formType: String) : DialogFragment() {
 
-    private val STORAGE_CODE: Int = 100;
+    private val STORAGE_CODE: Int = 100
     private lateinit var binding: FormdialogWindowBinding
     private var db = FirebaseFirestore.getInstance()
     private var list = ArrayList<String>()
@@ -84,6 +84,7 @@ class FormDialogFragment(sakerId: String, formType: String) : DialogFragment() {
 
             // signatur av oppretter
             mDoc.addAuthor("Mr.Jensen")
+
 
             // Pdf innhold
             val mTittel =  binding.tittelText.text.toString()
@@ -159,7 +160,7 @@ class FormDialogFragment(sakerId: String, formType: String) : DialogFragment() {
            val data =  snapshot.documents.size
                 list2.add(data.toString())
                 count++
-                //Toast.makeText(requireContext(), "$data", Toast.LENGTH_LONG).show()
+            //Toast.makeText(requireContext(), "$data", Toast.LENGTH_LONG).show()
 
 
             //Toast.makeText(requireContext(), "$list2", Toast.LENGTH_LONG).show()
