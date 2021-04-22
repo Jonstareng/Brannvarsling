@@ -19,7 +19,7 @@ import androidx.fragment.app.Fragment
 import com.example.brannvarsling.R
 import com.example.brannvarsling.R.layout.row_add_titles
 import com.example.brannvarsling.dataClass.SkjemaFirebase
-import com.example.brannvarsling.dataClass.Test
+import com.example.brannvarsling.dataClass.Spm
 import com.example.brannvarsling.databinding.FragmentFormBinding
 import com.google.firebase.firestore.FirebaseFirestore
 
@@ -27,7 +27,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 class Form: Fragment() {
     private lateinit var binding: FragmentFormBinding
     private var db = FirebaseFirestore.getInstance()
-    private var list = ArrayList<Test>()
+    private var list = ArrayList<Spm>()
     private var listTitle = ArrayList<SkjemaFirebase>()
     //private var skjemaList = ArrayList<CasesModel>()
 
@@ -88,9 +88,13 @@ class Form: Fragment() {
         if (!clicked) {
             binding.floatingSpm.visibility = View.VISIBLE
             binding.floatingTitle.visibility = View.VISIBLE
+            binding.buttonSubmit.visibility = View.VISIBLE
+            binding.buttonFjern.visibility = View.VISIBLE
         } else {
             binding.floatingSpm.visibility = View.INVISIBLE
             binding.floatingTitle.visibility = View.INVISIBLE
+            binding.buttonSubmit.visibility = View.INVISIBLE
+            binding.buttonFjern.visibility = View.INVISIBLE
         }
     }
 
@@ -98,10 +102,14 @@ class Form: Fragment() {
         if (!clicked) {
             binding.floatingSpm.startAnimation(fromBottom)
             binding.floatingTitle.startAnimation(fromBottom)
+            binding.buttonFjern.startAnimation(fromBottom)
+            binding.buttonSubmit.startAnimation(fromBottom)
             binding.floatingActionButton.startAnimation(rotateOpen)
         } else {
             binding.floatingSpm.startAnimation(toBottom)
             binding.floatingTitle.startAnimation(toBottom)
+            binding.buttonFjern.startAnimation(toBottom)
+            binding.buttonSubmit.startAnimation(toBottom)
             binding.floatingActionButton.startAnimation(rotateClose)
         }
     }
@@ -134,7 +142,7 @@ class Form: Fragment() {
 
             if (int == R.id.add_spm) {
                 val sporsmal: EditText = f.findViewById(R.id.text_spm)
-                val sporsmalTest = Test()
+                val sporsmalTest = Spm()
                 sporsmalTest.spormal = sporsmal.text.toString()
                 if(sporsmal.editableText.isNotEmpty()) {
                     list.add(sporsmalTest)
