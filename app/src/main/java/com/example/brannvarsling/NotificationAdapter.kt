@@ -41,6 +41,9 @@ class NotificationAdapter(options: FirestoreRecyclerOptions<FirebaseNotification
             }
         }
     }
+     fun swipeDelete(position: Int){
+        snapshots.getSnapshot(position).reference.delete()
+    }
     interface OnItemClickListnerN{
         fun onItemClick(id: String)
     }
