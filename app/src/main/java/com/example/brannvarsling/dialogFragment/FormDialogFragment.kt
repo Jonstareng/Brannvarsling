@@ -2,7 +2,6 @@ package com.example.brannvarsling.dialogFragment
 
 
 import android.Manifest
-import android.app.ActionBar
 import android.app.Dialog
 import android.content.pm.PackageManager
 import android.os.Build
@@ -78,6 +77,7 @@ class FormDialogFragment(sakerId: String, formType: String) : DialogFragment() {
         val mDoc = Document()
         val mFileName = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(System.currentTimeMillis())
         val mFilePath = this.context?.getExternalFilesDir(null)?.path + "/" + mFileName + ".pdf"
+
         try {
             PdfWriter.getInstance(mDoc, FileOutputStream(mFilePath))
             // åpne pdf dokumentet for skriving
@@ -87,22 +87,25 @@ class FormDialogFragment(sakerId: String, formType: String) : DialogFragment() {
             mDoc.addAuthor("Mr.Jensen")
 
             // Pdf innhold
-            val mTittel =  binding.tittelText.text.toString()
-            val mKunde = binding.kundeText.text.toString()
-            val mAdresse = binding.adresseText.text.toString()
-            val mAnleggTekst = binding.anleggText.text.toString()
-            val mOverforingTekst = binding.overforingText.text.toString()
+            val mTittel =  Paragraph(binding.tittelText.text.toString())
+            mDoc.add(mTittel)
+            val mKunde = Paragraph(binding.kundeText.text.toString())
+            mDoc.add(mKunde)
+            val mAdresse = Paragraph(binding.adresseText.text.toString())
+            mDoc.add(mAdresse)
+            val mAnleggTekst = Paragraph(binding.anleggText.text.toString())
+            mDoc.add(mAnleggTekst)
+            val mOverforingTekst = Paragraph(binding.overforingText.text.toString())
+            mDoc.add(mOverforingTekst)
 
-            //Add
-            mDoc.add(Paragraph(mTittel + "\n" + mKunde + "\n" + mAdresse + "\n" + mAnleggTekst + "\n" + mOverforingTekst))
             mDoc.close()
-
             //Sted Lagret
             Toast.makeText(requireContext(), "$mFileName.pdf \n er lagret i \n $mFilePath", Toast.LENGTH_LONG).show()
         }
         catch (e: Exception) {
             Toast.makeText(requireContext(), e.message, Toast.LENGTH_SHORT).show()
         }
+
     }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
@@ -155,6 +158,7 @@ class FormDialogFragment(sakerId: String, formType: String) : DialogFragment() {
 
 
         }
+
         ref.get().addOnSuccessListener { snapshot ->
             for(value in snapshot) {
                 value.data.mapValues {
@@ -170,7 +174,7 @@ class FormDialogFragment(sakerId: String, formType: String) : DialogFragment() {
                 val test = Test()
                 val item = list[i]
                 test.spormal = "$count. $item"
-                spm.setText(test.spormal)
+                spm.text = test.spormal
                 count++
             }
 
