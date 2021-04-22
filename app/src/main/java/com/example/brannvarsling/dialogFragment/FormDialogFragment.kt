@@ -6,6 +6,7 @@ import android.app.Dialog
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
+import android.os.Environment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,6 +15,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.core.content.ContextCompat.checkSelfPermission
 import androidx.fragment.app.DialogFragment
+import com.example.brannvarsling.R
 import com.example.brannvarsling.dataClass.SkjemaFirebase
 import com.example.brannvarsling.dataClass.Spm
 import com.example.brannvarsling.databinding.FormdialogWindowBinding
@@ -74,7 +76,11 @@ class FormDialogFragment(sakerId: String, formType: String) : DialogFragment() {
     private fun savePdf() {
         val mDoc = Document()
         val mFileName = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(System.currentTimeMillis())
-        val mFilePath = this.context?.getExternalFilesDir(null)?.path + "/" + mFileName + ".pdf"
+        //val mFilePath = context?.getExternalFilesDir(null)?.path + "/" + mFileName + ".pdf"
+        val mFilePath = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS).path + "/" + mFileName + ".pdf"
+
+        val ref = db.collection("Saker").document(documentId).collection("Spørsmål")
+        var count = 1
 
         try {
             PdfWriter.getInstance(mDoc, FileOutputStream(mFilePath))
@@ -102,6 +108,28 @@ class FormDialogFragment(sakerId: String, formType: String) : DialogFragment() {
         }
         catch (e: Exception) {
             Toast.makeText(requireContext(), e.message, Toast.LENGTH_SHORT).show()
+        }
+
+
+        ref.get().addOnSuccessListener { snapshot ->
+            for(value in snapshot) {
+                value.data.mapValues {
+                    val values = it.value
+                    list.add(values.toString())
+                }
+            }
+            for (i in 0 until list.size) {
+                val view: View = LayoutInflater.from(requireContext()).inflate(R.layout.row_get_spm, null)
+                binding.formLayout.addView(view, binding.formLayout.childCount)
+                val spm: TextView = view.findViewById(R.id.text_add_spm)
+                val test = Spm()
+                val item = list[i]
+                test.spormal = "$count. $item"
+                spm.text = test.spormal
+                count++
+
+            }
+
         }
 
     }
@@ -158,14 +186,15 @@ class FormDialogFragment(sakerId: String, formType: String) : DialogFragment() {
                 }
             }
             for (i in 0 until list.size) {
-                val view: View = LayoutInflater.from(requireContext()).inflate(com.example.brannvarsling.R.layout.row_get_spm, null)
+                val view: View = LayoutInflater.from(requireContext()).inflate(R.layout.row_get_spm, null)
                 binding.formLayout.addView(view, binding.formLayout.childCount)
-                val spm: TextView = view.findViewById(com.example.brannvarsling.R.id.text_add_spm)
+                val spm: TextView = view.findViewById(R.id.text_add_spm)
                 val test = Spm()
                 val item = list[i]
                 test.spormal = "$count. $item"
                 spm.text = test.spormal
                 count++
+
             }
 
         }
