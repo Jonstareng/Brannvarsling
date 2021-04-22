@@ -18,6 +18,7 @@ class BroadcastReceiver : BroadcastReceiver(){
         val counter = intent?.getStringExtra("notifyId")
         val title = intent?.getStringExtra("title")
         val date = intent?.getStringExtra("date")
+        val type = intent?.getStringExtra("text")
         val intent2 = Intent(context, MainActivity::class.java).apply {
             flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
         }
@@ -40,7 +41,8 @@ class BroadcastReceiver : BroadcastReceiver(){
 
         notify["Customer"] = title.toString()
         notify["Date"] = date.toString()
-        notify["Counter"] = counter.toString()
+        notify["Counter"] = counter.toLong()
+        notify["Type"] = type.toString()
         FirebaseFirestore.getInstance().collection("Notifications").add(notify)
     }
 }

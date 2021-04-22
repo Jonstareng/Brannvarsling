@@ -18,7 +18,6 @@ import androidx.annotation.RequiresApi
 import androidx.fragment.app.DialogFragment
 import com.example.brannvarsling.BroadcastReceiver
 import com.example.brannvarsling.R
-import com.example.brannvarsling.dataClass.FirebaseCases
 import com.example.brannvarsling.databinding.AlertdateWindowBinding
 import com.google.firebase.firestore.FirebaseFirestore
 import java.util.*
@@ -70,7 +69,6 @@ class AlertDateDialog(id: String, customer: String, type: String, desc: String, 
             cancelNotification()
             saveToDB()
             scheduleNotification()
-            notificationCounter()
             dismiss()
         }
 
@@ -202,13 +200,5 @@ class AlertDateDialog(id: String, customer: String, type: String, desc: String, 
         // Cancel notification
         val manager = context?.getSystemService(Context.ALARM_SERVICE) as AlarmManager
         manager.cancel(pending)
-    }
-    private fun notificationCounter() {
-        val number: MutableMap<String, Any> = HashMap()
-        val newCounter: Int = counter.toInt() + 1
-        newCounter.toLong()
-        number["Counter"] = newCounter
-        db.collection("NotificationIds").document("qsK39UawP1XXeoTCrPcn").set(number)
-
     }
 }
