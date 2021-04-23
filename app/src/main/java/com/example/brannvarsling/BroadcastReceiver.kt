@@ -10,11 +10,13 @@ import android.opengl.Visibility
 import android.widget.Toast
 import androidx.core.app.NotificationCompat
 import com.google.firebase.firestore.FirebaseFirestore
-import kotlin.random.Random
+import me.leolin.shortcutbadger.ShortcutBadger
 
 
 class BroadcastReceiver : BroadcastReceiver(){
     override fun onReceive(context: Context, intent: Intent?) {
+        var count = 0
+        ShortcutBadger.applyCount(context,count)
         val counter = intent?.getStringExtra("notifyId")
         val title = intent?.getStringExtra("title")
         val date = intent?.getStringExtra("date")
@@ -22,7 +24,6 @@ class BroadcastReceiver : BroadcastReceiver(){
         val intent2 = Intent(context, MainActivity::class.java).apply {
             flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
         }
-        val id = 0
         val pendingIntent: PendingIntent? =
             counter?.let { PendingIntent.getActivity(context, it.toInt(),intent2, 0) }
         val notification: Notification? = NotificationCompat.Builder(context, "Cases ID")
@@ -31,11 +32,13 @@ class BroadcastReceiver : BroadcastReceiver(){
                 .setContentText(intent.getStringExtra("text"))
                 .setContentIntent(pendingIntent)
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT)
-                .setNumber(id)
+                .setBadgeIconType(NotificationCompat.BADGE_ICON_SMALL)
+                .setAutoCancel(true)
                 .build()
         // Show notification
         val manager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         manager.notify(counter?.toInt()!!, notification)
+
 
         val notify: MutableMap<String, Any> = HashMap()
 

@@ -5,6 +5,10 @@ import android.Manifest
 import android.app.ActionBar
 import android.app.Dialog
 import android.content.pm.PackageManager
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.graphics.Canvas
+import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -20,8 +24,10 @@ import com.example.brannvarsling.dataClass.Spm
 import com.example.brannvarsling.databinding.FormdialogWindowBinding
 import com.google.firebase.firestore.FirebaseFirestore
 import com.itextpdf.text.Document
+import com.itextpdf.text.Image
 import com.itextpdf.text.Paragraph
 import com.itextpdf.text.pdf.PdfWriter
+import java.io.ByteArrayOutputStream
 import java.io.FileOutputStream
 import java.text.SimpleDateFormat
 import java.util.*
@@ -36,8 +42,6 @@ class FormDialogFragment(sakerId: String, formType: String) : DialogFragment() {
     private var list = ArrayList<String>()
     private var list2 = ArrayList<String>()
     private val documentId = formType
-
-
 
 
     override fun onCreateView(
@@ -72,27 +76,50 @@ class FormDialogFragment(sakerId: String, formType: String) : DialogFragment() {
 
     }
 
+        private fun takeScreenshot(view: View): Bitmap{
+            val bitmap = Bitmap.createBitmap(view.width, view.height, Bitmap.Config.ARGB_8888)
+            val canvas = Canvas(bitmap)
+            canvas.scale(0.5f, 0.5f)
+            view.draw(canvas)
+            return bitmap
+        }
+    private fun addImage(document: Document, byteArray: ByteArray){
+        val image: Image
+
+
+        image = Image.getInstance(byteArray)
+
+        document.add(image)
+    }
+
+
     private fun savePdf() {
         val mDoc = Document()
         val mFileName = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(System.currentTimeMillis())
         val mFilePath = this.context?.getExternalFilesDir(null)?.path + "/" + mFileName + ".pdf"
         try {
+            val screen = takeScreenshot(binding.formLayout)
+            val screenTitle = takeScreenshot((binding.allForm))
+            val screenOverskrift = takeScreenshot((binding.benevnelseOverskrift))
             PdfWriter.getInstance(mDoc, FileOutputStream(mFilePath))
             // åpne pdf dokumentet for skriving
             mDoc.open()
+            val stream = ByteArrayOutputStream()
+
+            screen.compress(Bitmap.CompressFormat.PNG, 100,stream)
+
+            val byte: ByteArray = stream.toByteArray()
+
+            addImage(mDoc,byte)
+
 
             // signatur av oppretter
             mDoc.addAuthor("Mr.Jensen")
 
             // Pdf innhold
-            val mTittel =  binding.tittelText.text.toString()
-            val mKunde = binding.kundeText.text.toString()
-            val mAdresse = binding.adresseText.text.toString()
-            val mAnleggTekst = binding.anleggText.text.toString()
-            val mOverforingTekst = binding.overforingText.text.toString()
+
 
             //Add
-            mDoc.add(Paragraph(mTittel + "\n" + mKunde + "\n" + mAdresse + "\n" + mAnleggTekst + "\n" + mOverforingTekst))
             mDoc.close()
 
             //Sted Lagret

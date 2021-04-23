@@ -139,9 +139,7 @@ class AlertDateDialog(id: String, customer: String, type: String, desc: String, 
         data["Type"] = type
         data["Date"] = "Dato for varsling: $date"
         data["Description"] = desc
-        data["NotificationID"] = counter
-
-
+        data["NotificationID"] = cancelNotify
 
             db.collection("Test")
                     .document(documentId)
@@ -166,9 +164,9 @@ class AlertDateDialog(id: String, customer: String, type: String, desc: String, 
         val intent = Intent(context, BroadcastReceiver::class.java)
         intent.putExtra("title", customer)
         intent.putExtra("text", type)
-        intent.putExtra("notifyId", counter.toString())
+        intent.putExtra("notifyId", cancelNotify)
         intent.putExtra("date", date)
-        val pending = PendingIntent.getBroadcast(context, counter.toInt(), intent, PendingIntent.FLAG_UPDATE_CURRENT)
+        val pending = PendingIntent.getBroadcast(context, cancelNotify.toInt(), intent, PendingIntent.FLAG_UPDATE_CURRENT)
         // Schdedule notification
         val calendar: Calendar = Calendar.getInstance()
         calendar.set(year.toInt(),month.toInt() - 1,day.toInt(),21,13, 0)

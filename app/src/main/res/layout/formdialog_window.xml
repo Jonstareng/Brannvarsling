@@ -7,7 +7,8 @@
         android:orientation="vertical"
         android:background="@color/white"
         android:clickable="true"
-        android:focusable="true">
+        android:focusable="true"
+        android:id="@+id/all_form">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -160,7 +161,8 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:gravity="center"
-            android:padding="5dp">
+            android:padding="5dp"
+            android:id="@+id/benevnelse_overskrift">
             <TextView
                 android:id="@+id/benevnelse"
                 android:layout_width="250dp"

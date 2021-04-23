@@ -24,6 +24,7 @@ import com.example.brannvarsling.dataClass.FirebaseNotification
 import com.example.brannvarsling.databinding.FragmentNotificationBinding
 import com.firebase.ui.firestore.FirestoreRecyclerOptions
 import com.google.firebase.firestore.FirebaseFirestore
+import me.leolin.shortcutbadger.ShortcutBadger
 import java.time.LocalDate
 import java.util.Calendar
 
