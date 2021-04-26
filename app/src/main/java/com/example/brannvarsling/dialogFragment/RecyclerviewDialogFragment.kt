@@ -2,13 +2,14 @@ package com.example.brannvarsling.dialogFragments
 
 import android.Manifest
 import android.app.Activity
+import android.app.AlertDialog
 import android.app.Dialog
-import android.content.ContentResolver
 import android.content.ContentValues.TAG
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.net.Uri
+import android.content.DialogInterface
 import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
@@ -24,15 +25,13 @@ import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.FragmentTransaction
 import com.example.brannvarsling.dataClass.DialogFragmentItems
 import com.example.brannvarsling.dataClass.FirebaseCases
-import com.example.brannvarsling.dataClass.Test
 import com.example.brannvarsling.databinding.RecyclerdialogWindowBinding
 import com.example.brannvarsling.dialogFragment.AlertDateDialog
-import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
-import com.google.firebase.storage.ktx.R
+
 import com.google.firebase.storage.ktx.storage
 import kotlin.collections.ArrayList
 
@@ -45,28 +44,32 @@ class RecyclerviewDialogFragment(id: String) : DialogFragment() {
     private lateinit var imageView: ImageView
     private lateinit var Bitmap: Bitmap
    // private lateinit var month: String
+
+    // private lateinit var month: String
     //private lateinit var case: Array<String>
     private var db = FirebaseFirestore.getInstance()
     private var data = FirebaseCases()
     private val documentId = id
-    private var list = ArrayList<Test>()
     private val pickImage = 100
     private var imageUri: Uri? = null
     private var CAMERA_PERMISSION_CODE = 1
     private var CAMERA_REQUEST_CODE = 2
+    private var counter: Long = 0
     private var customer = ""
     private var type = ""
     private var desc =""
     private lateinit var Uri: Uri
     var imagesRef: StorageReference? = FirebaseStorage.getInstance().reference.child("Images")
+    private var formType = ""
+    private lateinit var caseChoice: ArrayList<String>
     val sakerId = db.collection("Saker").document(documentId).id
 
 
 
     override fun onCreateView(
-            inflater: LayoutInflater,
-            container: ViewGroup?,
-            savedInstanceState: Bundle?
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
     ): View? {
         binding = RecyclerdialogWindowBinding.inflate(inflater, container, false)
         return binding.root
@@ -82,17 +85,17 @@ class RecyclerviewDialogFragment(id: String) : DialogFragment() {
         val dialog = super.onCreateDialog(savedInstanceState)
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         getData()
-        binding.close.setOnClickListener{
+        getNotifyCounter()
+        binding.close.setOnClickListener {
             dismiss()
         }
-        binding.deleteRecyclerItem.setOnClickListener{
-            deleteItem()
-            dismiss()
+        binding.deleteRecyclerItem.setOnClickListener {
+            slettDialog()
         }
         binding.saveDate.setOnClickListener {
             alertDialog()
         }
-        binding.openForm.setOnClickListener{
+        binding.openForm.setOnClickListener {
             openForm()
         }
         binding.buttonVedlegg.setOnClickListener{
@@ -117,34 +120,46 @@ class RecyclerviewDialogFragment(id: String) : DialogFragment() {
             customer = data?.Customer.toString()
             type = data?.Type.toString()
             desc = data?.Description.toString()
-            binding.displayDescription.text =data?.Description
+            binding.displayDescription.text = data?.Description
         }
     }
-    private fun deleteItem(){
+
+    private fun deleteItem() {
         val docRef = db.collection("Test").document(documentId)
 
         docRef.delete()
-                .addOnSuccessListener{ Log.d(TAG, "DocumentSnapshot successfully deleted!")}
-                .addOnSuccessListener{ e->Log.w(TAG, "Error deleting document")}
+            .addOnSuccessListener { Log.d(TAG, "DocumentSnapshot successfully deleted!") }
+            .addOnSuccessListener { e -> Log.w(TAG, "Error deleting document") }
         Toast.makeText(requireContext(), "Sak $customer slettet", Toast.LENGTH_SHORT).show()
     }
 
-    private fun alertDialog() {
-        val dialogFragment = AlertDateDialog(documentId, customer, type, desc)
-        /*val manager = activity?.supportFragmentManager
-        if (manager != null) {
-            dialogFragment.show(manager, "Varslings dato")
-        }
+    private fun slettDialog() {
+        val builder = AlertDialog.Builder(activity)
+        builder.setMessage("Er du sikker på at du vil slette $customer")
+            .setCancelable(false)
+            .setPositiveButton("Slett", DialogInterface.OnClickListener { dialog, id ->
+                deleteItem()
+                dismiss()
+            }).setNegativeButton("Avbryt", DialogInterface.OnClickListener { dialog, id ->
+                dialog.dismiss()
+            })
+        val alert = builder.create()
+        alert.show()
+    }
 
-         */
+    private fun alertDialog() {
+        val builder = AlertDateDialog(documentId, customer, type, desc)
+
         val fragmentManager = activity?.supportFragmentManager
         val transaction = fragmentManager?.beginTransaction()
 
         transaction?.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
-        transaction?.add(android.R.id.content, dialogFragment)?.addToBackStack(null)?.commit()
+        transaction?.add(android.R.id.content, builder)?.addToBackStack(null)?.commit()
+
     }
-    private fun openForm(){
-        val dialogFragment = FormDialogFragment(sakerId)
+
+    private fun openForm() {
+        val dialogFragment = FormDialogFragment(sakerId, formType)
 
         val fragmentManager = activity?.supportFragmentManager
         val transaction = fragmentManager?.beginTransaction()
@@ -201,6 +216,19 @@ class RecyclerviewDialogFragment(id: String) : DialogFragment() {
                     startActivityForResult(intent, CAMERA_REQUEST_CODE)
 
                 }
+            }
+        }
+    }
+
+    private fun getNotifyCounter() {
+        val number: MutableMap<String, Any> = HashMap()
+
+        val ref = db.collection("NotificationIds").document("qsK39UawP1XXeoTCrPcn")
+        var newCounter: Int
+
+        ref.get().addOnSuccessListener { snapshot ->
+            if (snapshot.exists()) {
+                counter = snapshot.get("Counter") as Long
             }
         }
     }

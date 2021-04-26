@@ -19,7 +19,7 @@ android {
 
     defaultConfig {
         applicationId "com.example.brannvarsling"
-        minSdkVersion 16
+        minSdkVersion 19
         targetSdkVersion 30
         versionCode 1
         versionName "1.0"
@@ -61,6 +61,7 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
     // PDF
     implementation 'com.itextpdf:itextg:5.5.10'
+    implementation 'com.itextpdf:itext7-core:7.1.11'
     // Firebase
     implementation 'com.google.firebase:firebase-auth:20.0.4'
     implementation 'com.google.firebase:firebase-firestore:22.1.2'

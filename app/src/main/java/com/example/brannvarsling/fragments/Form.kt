@@ -19,7 +19,7 @@ import androidx.fragment.app.Fragment
 import com.example.brannvarsling.R
 import com.example.brannvarsling.R.layout.row_add_titles
 import com.example.brannvarsling.dataClass.SkjemaFirebase
-import com.example.brannvarsling.dataClass.Test
+import com.example.brannvarsling.dataClass.Spm
 import com.example.brannvarsling.databinding.FragmentFormBinding
 import com.google.firebase.firestore.FirebaseFirestore
 
@@ -27,7 +27,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 class Form: Fragment() {
     private lateinit var binding: FragmentFormBinding
     private var db = FirebaseFirestore.getInstance()
-    private var list = ArrayList<Test>()
+    private var list = ArrayList<Spm>()
     private var listTitle = ArrayList<SkjemaFirebase>()
     //private var skjemaList = ArrayList<CasesModel>()
 
@@ -88,9 +88,13 @@ class Form: Fragment() {
         if (!clicked) {
             binding.floatingSpm.visibility = View.VISIBLE
             binding.floatingTitle.visibility = View.VISIBLE
+            binding.buttonSubmit.visibility = View.VISIBLE
+            binding.buttonFjern.visibility = View.VISIBLE
         } else {
             binding.floatingSpm.visibility = View.INVISIBLE
             binding.floatingTitle.visibility = View.INVISIBLE
+            binding.buttonSubmit.visibility = View.INVISIBLE
+            binding.buttonFjern.visibility = View.INVISIBLE
         }
     }
 
@@ -98,10 +102,14 @@ class Form: Fragment() {
         if (!clicked) {
             binding.floatingSpm.startAnimation(fromBottom)
             binding.floatingTitle.startAnimation(fromBottom)
+            binding.buttonFjern.startAnimation(fromBottom)
+            binding.buttonSubmit.startAnimation(fromBottom)
             binding.floatingActionButton.startAnimation(rotateOpen)
         } else {
             binding.floatingSpm.startAnimation(toBottom)
             binding.floatingTitle.startAnimation(toBottom)
+            binding.buttonFjern.startAnimation(toBottom)
+            binding.buttonSubmit.startAnimation(toBottom)
             binding.floatingActionButton.startAnimation(rotateClose)
         }
     }
@@ -120,10 +128,11 @@ class Form: Fragment() {
 
     private fun saveData() {
         val skjema: MutableMap<String, Any> = HashMap()
+        val skjemaS: MutableMap<String, Any> = HashMap()
+
         list.clear()
         listTitle.clear()
         var pluss = 0
-        var pluss2 = 0
         var f: View?
         val count = binding.scrollLayout.childCount
         val skjemaR = SkjemaFirebase()
@@ -133,13 +142,13 @@ class Form: Fragment() {
 
             if (int == R.id.add_spm) {
                 val sporsmal: EditText = f.findViewById(R.id.text_spm)
-                val sporsmalTest = Test()
+                val sporsmalTest = Spm()
                 sporsmalTest.spormal = sporsmal.text.toString()
                 if(sporsmal.editableText.isNotEmpty()) {
                     list.add(sporsmalTest)
                 }
                 else{
-                    Toast.makeText(requireContext(), "Du mangler å fylle ut et spørsmåls feltene", Toast.LENGTH_LONG).show()
+                    Toast.makeText(requireContext(), "Du mangler å fylle ut et av spørsmåls feltene", Toast.LENGTH_LONG).show()
                 }
 
             } else {
@@ -161,9 +170,8 @@ class Form: Fragment() {
             if(list.isNotEmpty()) {
 
                 for (i in 0 until list.size) {
-                    skjema["$pluss Spørsmål"] = list[i].spormal.toString()
+                    skjemaS["$pluss Spørsmål"] = list[i].spormal.toString()
                     pluss++
-                    Toast.makeText(requireContext(), list[i].spormal, Toast.LENGTH_LONG).show()
                 }
                     skjema["Tittel"] = skjemaR.Tittel.toString()
                     skjema["Kunde"] = skjemaR.Kunde.toString()
@@ -175,6 +183,12 @@ class Form: Fragment() {
                         .set(skjema)
                         .addOnSuccessListener { documentReference -> Log.d(ContentValues.TAG, "Skjema lagt til med ID: ") }
                         .addOnFailureListener { e -> Log.w(ContentValues.TAG, "Error adding form", e) }
+
+                db.collection("Saker").document(skjemaR.Tittel.toString()).collection("Spørsmål")
+                        .add(skjemaS)
+                        .addOnSuccessListener { documentReference -> Log.d(ContentValues.TAG, "Skjema lagt til med ID: ") }
+                        .addOnFailureListener { e -> Log.w(ContentValues.TAG, "Error adding form", e) }
+                Toast.makeText(requireContext(), "Skjema lagret", Toast.LENGTH_LONG).show()
             }
     }
 }

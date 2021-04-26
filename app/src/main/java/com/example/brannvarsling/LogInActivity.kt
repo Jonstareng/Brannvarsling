@@ -23,11 +23,11 @@ class LogInActivity : AppCompatActivity() {
         binding = DataBindingUtil.setContentView(this,R.layout.activity_login)
         binding.bottomNav.visibility = View.GONE
 
-
+/*
         binding.registrerButton.setOnClickListener {
             startActivity(Intent(this, SignUpActivity::class.java))
         }
-
+*/
         logInInputsArray = arrayOf(binding.logInemail, binding.logInpassword)
         binding.registrerButton.setOnClickListener {
             startActivity(Intent(this, SignUpActivity::class.java))
@@ -39,6 +39,16 @@ class LogInActivity : AppCompatActivity() {
         }
     }
 
+    /*
+    override fun onStart() {
+        super.onStart()
+        val user: FirebaseUser? = firebaseAuth.currentUser
+        user?.let {
+            startActivity(Intent(this, MainActivity::class.java))
+            toast("Velkommen tilbake! :)")
+        }
+    }
+*/
     private fun notEmpty(): Boolean = logInEmail.isNotEmpty() && logInPassword.isNotEmpty()
 
     private fun signInUser() {

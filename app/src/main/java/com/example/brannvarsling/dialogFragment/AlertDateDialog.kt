@@ -25,11 +25,11 @@ import java.util.*
 import kotlin.collections.HashMap
 
 
-class AlertDateDialog(id: String, customer: String, type: String, desc: String): DialogFragment() {
+class AlertDateDialog(id: String, customer: String, type: String, desc: String, counter: Long): DialogFragment() {
     private lateinit var binding: AlertdateWindowBinding
     private var month = ""
     private lateinit var case: Array<String>
-    private lateinit var pendingIntent: PendingIntent
+    private var counter = counter
     private var db = FirebaseFirestore.getInstance()
     private var year = ""
     private var day = ""
@@ -66,13 +66,14 @@ class AlertDateDialog(id: String, customer: String, type: String, desc: String):
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val dialog = super.onCreateDialog(savedInstanceState)
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
-        getData()
-        binding.settDateButton.setOnClickListener{
+        binding.settDateButton.setOnClickListener {
             saveToDB()
             cancelNotification()
             scheduleNotification()
+            notificationCounter()
             dismiss()
         }
+
         return dialog
     }
     private fun spinnerYear() {
@@ -84,7 +85,6 @@ class AlertDateDialog(id: String, customer: String, type: String, desc: String):
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                 year = parent?.getItemAtPosition(position).toString()
                 arrayAdapter.notifyDataSetChanged()
-
             }
             override fun onNothingSelected(parent: AdapterView<*>?) {
 
@@ -157,23 +157,21 @@ class AlertDateDialog(id: String, customer: String, type: String, desc: String):
 
         docRef.get().addOnSuccessListener { documentSnapshot ->
             val data = documentSnapshot.toObject(FirebaseCases::class.java)
-            count = data?.NotificationID.toString()
-
         }
     }
 
     @RequiresApi(Build.VERSION_CODES.M)
     private fun scheduleNotification(){
-        var id = count.toInt()
         val intent = Intent(context, BroadcastReceiver::class.java)
         intent.putExtra("title", customer)
         intent.putExtra("text", type)
-        val pending = PendingIntent.getBroadcast(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
+        intent.putExtra("notifyId", counter)
+        val pending = PendingIntent.getBroadcast(context, counter.toInt(), intent, PendingIntent.FLAG_UPDATE_CURRENT)
         // Schdedule notification
         val calendar: Calendar = Calendar.getInstance()
-        calendar.set(year.toInt(),month.toInt() - 1,day.toInt(),21,11, 0)
+        calendar.set(year.toInt(),month.toInt() - 1,day.toInt(),13,0, 0)
         val time = calendar.timeInMillis
-        Toast.makeText(context, "Varsling satt $id", Toast.LENGTH_LONG).show()
+        Toast.makeText(context, "Varsling satt $year.$month.$day", Toast.LENGTH_LONG).show()
         val manager = requireContext().getSystemService(Context.ALARM_SERVICE) as AlarmManager
         manager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, time, pending)
     }
@@ -193,14 +191,21 @@ class AlertDateDialog(id: String, customer: String, type: String, desc: String):
     }
 
     private fun cancelNotification() {
-        var count = 0
         val intent = Intent(context, BroadcastReceiver::class.java)
         intent.putExtra("title", customer)
         intent.putExtra("text", type)
-        val pending = PendingIntent.getBroadcast(context, count, intent, PendingIntent.FLAG_UPDATE_CURRENT)
+        val pending = PendingIntent.getBroadcast(context, counter.toInt(), intent, PendingIntent.FLAG_UPDATE_CURRENT)
         // Cancel notification
         val manager = context?.getSystemService(Context.ALARM_SERVICE) as AlarmManager
         manager.cancel(pending)
-        count++
+    }
+    private fun notificationCounter() {
+        val number: MutableMap<String, Any> = HashMap()
+
+        val newCounter: Int = counter.toInt() + 1
+        newCounter.toLong()
+        number["Counter"] = newCounter
+        db.collection("NotificationIds").document("qsK39UawP1XXeoTCrPcn").set(number)
+
     }
 }

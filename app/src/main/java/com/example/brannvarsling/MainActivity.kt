@@ -20,6 +20,7 @@ import com.example.brannvarsling.fragments.Cases
 import com.example.brannvarsling.fragments.Home
 import com.example.brannvarsling.databinding.ActivityMainBinding
 import com.example.brannvarsling.extensions.Extensions.toast
+import com.example.brannvarsling.fragments.Notifications
 import com.example.brannvarsling.utils.FirebaseUtils.firebaseAuth
 import java.text.SimpleDateFormat
 import java.util.*
@@ -32,10 +33,12 @@ class MainActivity : AppCompatActivity() {
         binding = DataBindingUtil.setContentView(this,R.layout.activity_main)
         setSupportActionBar(binding.toolbar)
         val fragmentHome = Home()
+        val fragmentNotification = Notifications()
 
         binding.bottomNavigator.setOnNavigationItemSelectedListener {
             when(it.itemId){
                 R.id.ic_home -> setCurrentFragment(fragmentHome)
+                R.id.ic_notification -> setCurrentFragment(fragmentNotification)
             }
             true
         }

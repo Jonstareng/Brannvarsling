@@ -53,29 +53,40 @@
             app:layout_constraintTop_toTopOf="@+id/displayCustomer"
             app:layout_constraintVertical_bias="0.176" />
 
+        <Spinner
+            android:id="@+id/spinnerForm"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.075"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.684" />
+
         <Button
             android:id="@+id/delete_recycler_item"
             android:layout_width="150dp"
-            android:layout_height="wrap_content"
+            android:layout_height="70dp"
             android:text="Slett"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.498"
+            app:layout_constraintHorizontal_bias="0.141"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/displayCustomer"
-            app:layout_constraintVertical_bias="0.906" />
+            app:layout_constraintVertical_bias="0.975" />
 
         <Button
             android:id="@+id/close"
             android:layout_width="150dp"
-            android:layout_height="wrap_content"
+            android:layout_height="70dp"
             android:text="Tilbake"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.498"
+            app:layout_constraintHorizontal_bias="0.854"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/displayCustomer"
-            app:layout_constraintVertical_bias="0.976" />
+            app:layout_constraintVertical_bias="0.975" />
 
         <TextView
             android:id="@+id/displayDescription"
@@ -92,26 +103,26 @@
         <Button
             android:id="@+id/saveDate"
             android:layout_width="150dp"
-            android:layout_height="wrap_content"
-            android:text="Lagre dato"
+            android:layout_height="70dp"
+            android:text="Sett ny dato"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.498"
+            app:layout_constraintHorizontal_bias="0.854"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/displayCustomer"
-            app:layout_constraintVertical_bias="0.822" />
+            app:layout_constraintVertical_bias="0.806" />
 
         <Button
             android:id="@+id/openForm"
             android:layout_width="150dp"
-            android:layout_height="wrap_content"
+            android:layout_height="70dp"
             android:text="Åpne skjema"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.498"
+            app:layout_constraintHorizontal_bias="0.141"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/displayCustomer"
-            app:layout_constraintVertical_bias="0.74" />
+            app:layout_constraintVertical_bias="0.806" />
 
         <Button
             android:id="@+id/buttonVedlegg"

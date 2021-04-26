@@ -9,7 +9,6 @@ import com.example.brannvarsling.databinding.ActivitySignUpBinding
 import com.example.brannvarsling.extensions.Extensions.toast
 import com.example.brannvarsling.utils.FirebaseUtils.firebaseAuth
 import com.example.brannvarsling.utils.FirebaseUtils.firebaseUser
-import com.google.firebase.auth.FirebaseUser
 
 
 class SignUpActivity : AppCompatActivity() {
@@ -33,14 +32,6 @@ class SignUpActivity : AppCompatActivity() {
         startActivity(Intent(this, LogInActivity::class.java))
     }
 
-    override fun onStart() {
-        super.onStart()
-        val user: FirebaseUser? = firebaseAuth.currentUser
-        user?.let {
-            startActivity(Intent(this, MainActivity::class.java))
-            toast("Velkommen tilbake! :)")
-        }
-    }
 
     private fun notEmpty(): Boolean = binding.Email.text.toString().trim().isNotEmpty() &&
             binding.Password.text.toString().trim().isNotEmpty() &&
