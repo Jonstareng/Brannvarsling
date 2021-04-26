@@ -41,7 +41,8 @@ class AddDialogFragment: DialogFragment() {
     private var CAMERA_REQUEST_CODE = 2
     private var documentId = ""
     private var counter = ""
-
+    private var formType = ""
+    private var list = ArrayList<String>()
 
 
     override fun onCreateView(
@@ -57,12 +58,11 @@ class AddDialogFragment: DialogFragment() {
         onCreateDialog(savedInstanceState)
     }
 
-
-
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val dialog = super.onCreateDialog(savedInstanceState)
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         getNotifyCounter()
+        spinnerForm()
         binding.avbryt.setOnClickListener{
             dismiss()
         }
@@ -129,8 +129,9 @@ class AddDialogFragment: DialogFragment() {
             user["Type"] = type
             user["Description"] = description
             user["NotificationID"] = counter
+            user["Form"] = formType
 
-            db.collection("Test")
+            db.collection("Saker")
                     .add(user)
                     .addOnSuccessListener { documentReference -> Log.d(ContentValues.TAG, "DocumentSnapshot added with ID: " + documentReference.id) }
                     .addOnFailureListener { e -> Log.w(ContentValues.TAG, "Error adding document", e) }
@@ -141,22 +142,7 @@ class AddDialogFragment: DialogFragment() {
         }
 
     }
-    private fun spinner() {
-        val caseChoice = arrayOf("2021", "2022", "2023", "2024", "2025")
-        val arrayAdapter = ArrayAdapter(requireContext(), R.layout.simple_dropdown_item_1line, caseChoice)
-        binding.spinner.adapter = arrayAdapter
-        binding.spinner.onItemSelectedListener = object :
-                AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                documentId = parent?.getItemAtPosition(position).toString()
-                arrayAdapter.notifyDataSetChanged()
 
-            }
-            override fun onNothingSelected(parent: AdapterView<*>?) {
-
-            }
-        }
-    }
     private fun notificationCounter() {
         val number: MutableMap<String, Any> = HashMap()
         val newCounter: Int = counter.toInt() + 1
@@ -172,6 +158,36 @@ class AddDialogFragment: DialogFragment() {
         ref.get().addOnSuccessListener { snapshot ->
             if (snapshot.exists()) {
                 counter = snapshot.get("Counter").toString()
+            }
+        }
+    }
+    private fun spinnerForm() {
+        db.collection("Skjema").get().addOnSuccessListener { documents ->
+            for (document in documents) {
+                val data = document.id
+                list.add(data)
+                // Toast.makeText(context, "$list", Toast.LENGTH_LONG).show()
+            }
+
+            val arrayAdapter =
+                    ArrayAdapter(requireContext(), R.layout.simple_dropdown_item_1line, list)
+            binding.spinner.adapter = arrayAdapter
+            arrayAdapter.setDropDownViewResource(R.layout.simple_spinner_dropdown_item)
+            binding.spinner.onItemSelectedListener = object :
+                    AdapterView.OnItemSelectedListener {
+                override fun onItemSelected(
+                        parent: AdapterView<*>?,
+                        view: View?,
+                        position: Int,
+                        id: Long
+                ) {
+                    formType = parent?.getItemAtPosition(position).toString()
+                    arrayAdapter.notifyDataSetChanged()
+                }
+
+                override fun onNothingSelected(parent: AdapterView<*>?) {
+
+                }
             }
         }
     }

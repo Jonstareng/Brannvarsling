@@ -40,8 +40,7 @@ class FormDialogFragment(sakerId: String, formType: String) : DialogFragment() {
     private lateinit var binding: FormdialogWindowBinding
     private var db = FirebaseFirestore.getInstance()
     private var list = ArrayList<String>()
-    private var list2 = ArrayList<String>()
-    private val documentId = formType
+    private val formType = formType
 
 
     override fun onCreateView(
@@ -75,21 +74,41 @@ class FormDialogFragment(sakerId: String, formType: String) : DialogFragment() {
         }
 
     }
-
-        private fun takeScreenshot(view: View): Bitmap{
-            val bitmap = Bitmap.createBitmap(view.width, view.height, Bitmap.Config.ARGB_8888)
+        private fun takeScreenshotTitle(view: View): Bitmap{
+            val bitmap = Bitmap.createBitmap(view.width, 400, Bitmap.Config.ARGB_8888)
             val canvas = Canvas(bitmap)
-            canvas.scale(0.5f, 0.5f)
+            canvas.scale(0.5F, 0.5F)
             view.draw(canvas)
             return bitmap
         }
-    private fun addImage(document: Document, byteArray: ByteArray){
-        val image: Image
+    private fun takeScreenshotBenevnelse(view: View): Bitmap{
+        val bitmap = Bitmap.createBitmap(view.width, 40, Bitmap.Config.ARGB_8888)
+        val canvas = Canvas(bitmap)
+        canvas.scale(0.5F, 0.5F)
+        view.draw(canvas)
+        return bitmap
+    }
+    private fun takeScreenshotSkjema(): Bitmap{
+        val bt: Bitmap = Bitmap.createBitmap(binding.scrollView.getChildAt(0).height, binding.scrollView.getChildAt(0).width, Bitmap.Config.ARGB_8888)
+        val canvas = Canvas(bt)
+        val dw = binding.scrollView.background
+        canvas.scale(0.5F, 0.4F)
+        if (dw != null)
+            dw.draw(canvas)
+        else
+        binding.scrollView.draw(canvas)
+        return bt
+    }
+    private fun addImage(document: Document, byteArray: ByteArray, byteArray2: ByteArray, byteArray3: ByteArray){
 
-
-        image = Image.getInstance(byteArray)
+        val image: Image = Image.getInstance(byteArray)
+        val image2: Image = Image.getInstance(byteArray2)
+        val image3: Image = Image.getInstance(byteArray3)
 
         document.add(image)
+        document.add(image2)
+        document.newPage()
+        document.add(image3)
     }
 
 
@@ -98,26 +117,28 @@ class FormDialogFragment(sakerId: String, formType: String) : DialogFragment() {
         val mFileName = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(System.currentTimeMillis())
         val mFilePath = this.context?.getExternalFilesDir(null)?.path + "/" + mFileName + ".pdf"
         try {
-            val screen = takeScreenshot(binding.formLayout)
-            val screenTitle = takeScreenshot((binding.allForm))
-            val screenOverskrift = takeScreenshot((binding.benevnelseOverskrift))
+            val screen = takeScreenshotTitle(binding.allForm)
+            val screenOverskrift = takeScreenshotBenevnelse((binding.benevnelseOverskrift))
+            val screenTitle = takeScreenshotSkjema()
             PdfWriter.getInstance(mDoc, FileOutputStream(mFilePath))
             // åpne pdf dokumentet for skriving
             mDoc.open()
             val stream = ByteArrayOutputStream()
-
             screen.compress(Bitmap.CompressFormat.PNG, 100,stream)
-
             val byte: ByteArray = stream.toByteArray()
+            val stream2 = ByteArrayOutputStream()
+            screenTitle.compress(Bitmap.CompressFormat.PNG, 100,stream2)
+            val byte2: ByteArray = stream2.toByteArray()
+            val stream3 = ByteArrayOutputStream()
+            screenOverskrift.compress(Bitmap.CompressFormat.PNG, 100,stream3)
+            val byte3: ByteArray = stream3.toByteArray()
 
-            addImage(mDoc,byte)
-
+            addImage(mDoc,byte, byte3, byte2)
 
             // signatur av oppretter
             mDoc.addAuthor("Mr.Jensen")
 
             // Pdf innhold
-
 
             //Add
             mDoc.close()
@@ -157,10 +178,9 @@ class FormDialogFragment(sakerId: String, formType: String) : DialogFragment() {
 
 
 
-
     private fun getFormData() {
-        val docRef = db.collection("Saker").document(documentId)
-        val ref = db.collection("Saker").document(documentId).collection("Spørsmål")
+        val docRef = db.collection("Skjema").document(formType)
+        val ref = db.collection("Skjema").document(formType).collection("Spørsmål")
         var count = 1
 
 

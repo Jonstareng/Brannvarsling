@@ -24,19 +24,15 @@ import java.util.*
 import kotlin.collections.HashMap
 
 
-class AlertDateDialog(id: String, customer: String, type: String, desc: String, counter: Long): DialogFragment() {
+class AlertDateDialog(id: String, private val customer: String, private val type: String, private var desc: String, private var formType: String): DialogFragment() {
     private lateinit var binding: AlertdateWindowBinding
     private var month = ""
     private lateinit var case: Array<String>
-    private var counter = counter
     private var cancelNotify = ""
     private var db = FirebaseFirestore.getInstance()
     private var year = ""
     private var day = ""
     private val documentId = id
-    private val customer = customer
-    private val type = type
-    private var desc = desc
     private val channelID = "Cases ID"
 
 
@@ -44,7 +40,7 @@ class AlertDateDialog(id: String, customer: String, type: String, desc: String, 
             inflater: LayoutInflater,
             container: ViewGroup?,
             savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = AlertdateWindowBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -140,8 +136,9 @@ class AlertDateDialog(id: String, customer: String, type: String, desc: String, 
         data["Date"] = "Dato for varsling: $date"
         data["Description"] = desc
         data["NotificationID"] = cancelNotify
+        data["Form"] = formType
 
-            db.collection("Test")
+            db.collection("Saker")
                     .document(documentId)
                     .set(data)
                     .addOnSuccessListener { Log.d(ContentValues.TAG, "DocumentSnapshot added with ID: $documentId") }
@@ -149,7 +146,7 @@ class AlertDateDialog(id: String, customer: String, type: String, desc: String, 
             dismiss()
         }
     private fun getData() {
-        val ref = db.collection("Test").document(documentId)
+        val ref = db.collection("Saker").document(documentId)
 
         ref.get().addOnSuccessListener { snapshot ->
             if (snapshot.exists()) {

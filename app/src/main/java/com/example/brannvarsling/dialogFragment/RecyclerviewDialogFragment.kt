@@ -34,13 +34,11 @@ class RecyclerviewDialogFragment(id: String) : DialogFragment() {
     private var db = FirebaseFirestore.getInstance()
     private var data = FirebaseCases()
     private val documentId = id
-    private var list = ArrayList<String>()
+    private var formOpen = ""
     private var counter: Long = 0
     private var customer = ""
     private var type = ""
     private var desc = ""
-    private var formType = ""
-    private lateinit var caseChoice: ArrayList<String>
     val sakerId = db.collection("Saker").document(documentId).id
 
 
@@ -56,7 +54,6 @@ class RecyclerviewDialogFragment(id: String) : DialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         onCreateDialog(savedInstanceState)
-        spinnerForm()
         getData()
     }
 
@@ -64,7 +61,6 @@ class RecyclerviewDialogFragment(id: String) : DialogFragment() {
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val dialog = super.onCreateDialog(savedInstanceState)
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
-        getData()
         getNotifyCounter()
         binding.close.setOnClickListener {
             dismiss()
@@ -82,7 +78,7 @@ class RecyclerviewDialogFragment(id: String) : DialogFragment() {
     }
 
     private fun getData() {
-        val docRef = db.collection("Test").document(documentId)
+        val docRef = db.collection("Saker").document(documentId)
 
         docRef.get().addOnSuccessListener { documentSnapshot ->
             val data = documentSnapshot.toObject(DialogFragmentItems::class.java)
@@ -95,10 +91,15 @@ class RecyclerviewDialogFragment(id: String) : DialogFragment() {
             desc = data?.Description.toString()
 
         }
+        docRef.get().addOnSuccessListener { snapshot ->
+            if (snapshot.exists()) {
+                formOpen = snapshot.get("Form").toString()
+            }
+        }
     }
 
     private fun deleteItem() {
-        val docRef = db.collection("Test").document(documentId)
+        val docRef = db.collection("Saker").document(documentId)
 
         docRef.delete()
             .addOnSuccessListener { Log.d(TAG, "DocumentSnapshot successfully deleted!") }
@@ -106,36 +107,6 @@ class RecyclerviewDialogFragment(id: String) : DialogFragment() {
         Toast.makeText(requireContext(), "Sak $customer slettet", Toast.LENGTH_SHORT).show()
     }
 
-    private fun spinnerForm() {
-        db.collection("Saker").get().addOnSuccessListener { documents ->
-            for (document in documents) {
-                val data = document.id
-                list.add(data)
-                // Toast.makeText(context, "$list", Toast.LENGTH_LONG).show()
-            }
-
-            val arrayAdapter =
-                ArrayAdapter(requireContext(), R.layout.simple_dropdown_item_1line, list)
-            binding.spinnerForm.adapter = arrayAdapter
-            arrayAdapter.setDropDownViewResource(R.layout.simple_spinner_dropdown_item)
-            binding.spinnerForm.onItemSelectedListener = object :
-                AdapterView.OnItemSelectedListener {
-                override fun onItemSelected(
-                    parent: AdapterView<*>?,
-                    view: View?,
-                    position: Int,
-                    id: Long
-                ) {
-                    formType = parent?.getItemAtPosition(position).toString()
-                    arrayAdapter.notifyDataSetChanged()
-                }
-
-                override fun onNothingSelected(parent: AdapterView<*>?) {
-
-                }
-            }
-        }
-    }
 
     private fun slettDialog() {
         val builder = AlertDialog.Builder(activity)
@@ -152,7 +123,7 @@ class RecyclerviewDialogFragment(id: String) : DialogFragment() {
     }
 
     private fun alertDialog() {
-        val builder = AlertDateDialog(documentId, customer, type, desc, counter)
+        val builder = AlertDateDialog(documentId, customer, type, desc, formOpen)
 
         val fragmentManager = activity?.supportFragmentManager
         val transaction = fragmentManager?.beginTransaction()
@@ -163,7 +134,7 @@ class RecyclerviewDialogFragment(id: String) : DialogFragment() {
     }
 
     private fun openForm() {
-        val dialogFragment = FormDialogFragment(sakerId, formType)
+        val dialogFragment = FormDialogFragment(sakerId, formOpen)
 
         val fragmentManager = activity?.supportFragmentManager
         val transaction = fragmentManager?.beginTransaction()
