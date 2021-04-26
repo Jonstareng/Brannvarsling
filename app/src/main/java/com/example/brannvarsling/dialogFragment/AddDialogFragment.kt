@@ -32,13 +32,8 @@ import kotlin.random.Random
 class AddDialogFragment: DialogFragment() {
 
     private lateinit var binding: DialogWindowBinding
-    private lateinit var imageView: ImageView
-    private val pickImage = 100
-    private var imageUri: Uri? = null
     private var db = FirebaseFirestore.getInstance()
     private var data = FirebaseCases()
-    private var CAMERA_PERMISSION_CODE = 1
-    private var CAMERA_REQUEST_CODE = 2
     private var documentId = ""
     private var count = 0
 
@@ -69,55 +64,8 @@ class AddDialogFragment: DialogFragment() {
         binding.button2.setOnClickListener{
             writeToDb()
         }
-        binding.buttonVedlegg.setOnClickListener{
-           // dispatchTakePictureIntent()
-            val gallery = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI)
-            startActivityForResult(gallery, pickImage)
 
-        }
         return dialog
-    }
-    val REQUEST_IMAGE_CAPTURE = 1
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (resultCode == RESULT_OK && requestCode == pickImage) {
-            imageUri = data?.data
-            imageView.setImageURI(imageUri)
-                }
-    }
-     private fun dispatchTakePictureIntent() {
-        if (ContextCompat.checkSelfPermission(
-                requireContext(),
-                Manifest.permission.CAMERA
-            ) == PackageManager.PERMISSION_GRANTED
-        ) {
-            val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-            startActivityForResult(intent, CAMERA_REQUEST_CODE)
-        } else {
-            ActivityCompat.requestPermissions(
-                requireActivity(),
-                arrayOf(Manifest.permission.CAMERA),
-                CAMERA_PERMISSION_CODE
-            )
-        }
-         fun onRequestPermissionsResult(
-            requestCode: Int,
-            permissions: Array<out String>,
-            grantResults: IntArray
-        ) {
-            super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-            if (requestCode == CAMERA_PERMISSION_CODE){
-                if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED){
-                    val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-                    startActivityForResult(intent, CAMERA_REQUEST_CODE)
-                }
-            }
-        }
-
-
-
-
     }
 
     private fun writeToDb() {

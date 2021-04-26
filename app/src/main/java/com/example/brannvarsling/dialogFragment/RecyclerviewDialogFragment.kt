@@ -1,14 +1,25 @@
 package com.example.brannvarsling.dialogFragments
 
+import android.Manifest
+import android.app.Activity
 import android.app.Dialog
+import android.content.ContentResolver
 import android.content.ContentValues.TAG
+import android.content.Intent
+import android.content.pm.PackageManager
+import android.graphics.Bitmap
+import android.net.Uri
 import android.os.Bundle
+import android.provider.MediaStore
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.Window
+import android.widget.ImageView
 import android.widget.Toast
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.FragmentTransaction
 import com.example.brannvarsling.dataClass.DialogFragmentItems
@@ -16,7 +27,13 @@ import com.example.brannvarsling.dataClass.FirebaseCases
 import com.example.brannvarsling.dataClass.Test
 import com.example.brannvarsling.databinding.RecyclerdialogWindowBinding
 import com.example.brannvarsling.dialogFragment.AlertDateDialog
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.StorageReference
+import com.google.firebase.storage.ktx.R
+import com.google.firebase.storage.ktx.storage
 import kotlin.collections.ArrayList
 
 
@@ -24,16 +41,26 @@ class RecyclerviewDialogFragment(id: String) : DialogFragment() {
 
     private lateinit var binding: RecyclerdialogWindowBinding
     private lateinit var currentDateAndTime: String
+    private lateinit var storage: FirebaseStorage
+    private lateinit var imageView: ImageView
+    private lateinit var Bitmap: Bitmap
    // private lateinit var month: String
     //private lateinit var case: Array<String>
     private var db = FirebaseFirestore.getInstance()
     private var data = FirebaseCases()
     private val documentId = id
     private var list = ArrayList<Test>()
+    private val pickImage = 100
+    private var imageUri: Uri? = null
+    private var CAMERA_PERMISSION_CODE = 1
+    private var CAMERA_REQUEST_CODE = 2
     private var customer = ""
     private var type = ""
     private var desc =""
+    private lateinit var Uri: Uri
+    var imagesRef: StorageReference? = FirebaseStorage.getInstance().reference.child("Images")
     val sakerId = db.collection("Saker").document(documentId).id
+
 
 
     override fun onCreateView(
@@ -68,8 +95,16 @@ class RecyclerviewDialogFragment(id: String) : DialogFragment() {
         binding.openForm.setOnClickListener{
             openForm()
         }
+        binding.buttonVedlegg.setOnClickListener{
+            val gallery = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI)
+            startActivityForResult(gallery, pickImage)
+        }
+        binding.buttonCamera.setOnClickListener{
+            dispatchTakePictureIntent()
+        }
         return dialog
     }
+
 
     private fun getData() {
         val docRef = db.collection("Test").document(documentId)
@@ -116,5 +151,57 @@ class RecyclerviewDialogFragment(id: String) : DialogFragment() {
 
         transaction?.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
         transaction?.add(android.R.id.content, dialogFragment)?.addToBackStack(null)?.commit()
+    }
+
+    private fun chooseImage() {
+        val intent = Intent()
+        intent.type = "Image/"
+        intent.setAction(Intent.ACTION_GET_CONTENT)
+        startActivityForResult(Intent.createChooser(intent, "Select Picture"), pickImage)
+
+    }
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (resultCode == Activity.RESULT_OK && requestCode == pickImage) {
+            imageUri = data?.data
+
+        }
+    }
+    private fun imageStorage () {
+        storage = Firebase.storage
+        val storageRef = storage.reference
+
+    }
+
+
+
+    private fun dispatchTakePictureIntent() {
+        if (ContextCompat.checkSelfPermission(
+                        requireContext(),
+                        Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED
+        ) {
+            val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+            startActivityForResult(intent, CAMERA_REQUEST_CODE)
+        } else {
+            ActivityCompat.requestPermissions(
+                    requireActivity(),
+                    arrayOf(Manifest.permission.CAMERA),
+                    CAMERA_PERMISSION_CODE
+            )
+        }
+        fun onRequestPermissionsResult(
+                requestCode: Int,
+                permissions: Array<out String>,
+                grantResults: IntArray
+        ) {
+            super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+            if (requestCode == CAMERA_PERMISSION_CODE){
+                if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED){
+                    val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+                    startActivityForResult(intent, CAMERA_REQUEST_CODE)
+
+                }
+            }
+        }
     }
 }

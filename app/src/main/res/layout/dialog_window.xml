@@ -23,17 +23,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.147" />
 
-    <Button
-        android:id="@+id/buttonVedlegg"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Legg til vedlegg"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.495"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.742" />
+
 
     <Button
         android:id="@+id/button2"
@@ -147,6 +137,8 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.403" />
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
