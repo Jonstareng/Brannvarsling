@@ -32,7 +32,6 @@ class RecyclerviewDialogFragment(id: String) : DialogFragment() {
     // private lateinit var month: String
     //private lateinit var case: Array<String>
     private var db = FirebaseFirestore.getInstance()
-    private var data = FirebaseCases()
     private val documentId = id
     private var formOpen = ""
     private var counter: Long = 0

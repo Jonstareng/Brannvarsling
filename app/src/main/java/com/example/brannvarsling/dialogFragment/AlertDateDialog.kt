@@ -67,6 +67,9 @@ class AlertDateDialog(id: String, private val customer: String, private val type
             scheduleNotification()
             dismiss()
         }
+        binding.avbrytDate.setOnClickListener {
+            dismiss()
+        }
 
         return dialog
     }

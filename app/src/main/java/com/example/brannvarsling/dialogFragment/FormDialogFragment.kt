@@ -93,7 +93,7 @@ class FormDialogFragment(sakerId: String, formType: String) : DialogFragment() {
         val bt: Bitmap = Bitmap.createBitmap(binding.scrollView.getChildAt(0).height, binding.scrollView.getChildAt(0).width, Bitmap.Config.ARGB_8888)
         val canvas = Canvas(bt)
         val dw = binding.scrollView.background
-        canvas.scale(0.5F, 0.4F)
+        canvas.scale(0.5F, 0.5F)
         if (dw != null)
             dw.draw(canvas)
         else
@@ -116,7 +116,7 @@ class FormDialogFragment(sakerId: String, formType: String) : DialogFragment() {
     private fun savePdf() {
         val mDoc = Document()
         val mFileName = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(System.currentTimeMillis())
-        val mFilePath = this.context?.getExternalFilesDir(null)?.path + "/" + mFileName + ".pdf"
+        val mFilePath = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS).path + "/" + mFileName + ".pdf"
         try {
             val screen = takeScreenshotTitle(binding.allForm)
             val screenOverskrift = takeScreenshotBenevnelse((binding.benevnelseOverskrift))
