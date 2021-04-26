@@ -18,26 +18,21 @@ import androidx.annotation.RequiresApi
 import androidx.fragment.app.DialogFragment
 import com.example.brannvarsling.BroadcastReceiver
 import com.example.brannvarsling.R
-import com.example.brannvarsling.dataClass.FirebaseCases
 import com.example.brannvarsling.databinding.AlertdateWindowBinding
 import com.google.firebase.firestore.FirebaseFirestore
 import java.util.*
 import kotlin.collections.HashMap
 
 
-class AlertDateDialog(id: String, customer: String, type: String, desc: String, counter: Long): DialogFragment() {
+class AlertDateDialog(id: String, private val customer: String, private val type: String, private var desc: String, private var formType: String): DialogFragment() {
     private lateinit var binding: AlertdateWindowBinding
     private var month = ""
     private lateinit var case: Array<String>
-    private var counter = counter
+    private var cancelNotify = ""
     private var db = FirebaseFirestore.getInstance()
     private var year = ""
     private var day = ""
     private val documentId = id
-    private val customer = customer
-    private val type = type
-    private var desc = desc
-    private var count = ""
     private val channelID = "Cases ID"
 
 
@@ -45,7 +40,7 @@ class AlertDateDialog(id: String, customer: String, type: String, desc: String, 
             inflater: LayoutInflater,
             container: ViewGroup?,
             savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = AlertdateWindowBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -67,10 +62,12 @@ class AlertDateDialog(id: String, customer: String, type: String, desc: String, 
         val dialog = super.onCreateDialog(savedInstanceState)
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         binding.settDateButton.setOnClickListener {
-            saveToDB()
             cancelNotification()
+            saveToDB()
             scheduleNotification()
-            notificationCounter()
+            dismiss()
+        }
+        binding.avbrytDate.setOnClickListener {
             dismiss()
         }
 
@@ -134,18 +131,17 @@ class AlertDateDialog(id: String, customer: String, type: String, desc: String, 
     }
     private fun saveToDB() {
         val data: MutableMap<String, Any> = HashMap()
-        val date = "$year$month$day"
+        val date = "$day.$month.$year"
 
 
         data["Customer"] = customer
         data["Type"] = type
-        data["Date"] = date
+        data["Date"] = "Dato for varsling: $date"
         data["Description"] = desc
-        data["NotificationID"] = count
+        data["NotificationID"] = cancelNotify
+        data["Form"] = formType
 
-
-
-            db.collection("Test")
+            db.collection("Saker")
                     .document(documentId)
                     .set(data)
                     .addOnSuccessListener { Log.d(ContentValues.TAG, "DocumentSnapshot added with ID: $documentId") }
@@ -153,23 +149,27 @@ class AlertDateDialog(id: String, customer: String, type: String, desc: String, 
             dismiss()
         }
     private fun getData() {
-        val docRef = db.collection("Test").document(documentId)
+        val ref = db.collection("Saker").document(documentId)
 
-        docRef.get().addOnSuccessListener { documentSnapshot ->
-            val data = documentSnapshot.toObject(FirebaseCases::class.java)
+        ref.get().addOnSuccessListener { snapshot ->
+            if (snapshot.exists()) {
+                cancelNotify = snapshot.get("NotificationID").toString()
+            }
         }
     }
 
     @RequiresApi(Build.VERSION_CODES.M)
     private fun scheduleNotification(){
+        val date = "$day.$month$year"
         val intent = Intent(context, BroadcastReceiver::class.java)
         intent.putExtra("title", customer)
         intent.putExtra("text", type)
-        intent.putExtra("notifyId", counter)
-        val pending = PendingIntent.getBroadcast(context, counter.toInt(), intent, PendingIntent.FLAG_UPDATE_CURRENT)
+        intent.putExtra("notifyId", cancelNotify)
+        intent.putExtra("date", date)
+        val pending = PendingIntent.getBroadcast(context, cancelNotify.toInt(), intent, PendingIntent.FLAG_UPDATE_CURRENT)
         // Schdedule notification
         val calendar: Calendar = Calendar.getInstance()
-        calendar.set(year.toInt(),month.toInt() - 1,day.toInt(),13,0, 0)
+        calendar.set(year.toInt(),month.toInt() - 1,day.toInt(),21,13, 0)
         val time = calendar.timeInMillis
         Toast.makeText(context, "Varsling satt $year.$month.$day", Toast.LENGTH_LONG).show()
         val manager = requireContext().getSystemService(Context.ALARM_SERVICE) as AlarmManager
@@ -194,18 +194,9 @@ class AlertDateDialog(id: String, customer: String, type: String, desc: String, 
         val intent = Intent(context, BroadcastReceiver::class.java)
         intent.putExtra("title", customer)
         intent.putExtra("text", type)
-        val pending = PendingIntent.getBroadcast(context, counter.toInt(), intent, PendingIntent.FLAG_UPDATE_CURRENT)
+        val pending = PendingIntent.getBroadcast(context, cancelNotify.toInt(), intent, PendingIntent.FLAG_UPDATE_CURRENT)
         // Cancel notification
         val manager = context?.getSystemService(Context.ALARM_SERVICE) as AlarmManager
         manager.cancel(pending)
-    }
-    private fun notificationCounter() {
-        val number: MutableMap<String, Any> = HashMap()
-
-        val newCounter: Int = counter.toInt() + 1
-        newCounter.toLong()
-        number["Counter"] = newCounter
-        db.collection("NotificationIds").document("qsK39UawP1XXeoTCrPcn").set(number)
-
     }
 }

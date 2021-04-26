@@ -48,8 +48,8 @@ class RecyclerviewDialogFragment(id: String) : DialogFragment() {
     // private lateinit var month: String
     //private lateinit var case: Array<String>
     private var db = FirebaseFirestore.getInstance()
-    private var data = FirebaseCases()
     private val documentId = id
+    private var formOpen = ""
     private val pickImage = 100
     private var imageUri: Uri? = null
     private var CAMERA_PERMISSION_CODE = 1
@@ -78,13 +78,13 @@ class RecyclerviewDialogFragment(id: String) : DialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         onCreateDialog(savedInstanceState)
+        getData()
     }
 
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val dialog = super.onCreateDialog(savedInstanceState)
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
-        getData()
         getNotifyCounter()
         binding.close.setOnClickListener {
             dismiss()
@@ -108,30 +108,36 @@ class RecyclerviewDialogFragment(id: String) : DialogFragment() {
         return dialog
     }
 
-
     private fun getData() {
-        val docRef = db.collection("Test").document(documentId)
+        val docRef = db.collection("Saker").document(documentId)
 
         docRef.get().addOnSuccessListener { documentSnapshot ->
             val data = documentSnapshot.toObject(DialogFragmentItems::class.java)
             binding.displayCustomer.text = data?.Customer
             binding.displayType.text = data?.Type
-            binding.displayDate.text = data?.date
+            binding.displayDate.text = data?.Date
+            binding.displayDescription.text = data?.Description
             customer = data?.Customer.toString()
             type = data?.Type.toString()
             desc = data?.Description.toString()
-            binding.displayDescription.text = data?.Description
+
+        }
+        docRef.get().addOnSuccessListener { snapshot ->
+            if (snapshot.exists()) {
+                formOpen = snapshot.get("Form").toString()
+            }
         }
     }
 
     private fun deleteItem() {
-        val docRef = db.collection("Test").document(documentId)
+        val docRef = db.collection("Saker").document(documentId)
 
         docRef.delete()
             .addOnSuccessListener { Log.d(TAG, "DocumentSnapshot successfully deleted!") }
             .addOnSuccessListener { e -> Log.w(TAG, "Error deleting document") }
         Toast.makeText(requireContext(), "Sak $customer slettet", Toast.LENGTH_SHORT).show()
     }
+
 
     private fun slettDialog() {
         val builder = AlertDialog.Builder(activity)
@@ -148,7 +154,7 @@ class RecyclerviewDialogFragment(id: String) : DialogFragment() {
     }
 
     private fun alertDialog() {
-        val builder = AlertDateDialog(documentId, customer, type, desc)
+        val builder = AlertDateDialog(documentId, customer, type, desc, formOpen)
 
         val fragmentManager = activity?.supportFragmentManager
         val transaction = fragmentManager?.beginTransaction()
@@ -159,7 +165,7 @@ class RecyclerviewDialogFragment(id: String) : DialogFragment() {
     }
 
     private fun openForm() {
-        val dialogFragment = FormDialogFragment(sakerId, formType)
+        val dialogFragment = FormDialogFragment(sakerId, formOpen)
 
         val fragmentManager = activity?.supportFragmentManager
         val transaction = fragmentManager?.beginTransaction()
@@ -221,10 +227,8 @@ class RecyclerviewDialogFragment(id: String) : DialogFragment() {
     }
 
     private fun getNotifyCounter() {
-        val number: MutableMap<String, Any> = HashMap()
 
         val ref = db.collection("NotificationIds").document("qsK39UawP1XXeoTCrPcn")
-        var newCounter: Int
 
         ref.get().addOnSuccessListener { snapshot ->
             if (snapshot.exists()) {

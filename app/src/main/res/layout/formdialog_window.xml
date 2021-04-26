@@ -9,9 +9,11 @@
         android:clickable="true"
         android:focusable="true">
 
+
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="300dp">
+            android:layout_height="300dp"
+            android:id="@+id/all_form">
 
             <Button
                 android:id="@+id/savePdf"
@@ -160,7 +162,8 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:gravity="center"
-            android:padding="5dp">
+            android:padding="5dp"
+            android:id="@+id/benevnelse_overskrift">
             <TextView
                 android:id="@+id/benevnelse"
                 android:layout_width="250dp"
@@ -191,7 +194,8 @@
 
         <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+            android:id="@+id/scrollView">
         <LinearLayout
             android:id="@+id/formLayout"
             android:layout_width="match_parent"

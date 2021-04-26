@@ -40,7 +40,7 @@ class Cases: Fragment(), RecyclerviewAdapter.onItemClickListner {
 
     }
     private fun createRecyclerView() {
-        val query = db.collection("Test")
+        val query = db.collection("Saker")
 
         //Toast.makeText(context, "$", Toast.LENGTH_LONG).show()
         val option: FirestoreRecyclerOptions<FirebaseCases> = FirestoreRecyclerOptions.Builder<FirebaseCases>()

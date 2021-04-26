@@ -42,16 +42,12 @@ class MainActivity : AppCompatActivity() {
             }
             true
         }
-
     }
     private fun setCurrentFragment(fragment: Fragment)=
         supportFragmentManager.beginTransaction().apply {
             replace(R.id.my_nav_host_fragment,fragment)
             commit()
         }
-    private fun getCurrentFragment(): Fragment? {
-        return supportFragmentManager.findFragmentById(R.id.fragment_home)
-    }
     private fun signOut(){
             firebaseAuth.signOut()
             startActivity(Intent(this, LogInActivity::class.java))

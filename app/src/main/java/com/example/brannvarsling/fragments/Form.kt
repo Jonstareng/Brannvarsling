@@ -73,7 +73,13 @@ class Form: Fragment() {
         }
 
         binding.buttonFjern.setOnClickListener {
-            binding.scrollLayout.removeAllViews()
+            if (binding.scrollLayout.childCount != 0)
+                if(binding.scrollLayout.childCount <= 1)
+                    binding.scrollLayout.removeViewAt(0)
+            else
+            binding.scrollLayout.removeViewAt(1)
+            else
+                Toast.makeText(requireContext(), "Ingen flere felt som kan slettes", Toast.LENGTH_LONG).show()
         }
     }
 
@@ -122,7 +128,7 @@ class Form: Fragment() {
 
     @SuppressLint("InflateParams")
     private fun addNewTitle() {
-        val inflater = LayoutInflater.from(requireContext()).inflate(R.layout.row_add_titles, null)
+        val inflater = LayoutInflater.from(requireContext()).inflate(row_add_titles, null)
         binding.scrollLayout.addView(inflater, binding.scrollLayout.childCount)
     }
 
@@ -179,12 +185,12 @@ class Form: Fragment() {
                     skjema["Overforing"] = skjemaR.Overforing.toString()
                     skjema["Adresse"] = skjemaR.Adresse.toString()
 
-                db.collection("Saker").document(skjemaR.Tittel.toString())
+                db.collection("Skjema").document(skjemaR.Tittel.toString())
                         .set(skjema)
                         .addOnSuccessListener { documentReference -> Log.d(ContentValues.TAG, "Skjema lagt til med ID: ") }
                         .addOnFailureListener { e -> Log.w(ContentValues.TAG, "Error adding form", e) }
 
-                db.collection("Saker").document(skjemaR.Tittel.toString()).collection("Spørsmål")
+                db.collection("Skjema").document(skjemaR.Tittel.toString()).collection("Spørsmål")
                         .add(skjemaS)
                         .addOnSuccessListener { documentReference -> Log.d(ContentValues.TAG, "Skjema lagt til med ID: ") }
                         .addOnFailureListener { e -> Log.w(ContentValues.TAG, "Error adding form", e) }
