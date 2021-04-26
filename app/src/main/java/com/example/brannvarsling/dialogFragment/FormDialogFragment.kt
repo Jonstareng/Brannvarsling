@@ -2,7 +2,6 @@ package com.example.brannvarsling.dialogFragment
 
 
 import android.Manifest
-import android.app.ActionBar
 import android.app.Dialog
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
@@ -11,6 +10,7 @@ import android.graphics.Canvas
 import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
+import android.os.Environment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -19,6 +19,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.core.content.ContextCompat.checkSelfPermission
 import androidx.fragment.app.DialogFragment
+import com.example.brannvarsling.R
 import com.example.brannvarsling.dataClass.SkjemaFirebase
 import com.example.brannvarsling.dataClass.Spm
 import com.example.brannvarsling.databinding.FormdialogWindowBinding
@@ -193,6 +194,7 @@ class FormDialogFragment(sakerId: String, formType: String) : DialogFragment() {
             binding.anleggText.text = data?.Anlegg
             binding.overforingText.text = data?.Overforing
         }
+
         ref.get().addOnSuccessListener { snapshot ->
             for(value in snapshot) {
                 value.data.mapValues {
@@ -201,13 +203,13 @@ class FormDialogFragment(sakerId: String, formType: String) : DialogFragment() {
                 }
             }
             for (i in 0 until list.size) {
-                val view: View = LayoutInflater.from(requireContext()).inflate(com.example.brannvarsling.R.layout.row_get_spm, null)
+                val view: View = LayoutInflater.from(requireContext()).inflate(R.layout.row_get_spm, null)
                 binding.formLayout.addView(view, binding.formLayout.childCount)
-                val spm: TextView = view.findViewById(com.example.brannvarsling.R.id.text_add_spm)
+                val spm: TextView = view.findViewById(R.id.text_add_spm)
                 val test = Spm()
                 val item = list[i]
                 test.spormal = "$count. $item"
-                spm.setText(test.spormal)
+                spm.text = test.spormal
                 count++
             }
 
