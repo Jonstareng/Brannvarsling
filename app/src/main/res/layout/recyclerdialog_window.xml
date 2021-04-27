@@ -113,5 +113,30 @@
             app:layout_constraintTop_toTopOf="@+id/displayCustomer"
             app:layout_constraintVertical_bias="0.806" />
 
+        <Button
+            android:id="@+id/buttonVedlegg"
+            android:layout_width="153dp"
+            android:layout_height="59dp"
+            android:text="Legg til vedlegg"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.496"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.646" />
+
+        <Button
+            android:id="@+id/buttonCamera"
+            android:layout_width="57dp"
+            android:layout_height="45dp"
+            android:background="@drawable/ic_baseline_camera_alt_24"
+            android:text=""
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.844"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.632" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
