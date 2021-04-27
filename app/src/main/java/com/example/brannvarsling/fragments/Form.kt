@@ -9,11 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
-import android.widget.Button
-import android.widget.EditText
-import android.widget.Toast
-import androidx.core.view.children
-import androidx.core.view.get
+import android.widget.*
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import com.example.brannvarsling.R
@@ -22,6 +18,7 @@ import com.example.brannvarsling.dataClass.SkjemaFirebase
 import com.example.brannvarsling.dataClass.Spm
 import com.example.brannvarsling.databinding.FragmentFormBinding
 import com.google.firebase.firestore.FirebaseFirestore
+import kotlin.collections.set
 
 
 class Form: Fragment() {
@@ -73,13 +70,7 @@ class Form: Fragment() {
         }
 
         binding.buttonFjern.setOnClickListener {
-            if (binding.scrollLayout.childCount != 0)
-                if(binding.scrollLayout.childCount <= 1)
-                    binding.scrollLayout.removeViewAt(0)
-            else
-            binding.scrollLayout.removeViewAt(1)
-            else
-                Toast.makeText(requireContext(), "Ingen flere felt som kan slettes", Toast.LENGTH_LONG).show()
+            binding.scrollLayout.removeAllViews()
         }
     }
 
@@ -122,8 +113,13 @@ class Form: Fragment() {
 
     @SuppressLint("InflateParams")
     private fun addNewSpm() {
-        val inflater = LayoutInflater.from(requireContext()).inflate(R.layout.row_add_spm, null)
+        val inflater: View = LayoutInflater.from(requireContext()).inflate(R.layout.row_add_spm, null)
         binding.scrollLayout.addView(inflater, binding.scrollLayout.childCount)
+        val buttonRemove: Button = inflater.findViewById(R.id.btn_remove)
+        buttonRemove.setOnClickListener {
+            (inflater.parent as LinearLayout)
+                    .removeView(inflater)
+        }
     }
 
     @SuppressLint("InflateParams")

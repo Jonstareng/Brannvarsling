@@ -5,9 +5,7 @@ import android.Manifest
 import android.app.Dialog
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import android.graphics.Canvas
-import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
 import android.os.Environment
@@ -24,10 +22,11 @@ import com.example.brannvarsling.dataClass.SkjemaFirebase
 import com.example.brannvarsling.dataClass.Spm
 import com.example.brannvarsling.databinding.FormdialogWindowBinding
 import com.google.firebase.firestore.FirebaseFirestore
-import com.itextpdf.text.Document
-import com.itextpdf.text.Image
-import com.itextpdf.text.Paragraph
+import com.itextpdf.text.*
+import com.itextpdf.text.pdf.BaseFont
 import com.itextpdf.text.pdf.PdfWriter
+import com.itextpdf.text.pdf.draw.LineSeparator
+import com.itextpdf.text.pdf.draw.VerticalPositionMark
 import java.io.ByteArrayOutputStream
 import java.io.FileOutputStream
 import java.text.SimpleDateFormat
@@ -35,13 +34,12 @@ import java.util.*
 import kotlin.collections.ArrayList
 
 
-class FormDialogFragment(sakerId: String, formType: String) : DialogFragment() {
+class FormDialogFragment(private var formType: String, private var type: String) : DialogFragment() {
 
     private val STORAGE_CODE: Int = 100;
     private lateinit var binding: FormdialogWindowBinding
     private var db = FirebaseFirestore.getInstance()
     private var list = ArrayList<String>()
-    private val formType = formType
 
 
     override fun onCreateView(
@@ -64,53 +62,48 @@ class FormDialogFragment(sakerId: String, formType: String) : DialogFragment() {
                         == PackageManager.PERMISSION_DENIED) {
                     val permissions = arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE)
                     requestPermissions(permissions, STORAGE_CODE)
-                }
-                else {
+                } else {
                     savePdf()
                 }
-            }
-            else {
+            } else {
                 savePdf()
             }
         }
 
     }
-        private fun takeScreenshotTitle(view: View): Bitmap{
-            val bitmap = Bitmap.createBitmap(view.width, 400, Bitmap.Config.ARGB_8888)
+
+    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
+        val dialog = super.onCreateDialog(savedInstanceState)
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        binding.savePdf.setOnClickListener{
+            dismiss()
+        }
+        getFormData()
+
+        return dialog
+    }
+
+        private fun takeScreenshotTitle(view: View): Bitmap {
+            val bitmap = Bitmap.createBitmap(view.width, view.height, Bitmap.Config.ARGB_8888)
             val canvas = Canvas(bitmap)
             canvas.scale(0.5F, 0.5F)
             view.draw(canvas)
             return bitmap
         }
-    private fun takeScreenshotBenevnelse(view: View): Bitmap{
-        val bitmap = Bitmap.createBitmap(view.width, 40, Bitmap.Config.ARGB_8888)
-        val canvas = Canvas(bitmap)
-        canvas.scale(0.5F, 0.5F)
-        view.draw(canvas)
-        return bitmap
-    }
-    private fun takeScreenshotSkjema(): Bitmap{
-        val bt: Bitmap = Bitmap.createBitmap(binding.scrollView.getChildAt(0).height, binding.scrollView.getChildAt(0).width, Bitmap.Config.ARGB_8888)
-        val canvas = Canvas(bt)
-        val dw = binding.scrollView.background
-        canvas.scale(0.5F, 0.5F)
-        if (dw != null)
-            dw.draw(canvas)
-        else
-        binding.scrollView.draw(canvas)
-        return bt
-    }
-    private fun addImage(document: Document, byteArray: ByteArray, byteArray2: ByteArray, byteArray3: ByteArray){
+
+
+    private fun addImage(mDoc: Document, byteArray: ByteArray, alignRight: Int){
 
         val image: Image = Image.getInstance(byteArray)
-        val image2: Image = Image.getInstance(byteArray2)
-        val image3: Image = Image.getInstance(byteArray3)
+        val rightChunk = Chunk(image, 90F, 0F, true)
+        val p = Paragraph(rightChunk)
+        p.alignment = alignRight
 
-        document.add(image)
-        document.add(image2)
-        document.newPage()
-        document.add(image3)
+        mDoc.add(p)
+
     }
+
+
 
 
     private fun savePdf() {
@@ -118,28 +111,63 @@ class FormDialogFragment(sakerId: String, formType: String) : DialogFragment() {
         val mFileName = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(System.currentTimeMillis())
         val mFilePath = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS).path + "/" + mFileName + ".pdf"
         try {
-            val screen = takeScreenshotTitle(binding.allForm)
-            val screenOverskrift = takeScreenshotBenevnelse((binding.benevnelseOverskrift))
-            val screenTitle = takeScreenshotSkjema()
-            PdfWriter.getInstance(mDoc, FileOutputStream(mFilePath))
+
             // åpne pdf dokumentet for skriving
             mDoc.open()
-            val stream = ByteArrayOutputStream()
-            screen.compress(Bitmap.CompressFormat.PNG, 100,stream)
-            val byte: ByteArray = stream.toByteArray()
-            val stream2 = ByteArrayOutputStream()
-            screenTitle.compress(Bitmap.CompressFormat.PNG, 100,stream2)
-            val byte2: ByteArray = stream2.toByteArray()
-            val stream3 = ByteArrayOutputStream()
-            screenOverskrift.compress(Bitmap.CompressFormat.PNG, 100,stream3)
-            val byte3: ByteArray = stream3.toByteArray()
 
-            addImage(mDoc,byte, byte3, byte2)
 
             // signatur av oppretter
+            PdfWriter.getInstance(mDoc, FileOutputStream(mFilePath))
+            mDoc.open()
+            mDoc.pageSize = PageSize.A4
             mDoc.addAuthor("Mr.Jensen")
+            mDoc.addCreationDate()
+            mDoc.addCreator("Henningsen")
+
+            // font
+            val color = BaseColor(0, 153, 204, 255)
+            val headingSize = 20.0f
+            val fontSize = 15.0f
+            val title = Font(BaseFont.createFont(), 36.0f, Font.NORMAL, BaseColor.RED)
+            val tekst = Font(BaseFont.createFont(), 25.0f, Font.NORMAL, BaseColor.BLACK)
+            val overskrift2 = Font(BaseFont.createFont(), 30.0f, Font.NORMAL, BaseColor.RED)
+            val overskrift = Font(BaseFont.createFont(), 30.0f, Font.NORMAL, BaseColor.BLACK)
+
+
+            // title
+            addNewItem(mDoc, binding.tittelText.text.toString(), Element.ALIGN_CENTER, title)
+            addNewItem(mDoc, type, Element.ALIGN_CENTER, title)
+
+            addLineSeparator(mDoc)
+
+
+            // innhold
+            addNewItemLR(mDoc, binding.kundeText.text.toString(),binding.kundeTextEdit.text.toString(), overskrift, tekst)
+            addNewItemLR(mDoc, binding.adresseText.text.toString(),binding.adresseEditText.text.toString(), overskrift, tekst)
+            addNewItemLR(mDoc, binding.anleggText.text.toString(),binding.anleggTextEdit.text.toString(), overskrift, tekst)
+            addNewItemLR(mDoc, binding.overforingText.text.toString(),binding.overforingEditText.text.toString(), overskrift, tekst)
+
+            //Spaceing
+            addLineSpace(mDoc)
+
+            addNewItemLR(mDoc, "Benevnelse","Ja/Nei", overskrift2, overskrift2)
+            addLineSpace(mDoc)
+
 
             // Pdf innhold
+            val count = binding.formLayout.childCount
+            for (i in 0 until count) {
+                val item = list[i]
+                val data = "$i.$item"
+                val v = binding.formLayout.getChildAt(i)
+                val screen = takeScreenshotTitle(v.findViewById(R.id.checkbox_layout))
+                val stream = ByteArrayOutputStream()
+                screen.compress(Bitmap.CompressFormat.PNG, 100,stream)
+                val byte: ByteArray = stream.toByteArray()
+                addNewItem(mDoc, data, Element.ALIGN_LEFT, tekst)
+                addImage(mDoc, byte, Element.ALIGN_RIGHT)
+                addLineSeparator(mDoc)
+            }
 
             //Add
             mDoc.close()
@@ -150,6 +178,38 @@ class FormDialogFragment(sakerId: String, formType: String) : DialogFragment() {
         catch (e: Exception) {
             Toast.makeText(requireContext(), e.message, Toast.LENGTH_SHORT).show()
         }
+    }
+
+    private fun addNewItem(mDoc: Document, text: String, align: Int, style: Font) {
+        val chunk = Chunk(text, style)
+        val p = Paragraph(chunk)
+        p.alignment = align
+        mDoc.add(p)
+    }
+
+    private fun addLineSeparator(mDoc: Document) {
+        val line = LineSeparator()
+        line.lineColor = BaseColor.BLACK
+        mDoc.add(Chunk(line))
+    }
+
+    private fun addLineSpace(mDoc: Document) {
+        mDoc.add(Paragraph("\n"))
+    }
+
+    private fun addNewItemLR(
+            mDoc: Document,
+            textLeft: String,
+            textRight: String,
+            styleLeft: Font,
+            styleRight: Font
+    ) {
+        val chunkLeft = Chunk(textLeft, styleLeft)
+        val chunkRight = Chunk(textRight, styleRight)
+        val p = Paragraph(chunkLeft)
+        p.add(Chunk(VerticalPositionMark()))
+        p.add(chunkRight)
+        mDoc.add(p)
     }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
@@ -164,19 +224,6 @@ class FormDialogFragment(sakerId: String, formType: String) : DialogFragment() {
             }
         }
     }
-
-
-    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        val dialog = super.onCreateDialog(savedInstanceState)
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
-        binding.savePdf.setOnClickListener{
-            dismiss()
-        }
-        getFormData()
-
-        return dialog
-    }
-
 
 
     private fun getFormData() {

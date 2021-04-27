@@ -1,6 +1,5 @@
 package com.example.brannvarsling.dialogFragments
 
-import android.R
 import android.app.AlertDialog
 import android.app.Dialog
 import android.content.ContentValues.TAG
@@ -11,18 +10,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.Window
-import android.widget.AdapterView
-import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.FragmentTransaction
 import com.example.brannvarsling.dataClass.DialogFragmentItems
-import com.example.brannvarsling.dataClass.FirebaseCases
 import com.example.brannvarsling.databinding.RecyclerdialogWindowBinding
 import com.example.brannvarsling.dialogFragment.AlertDateDialog
 import com.example.brannvarsling.dialogFragment.FormDialogFragment
 import com.google.firebase.firestore.FirebaseFirestore
-import kotlin.collections.ArrayList
 
 
 class RecyclerviewDialogFragment(id: String) : DialogFragment() {
@@ -55,7 +50,6 @@ class RecyclerviewDialogFragment(id: String) : DialogFragment() {
         onCreateDialog(savedInstanceState)
         getData()
     }
-
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val dialog = super.onCreateDialog(savedInstanceState)
@@ -133,7 +127,7 @@ class RecyclerviewDialogFragment(id: String) : DialogFragment() {
     }
 
     private fun openForm() {
-        val dialogFragment = FormDialogFragment(sakerId, formOpen)
+        val dialogFragment = FormDialogFragment(formOpen, type)
 
         val fragmentManager = activity?.supportFragmentManager
         val transaction = fragmentManager?.beginTransaction()

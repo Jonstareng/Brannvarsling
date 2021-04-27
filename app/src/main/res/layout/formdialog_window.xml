@@ -7,13 +7,13 @@
         android:orientation="vertical"
         android:background="@color/white"
         android:clickable="true"
-        android:focusable="true">
+        android:focusable="true"
+        android:id="@+id/all_form">
 
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="300dp"
-            android:id="@+id/all_form">
+            android:layout_height="300dp">
 
             <Button
                 android:id="@+id/savePdf"
@@ -175,7 +175,8 @@
                 android:layout_gravity="end"/>
             <TextView
                 android:id="@+id/ja"
-                android:layout_width="50dp"
+                android:layout_width="wrap_content"
+                android:layout_marginStart="10dp"
                 android:layout_height="wrap_content"
                 android:textColor="@color/blueJ"
                 android:text="@string/ja"
@@ -183,6 +184,7 @@
 
             <TextView
                 android:id="@+id/nei"
+                android:layout_marginStart="3dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/blueJ"
@@ -194,8 +196,7 @@
 
         <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-            android:id="@+id/scrollView">
+        android:layout_height="wrap_content">
         <LinearLayout
             android:id="@+id/formLayout"
             android:layout_width="match_parent"
