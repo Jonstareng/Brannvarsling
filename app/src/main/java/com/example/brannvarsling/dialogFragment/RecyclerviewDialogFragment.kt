@@ -26,19 +26,14 @@ import androidx.fragment.app.FragmentTransaction
 import com.example.brannvarsling.dataClass.DialogFragmentItems
 import com.example.brannvarsling.databinding.RecyclerdialogWindowBinding
 import com.example.brannvarsling.dialogFragment.AlertDateDialog
+import com.example.brannvarsling.dialogFragment.FormDialogFragment
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.ktx.Firebase
-import com.google.firebase.storage.FirebaseStorage
-import com.google.firebase.storage.StorageReference
-import com.google.firebase.storage.ktx.storage
 import kotlin.collections.ArrayList
-
-
 class RecyclerviewDialogFragment(id: String) : DialogFragment() {
 
     private lateinit var binding: RecyclerdialogWindowBinding
     private lateinit var currentDateAndTime: String
-    private lateinit var storage: FirebaseStorage
     private lateinit var imageView: ImageView
     private lateinit var Bitmap: Bitmap
    // private lateinit var month: String
@@ -57,7 +52,6 @@ class RecyclerviewDialogFragment(id: String) : DialogFragment() {
     private var type = ""
     private var desc =""
     private lateinit var Uri: Uri
-    var imagesRef: StorageReference? = FirebaseStorage.getInstance().reference.child("Images")
     private var formType = ""
     private lateinit var caseChoice: ArrayList<String>
     val sakerId = db.collection("Saker").document(documentId).id
@@ -183,11 +177,6 @@ class RecyclerviewDialogFragment(id: String) : DialogFragment() {
             imageUri = data?.data
 
         }
-    }
-    private fun imageStorage () {
-        storage = Firebase.storage
-        val storageRef = storage.reference
-
     }
 
 
