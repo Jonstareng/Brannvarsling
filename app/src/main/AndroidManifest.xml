@@ -23,6 +23,7 @@
         </activity>
         <activity
             android:name=".MainActivity"
+            android:windowSoftInputMode="adjustPan"
             android:label="@string/app_name"
             android:theme="@style/Theme.Brannvarsling.NoActionBar">
             <intent-filter>
@@ -35,8 +36,6 @@
             android:name=".LogInActivity"
             android:label="@string/app_name"
             android:theme="@style/Theme.Brannvarsling.NoActionBar">
-
-
         </activity>
         <receiver android:name=".BroadcastReceiver"
             android:enabled="true"/>

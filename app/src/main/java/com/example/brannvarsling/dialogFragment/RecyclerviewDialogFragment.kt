@@ -179,8 +179,6 @@ class RecyclerviewDialogFragment(id: String) : DialogFragment() {
         }
     }
 
-
-
     private fun dispatchTakePictureIntent() {
         if (ContextCompat.checkSelfPermission(
                         requireContext(),

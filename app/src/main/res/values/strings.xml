@@ -46,5 +46,7 @@
     <string name="nei">Nei</string>
     <string name="benevnelse">Benevnelse</string>
     <string name="PDF">PDF</string>
+    <string name="sett_ny_dato">Sett ny dato</string>
+    <string name="utf_r_kontroll">Utfør kontroll</string>
 
 </resources>
