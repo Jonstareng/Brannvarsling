@@ -50,5 +50,7 @@
     <string name="alarmoverf_ring_til">Alarmoverføring til:</string>
     <string name="sted">sted</string>
     <string name="legg_til_vedlegg">Vedlegg</string>
+    <string name="notify_desc">Utfør kontroll hos:</string>
+    <string name="notify_desc_date">Varsel ble sendt:</string>
 
 </resources>

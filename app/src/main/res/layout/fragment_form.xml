@@ -28,79 +28,72 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:visibility="visible"
-            android:layout_marginRight="10dp"
             android:layout_marginEnd="10dp">
 
             <com.google.android.material.floatingactionbutton.FloatingActionButton
                 android:id="@+id/floatingActionButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="15dp"
+                android:layout_marginStart="15dp"
                 android:layout_marginBottom="15dp"
                 android:clickable="true"
                 android:focusable="true"
                 android:src="@drawable/ic_add"
                 android:tint="@android:color/white"
                 app:backgroundTint="@color/blueJ"
-                tools:ignore="ContentDescription"
-                android:layout_marginStart="15dp" />
+                tools:ignore="ContentDescription" />
 
 
             <com.google.android.material.floatingactionbutton.FloatingActionButton
                 android:id="@+id/floating_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="15dp"
+                android:layout_marginStart="15dp"
                 android:layout_marginBottom="15dp"
                 android:clickable="true"
                 android:focusable="true"
                 android:src="@drawable/ic_title"
                 android:visibility="invisible"
                 app:backgroundTint="@color/colorAccent"
-                tools:ignore="ContentDescription"
-                android:layout_marginStart="15dp" />
+                tools:ignore="ContentDescription" />
 
 
             <com.google.android.material.floatingactionbutton.FloatingActionButton
                 android:id="@+id/floating_spm"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="15dp"
+                android:layout_marginStart="15dp"
                 android:layout_marginBottom="15dp"
                 android:clickable="true"
                 android:focusable="true"
                 android:src="@drawable/ic_text"
                 android:visibility="invisible"
                 app:backgroundTint="@color/colorAccent"
-                tools:ignore="ContentDescription"
-                android:layout_marginStart="15dp" />
+                tools:ignore="ContentDescription" />
             <com.google.android.material.floatingactionbutton.FloatingActionButton
                 android:id="@+id/button_submit"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="15dp"
+                android:layout_marginStart="15dp"
                 android:layout_marginBottom="15dp"
                 android:clickable="true"
                 android:focusable="true"
                 android:src="@drawable/ic_download_arrow"
                 android:visibility="invisible"
                 app:backgroundTint="@color/colorAccent"
-                tools:ignore="ContentDescription"
-                android:layout_marginStart="15dp" />
+                tools:ignore="ContentDescription" />
             <com.google.android.material.floatingactionbutton.FloatingActionButton
                 android:id="@+id/button_fjern"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="15dp"
+                android:layout_marginStart="15dp"
                 android:layout_marginBottom="15dp"
                 android:clickable="true"
                 android:focusable="true"
                 android:src="@drawable/ic_delete"
                 android:visibility="invisible"
                 app:backgroundTint="@color/colorAccent"
-                tools:ignore="ContentDescription"
-                android:layout_marginStart="15dp" />
-
+                tools:ignore="ContentDescription" />
         </LinearLayout>
         </LinearLayout>
 </layout>

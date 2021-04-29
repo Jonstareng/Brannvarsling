@@ -2,7 +2,6 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginTop="9dp"
@@ -22,9 +21,8 @@
             android:id="@+id/recyclerview_item_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Tittel"
             android:textColor="@color/white"
-            android:textSize="18sp"
+            android:textSize="17sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
@@ -36,7 +34,6 @@
             android:id="@+id/recyclerview_item_type"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Type"
             android:textColor="@color/white"
             android:textSize="15sp"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -47,29 +44,53 @@
             app:layout_constraintVertical_bias="0.466" />
 
         <TextView
-            android:id="@+id/textView3"
+            android:id="@+id/recyclerview_item_date"
             android:layout_width="90dp"
             android:layout_height="18dp"
             android:textColor="@color/white"
-            android:text="Dato"
-            app:layout_constraintBottom_toTopOf="@+id/imageView4"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.498"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="1.0" />
-
-        <ImageView
-            android:id="@+id/imageView4"
-            android:layout_width="47dp"
-            android:layout_height="37dp"
+            android:textSize="13sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.953"
+            app:layout_constraintHorizontal_bias="0.544"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="1.0"
-            app:srcCompat="@drawable/pngegg" />
+            app:layout_constraintVertical_bias="0.336" />
+
+        <ImageView
+            android:id="@+id/recyclerview_item_checkbox"
+            android:layout_width="40dp"
+            android:layout_height="50dp"
+            android:background="@drawable/check_box_outline_blank_black_24dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.983"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0" />
+        <ImageView
+            android:id="@+id/recyclerview_item_checkbox_fill"
+            android:layout_width="40dp"
+            android:layout_height="50dp"
+            android:visibility="invisible"
+            android:background="@drawable/check_box_black_24dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.983"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0" />
+        <ImageView
+            android:id="@+id/recyclerview_item_checkbox_backup"
+            android:layout_width="40dp"
+            android:layout_height="50dp"
+            android:visibility="invisible"
+            android:background="@drawable/check_box_outline_blank_black_24dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.983"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

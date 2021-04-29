@@ -26,7 +26,6 @@ class NotificationAdapter(options: FirestoreRecyclerOptions<FirebaseNotification
         var tittel: TextView = itemView.findViewById(R.id.notify_title)
         var date: TextView = itemView.findViewById(R.id.notify_date)
 
-
         init {
             itemView.setOnClickListener(this)
         }

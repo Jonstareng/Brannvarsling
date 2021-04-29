@@ -101,7 +101,7 @@ class Notifications: Fragment(), NotificationAdapter.OnItemClickListnerN {
         documentID = id
         getData()
         val builder = AlertDialog.Builder(activity)
-        builder.setTitle("Notification")
+        builder.setTitle("Notifikasjon")
             .setCancelable(false)
                 .setMessage("Send ny varsel om en uke eller en dag")
                 .setPositiveButton("Dag") { dialog, _ ->

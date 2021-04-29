@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
@@ -16,6 +17,8 @@ import com.example.brannvarsling.dialogFragments.AddDialogFragment
 import com.example.brannvarsling.dialogFragment.RecyclerviewDialogFragment
 import com.firebase.ui.firestore.FirestoreRecyclerOptions
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.storage.FirebaseStorage
+import com.squareup.picasso.Picasso
 
 
 class Cases: Fragment(), RecyclerviewAdapter.OnItemClickListener {
@@ -34,9 +37,11 @@ class Cases: Fragment(), RecyclerviewAdapter.OnItemClickListener {
         super.onViewCreated(view, savedInstanceState)
 
         createRecyclerView()
+        getImage()
         binding.addCases.setOnClickListener {
             showAddDialog()
         }
+        binding.recyclerLayout
 
     }
     private fun createRecyclerView() {
@@ -46,7 +51,7 @@ class Cases: Fragment(), RecyclerviewAdapter.OnItemClickListener {
         val option: FirestoreRecyclerOptions<FirebaseCases> = FirestoreRecyclerOptions.Builder<FirebaseCases>()
                 .setQuery(query, FirebaseCases::class.java).build()
 
-        adapterR = RecyclerviewAdapter(option, this)
+        adapterR = RecyclerviewAdapter(option, this )
 
         binding.recyclerviewCase.layoutManager = LinearLayoutManager(context)
         binding.recyclerviewCase.adapter = adapterR
@@ -75,7 +80,6 @@ class Cases: Fragment(), RecyclerviewAdapter.OnItemClickListener {
 
 
     override fun onItemClick(id: String, customer: CharSequence) {
-
         val dialogFragment = RecyclerviewDialogFragment(id, customer)
         val fragmentManager = activity?.supportFragmentManager
         val transaction = fragmentManager?.beginTransaction()
@@ -84,6 +88,20 @@ class Cases: Fragment(), RecyclerviewAdapter.OnItemClickListener {
         transaction?.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
         transaction?.add(android.R.id.content, dialogFragment)?.addToBackStack(null)?.commit()
     }
+    private fun getImage() {
+
+        /*
+        val storageReference = FirebaseStorage.getInstance()
+        val refStorage = storageReference.getReferenceFromUrl("gs://varslingssystem.appspot.com/baseline_check_box_black_24dp.png")
+
+        refStorage.downloadUrl.addOnSuccessListener { image ->
+            val url = binding.recyclerLayout.findViewById<ImageView>(R.id.recyclerview_item_checkbox)
+            Picasso.get().load(image).into(url)
+            }
+         */
+
+    }
+
 }
 
 

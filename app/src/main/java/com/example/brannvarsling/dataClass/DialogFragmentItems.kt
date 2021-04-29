@@ -1,3 +1,9 @@
 package com.example.brannvarsling.dataClass
 
-data class DialogFragmentItems(val Customer: String? = null , val Type: String? = null, val Date: String? = null, val Description: String? = null)
+data class DialogFragmentItems(
+    val Customer: String? = null,
+    val Type: String? = null,
+    val Date: String? = null,
+    val Description: String? = null,
+    val Form: String? = null
+)

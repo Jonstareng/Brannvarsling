@@ -1,6 +1,7 @@
 package com.example.brannvarsling
 
 import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
@@ -12,6 +13,7 @@ import com.example.brannvarsling.extensions.Extensions.toast
 import com.example.brannvarsling.fragments.Home
 import com.example.brannvarsling.fragments.Notifications
 import com.example.brannvarsling.utils.FirebaseUtils.firebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
@@ -20,6 +22,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this,R.layout.activity_main)
         setSupportActionBar(binding.toolbar)
+
         val fragmentHome = Home()
         val fragmentNotification = Notifications()
 
@@ -30,10 +33,12 @@ class MainActivity : AppCompatActivity() {
             }
             true
         }
+        updateCount()
     }
     private fun setCurrentFragment(fragment: Fragment)=
         supportFragmentManager.beginTransaction().apply {
             replace(R.id.my_nav_host_fragment,fragment)
+            updateCount()
             commit()
         }
     private fun signOut(){
@@ -54,5 +59,18 @@ class MainActivity : AppCompatActivity() {
         }
         return true
     }
-
+    private fun updateCount(){
+        binding.bottomNavigator.getOrCreateBadge(R.id.ic_notification).apply {
+            val ref = FirebaseFirestore.getInstance().collection("Notifications")
+            ref.get().addOnSuccessListener {
+                val size = it.size()
+                number = size
+                backgroundColor = Color.CYAN
+                badgeTextColor = Color.BLACK
+                maxCharacterCount = 99
+                isVisible = size != 0
+            }
+        }
+    }
 }
+

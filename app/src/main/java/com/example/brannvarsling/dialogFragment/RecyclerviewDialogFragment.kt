@@ -148,7 +148,6 @@ class RecyclerviewDialogFragment(id: String, private var customer: CharSequence)
     private fun getImage() {
         val storageReference = FirebaseStorage.getInstance()
         val refStorage = storageReference.getReferenceFromUrl("gs://varslingssystem.appspot.com/$customer.jpg")
-        Toast.makeText(requireContext(), "$refStorage", Toast.LENGTH_LONG).show()
 
         refStorage.downloadUrl.addOnSuccessListener { image ->
             Picasso.get().load(image).into(binding.vedlegg)
@@ -301,7 +300,12 @@ class RecyclerviewDialogFragment(id: String, private var customer: CharSequence)
         storageRef.delete()
         ref.delete()
         docRef.delete()
-
+        val storageReference = FirebaseFirestore.getInstance()
+        val refStorage =
+            storageReference.collection("Saker")
+                .document(documentId)
+                .collection("Check").document("document")
+        refStorage.delete()
         Toast.makeText(requireContext(), "Sak $customer slettet", Toast.LENGTH_SHORT).show()
     }
 
@@ -439,7 +443,7 @@ class RecyclerviewDialogFragment(id: String, private var customer: CharSequence)
 
         data["Customer"] = customer
         data["Type"] = type
-        data["Date"] = "Dato for varsling: $date"
+        data["Date"] = date
         data["Description"] = desc
         data["NotificationID"] = cancelNotify
         data["Form"] = formOpen
