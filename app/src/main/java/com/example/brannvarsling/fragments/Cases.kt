@@ -9,19 +9,19 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.brannvarsling.R
-import com.example.brannvarsling.RecyclerviewAdapter
+import com.example.brannvarsling.adapters.RecyclerviewAdapter
 import com.example.brannvarsling.dataClass.FirebaseCases
 import com.example.brannvarsling.databinding.FragmentCasesBinding
 import com.example.brannvarsling.dialogFragments.AddDialogFragment
-import com.example.brannvarsling.dialogFragments.RecyclerviewDialogFragment
+import com.example.brannvarsling.dialogFragment.RecyclerviewDialogFragment
 import com.firebase.ui.firestore.FirestoreRecyclerOptions
 import com.google.firebase.firestore.FirebaseFirestore
 
 
-class Cases: Fragment(), RecyclerviewAdapter.onItemClickListner {
+class Cases: Fragment(), RecyclerviewAdapter.OnItemClickListener {
     private lateinit var binding: FragmentCasesBinding
     private var db = FirebaseFirestore.getInstance()
-    var adapterR: RecyclerviewAdapter? = null
+    private var adapterR: RecyclerviewAdapter? = null
 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
@@ -45,7 +45,6 @@ class Cases: Fragment(), RecyclerviewAdapter.onItemClickListner {
         //Toast.makeText(context, "$", Toast.LENGTH_LONG).show()
         val option: FirestoreRecyclerOptions<FirebaseCases> = FirestoreRecyclerOptions.Builder<FirebaseCases>()
                 .setQuery(query, FirebaseCases::class.java).build()
-
 
         adapterR = RecyclerviewAdapter(option, this)
 
@@ -75,9 +74,9 @@ class Cases: Fragment(), RecyclerviewAdapter.onItemClickListner {
     }
 
 
-    override fun onItemClick(id: String) {
+    override fun onItemClick(id: String, customer: CharSequence) {
 
-        val dialogFragment = RecyclerviewDialogFragment(id)
+        val dialogFragment = RecyclerviewDialogFragment(id, customer)
         val fragmentManager = activity?.supportFragmentManager
         val transaction = fragmentManager?.beginTransaction()
 

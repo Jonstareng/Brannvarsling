@@ -4,7 +4,6 @@ import android.app.AlarmManager
 import android.app.AlertDialog
 import android.app.PendingIntent
 import android.content.Context
-import android.content.DialogInterface
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
@@ -13,19 +12,18 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.annotation.RequiresApi
-import androidx.core.app.AlarmManagerCompat.setExactAndAllowWhileIdle
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.brannvarsling.*
+import com.example.brannvarsling.receivers.BroadcastReceiver
+import com.example.brannvarsling.adapters.NotificationAdapter
+import com.example.brannvarsling.R
 import com.example.brannvarsling.dataClass.FirebaseNotification
 import com.example.brannvarsling.databinding.FragmentNotificationBinding
 import com.firebase.ui.firestore.FirestoreRecyclerOptions
 import com.google.firebase.firestore.FirebaseFirestore
-import me.leolin.shortcutbadger.ShortcutBadger
-import java.time.LocalDate
 import java.util.Calendar
 
 
@@ -72,13 +70,14 @@ class Notifications: Fragment(), NotificationAdapter.OnItemClickListnerN {
                         val builder = AlertDialog.Builder(activity)
                         builder.setMessage("Er du sikker på at du vil slette varslingen")
                                 .setCancelable(false)
-                                .setPositiveButton("Slett", DialogInterface.OnClickListener { dialog, id ->
+                                .setPositiveButton("Slett") { dialog, _ ->
                                     adapterR?.swipeDelete(viewHolder.adapterPosition)
                                     dialog.dismiss()
-                                }).setNegativeButton("Avbryt", DialogInterface.OnClickListener { dialog, id ->
-                                    adapterR!!.notifyDataSetChanged()
-                                    dialog.dismiss()
-                                })
+                                }
+                            .setNegativeButton("Avbryt") { dialog, _ ->
+                                adapterR!!.notifyDataSetChanged()
+                                dialog.dismiss()
+                            }
                         val alert = builder.create()
                         alert.show()
 
@@ -105,17 +104,17 @@ class Notifications: Fragment(), NotificationAdapter.OnItemClickListnerN {
         builder.setTitle("Notification")
             .setCancelable(false)
                 .setMessage("Send ny varsel om en uke eller en dag")
-                .setPositiveButton("Dag", DialogInterface.OnClickListener { dialog, id3 ->
+                .setPositiveButton("Dag") { dialog, _ ->
                     db.collection("Notifications").document(id).delete()
                     scheduleNotificationDay()
                     dialog.dismiss()
-                }).setNegativeButton("Uke", DialogInterface.OnClickListener { dialog, id4 ->
-                    db.collection("Notifications").document(id).delete()
-                    scheduleNotificationWeek()
-                    dialog.dismiss()
-                }).setNeutralButton("Avbryt", DialogInterface.OnClickListener { dialog, id2 ->
-                    dialog.dismiss()
-                })
+                }.setNegativeButton("Uke") { dialog, _ ->
+                db.collection("Notifications").document(id).delete()
+                scheduleNotificationWeek()
+                dialog.dismiss()
+            }.setNeutralButton("Avbryt") { dialog, _ ->
+                dialog.dismiss()
+            }
         val alert = builder.create()
         alert.show()
     }

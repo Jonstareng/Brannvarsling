@@ -1,29 +1,17 @@
 package com.example.brannvarsling
 
-import android.app.NotificationChannel
-import android.app.NotificationManager
-import android.app.PendingIntent
-import android.content.Context
 import android.content.Intent
-import android.os.Build
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.app.NotificationCompat
-import androidx.core.app.NotificationManagerCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import com.example.brannvarsling.fragments.Calendar
-import com.example.brannvarsling.fragments.Cases
-import com.example.brannvarsling.fragments.Home
 import com.example.brannvarsling.databinding.ActivityMainBinding
 import com.example.brannvarsling.extensions.Extensions.toast
+import com.example.brannvarsling.fragments.Home
 import com.example.brannvarsling.fragments.Notifications
 import com.example.brannvarsling.utils.FirebaseUtils.firebaseAuth
-import java.text.SimpleDateFormat
-import java.util.*
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding

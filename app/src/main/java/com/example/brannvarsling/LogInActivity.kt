@@ -12,9 +12,9 @@ import com.example.brannvarsling.utils.FirebaseUtils.firebaseAuth
 
 
 class LogInActivity : AppCompatActivity() {
-    lateinit var logInEmail: String
-    lateinit var logInPassword: String
-    lateinit var logInInputsArray: Array<EditText>
+    private lateinit var logInEmail: String
+    private lateinit var logInPassword: String
+    private lateinit var logInInputsArray: Array<EditText>
     private lateinit var binding: ActivityLoginBinding
 
 

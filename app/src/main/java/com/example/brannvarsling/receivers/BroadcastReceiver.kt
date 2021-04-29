@@ -1,4 +1,4 @@
-package com.example.brannvarsling
+package com.example.brannvarsling.receivers
 
 import android.app.Notification
 import android.app.NotificationManager
@@ -6,17 +6,14 @@ import android.app.PendingIntent
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
-import android.opengl.Visibility
-import android.widget.Toast
 import androidx.core.app.NotificationCompat
+import com.example.brannvarsling.MainActivity
+import com.example.brannvarsling.R
 import com.google.firebase.firestore.FirebaseFirestore
-import me.leolin.shortcutbadger.ShortcutBadger
 
 
 class BroadcastReceiver : BroadcastReceiver(){
     override fun onReceive(context: Context, intent: Intent?) {
-        var count = 0
-        ShortcutBadger.applyCount(context,count)
         val counter = intent?.getStringExtra("notifyId")
         val title = intent?.getStringExtra("title")
         val date = intent?.getStringExtra("date")

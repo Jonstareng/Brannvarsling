@@ -108,30 +108,37 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="4dp"
-        android:layout_marginLeft="4dp"
-        android:layout_marginTop="80dp"
-        android:text="Alarmoverføring til:"
+        android:layout_marginTop="36dp"
+        android:text="@string/alarmoverf_ring_til"
         android:textColor="@color/black"
         app:layout_constraintEnd_toStartOf="@+id/overforing_edit_text"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/adresse_text"
-        />
+        app:layout_constraintTop_toBottomOf="@+id/adresse_text" />
 
     <EditText
         android:id="@+id/overforing_edit_text"
         android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="122dp"
-        android:layout_marginLeft="122dp"
-        android:layout_marginTop="52dp"
-        android:hint="sted"
+        android:layout_marginTop="12dp"
+        android:hint="@string/sted"
         android:importantForAutofill="no"
         android:inputType="text"
         android:textSize="15sp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.505"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/adresse_edit_text" />
+    <Button
+        android:id="@+id/btn_remove_title"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="4dp"
+        android:background="@drawable/ic_delete"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

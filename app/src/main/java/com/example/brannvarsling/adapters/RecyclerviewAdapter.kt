@@ -1,17 +1,17 @@
-package com.example.brannvarsling
+package com.example.brannvarsling.adapters
 
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
+import com.example.brannvarsling.R
 import com.example.brannvarsling.dataClass.FirebaseCases
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter
 import com.firebase.ui.firestore.FirestoreRecyclerOptions
 
 
-class RecyclerviewAdapter(options: FirestoreRecyclerOptions<FirebaseCases>, private val listener: onItemClickListner) :
+class RecyclerviewAdapter(options: FirestoreRecyclerOptions<FirebaseCases>, private val listener: OnItemClickListener) :
         FirestoreRecyclerAdapter<FirebaseCases, RecyclerviewAdapter.ViewHolder>(options) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -33,15 +33,16 @@ class RecyclerviewAdapter(options: FirestoreRecyclerOptions<FirebaseCases>, priv
 
          override fun onClick(v: View?) {
              val position = adapterPosition
+             val customer = tittel.text
              val pos = snapshots.getSnapshot(adapterPosition)
              val positionId = pos.id
              if (position != RecyclerView.NO_POSITION){
-                 listener.onItemClick(positionId)
+                 listener.onItemClick(positionId, customer)
              }
          }
      }
-    interface onItemClickListner{
-        fun onItemClick(id: String)
+    interface OnItemClickListener{
+        fun onItemClick(id: String, customer: CharSequence)
     }
 
 

@@ -41,12 +41,14 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="adresse">Adresse:</string>
-    <string name="sted">sted</string>
     <string name="ja">Ja</string>
     <string name="nei">Nei</string>
     <string name="benevnelse">Benevnelse</string>
     <string name="PDF">PDF</string>
-    <string name="sett_ny_dato">Sett ny dato</string>
-    <string name="utf_r_kontroll">Utfør kontroll</string>
+    <string name="sett_ny_dato">Dato</string>
+    <string name="utf_r_kontroll">Kontroll</string>
+    <string name="alarmoverf_ring_til">Alarmoverføring til:</string>
+    <string name="sted">sted</string>
+    <string name="legg_til_vedlegg">Vedlegg</string>
 
 </resources>

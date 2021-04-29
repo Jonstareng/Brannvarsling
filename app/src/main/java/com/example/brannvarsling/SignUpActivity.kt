@@ -12,9 +12,9 @@ import com.example.brannvarsling.utils.FirebaseUtils.firebaseUser
 
 
 class SignUpActivity : AppCompatActivity() {
-    lateinit var userEmail: String
-    lateinit var userPassword: String
-    lateinit var createAccountInputsArray: Array<EditText>
+    private lateinit var userEmail: String
+    private lateinit var userPassword: String
+    private lateinit var createAccountInputsArray: Array<EditText>
     lateinit var binding: ActivitySignUpBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {

@@ -36,7 +36,7 @@ import kotlin.collections.ArrayList
 
 class FormDialogFragment(private var formType: String, private var type: String) : DialogFragment() {
 
-    private val STORAGE_CODE: Int = 100;
+    private val storageCode: Int = 100
     private lateinit var binding: FormdialogWindowBinding
     private var db = FirebaseFirestore.getInstance()
     private var list = ArrayList<String>()
@@ -61,7 +61,7 @@ class FormDialogFragment(private var formType: String, private var type: String)
                 if (checkSelfPermission(requireContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE)
                         == PackageManager.PERMISSION_DENIED) {
                     val permissions = arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                    requestPermissions(permissions, STORAGE_CODE)
+                    requestPermissions(permissions, storageCode)
                 } else {
                     savePdf()
                 }
@@ -92,18 +92,16 @@ class FormDialogFragment(private var formType: String, private var type: String)
         }
 
 
-    private fun addImage(mDoc: Document, byteArray: ByteArray, alignRight: Int){
+    private fun addImage(mDoc: Document, byteArray: ByteArray){
 
         val image: Image = Image.getInstance(byteArray)
         val rightChunk = Chunk(image, 90F, 0F, true)
         val p = Paragraph(rightChunk)
-        p.alignment = alignRight
+        p.alignment = Element.ALIGN_RIGHT
 
         mDoc.add(p)
 
     }
-
-
 
 
     private fun savePdf() {
@@ -125,9 +123,6 @@ class FormDialogFragment(private var formType: String, private var type: String)
             mDoc.addCreator("Henningsen")
 
             // font
-            val color = BaseColor(0, 153, 204, 255)
-            val headingSize = 20.0f
-            val fontSize = 15.0f
             val title = Font(BaseFont.createFont(), 36.0f, Font.NORMAL, BaseColor.RED)
             val tekst = Font(BaseFont.createFont(), 25.0f, Font.NORMAL, BaseColor.BLACK)
             val overskrift2 = Font(BaseFont.createFont(), 30.0f, Font.NORMAL, BaseColor.RED)
@@ -149,7 +144,7 @@ class FormDialogFragment(private var formType: String, private var type: String)
 
             //Spaceing
             addLineSpace(mDoc)
-
+            //Overskrift
             addNewItemLR(mDoc, "Benevnelse","Ja/Nei", overskrift2, overskrift2)
             addLineSpace(mDoc)
 
@@ -165,7 +160,7 @@ class FormDialogFragment(private var formType: String, private var type: String)
                 screen.compress(Bitmap.CompressFormat.PNG, 100,stream)
                 val byte: ByteArray = stream.toByteArray()
                 addNewItem(mDoc, data, Element.ALIGN_LEFT, tekst)
-                addImage(mDoc, byte, Element.ALIGN_RIGHT)
+                addImage(mDoc, byte)
                 addLineSeparator(mDoc)
             }
 
@@ -215,7 +210,7 @@ class FormDialogFragment(private var formType: String, private var type: String)
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         when(requestCode) {
-            STORAGE_CODE -> {
+            storageCode -> {
                 if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     savePdf()
                 } else {

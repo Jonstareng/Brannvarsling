@@ -1,13 +1,12 @@
-package com.example.brannvarsling
+package com.example.brannvarsling.adapters
 
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.example.brannvarsling.dataClass.FirebaseCases
+import com.example.brannvarsling.R
 import com.example.brannvarsling.dataClass.FirebaseNotification
-import com.example.brannvarsling.fragments.Notifications
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter
 import com.firebase.ui.firestore.FirestoreRecyclerOptions
 
@@ -15,10 +14,10 @@ import com.firebase.ui.firestore.FirestoreRecyclerOptions
 class NotificationAdapter(options: FirestoreRecyclerOptions<FirebaseNotification>, private val listener: OnItemClickListnerN) :
     FirestoreRecyclerAdapter<FirebaseNotification, NotificationAdapter.ViewHolder>(options) {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NotificationAdapter.ViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.recyclerview_notification_item, parent, false))
     }
-    override fun onBindViewHolder(holder: NotificationAdapter.ViewHolder, pos: Int, data: FirebaseNotification) {
+    override fun onBindViewHolder(holder: ViewHolder, pos: Int, data: FirebaseNotification) {
         holder.tittel.text = data.Customer
         holder.date.text = data.Date
     }

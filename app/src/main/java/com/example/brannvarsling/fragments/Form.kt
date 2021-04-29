@@ -126,6 +126,11 @@ class Form: Fragment() {
     private fun addNewTitle() {
         val inflater = LayoutInflater.from(requireContext()).inflate(row_add_titles, null)
         binding.scrollLayout.addView(inflater, binding.scrollLayout.childCount)
+        val buttonRemove: Button = inflater.findViewById(R.id.btn_remove_title)
+        buttonRemove.setOnClickListener {
+            (inflater.parent as LinearLayout)
+                    .removeView(inflater)
+        }
     }
 
     private fun saveData() {
@@ -140,7 +145,7 @@ class Form: Fragment() {
         val skjemaR = SkjemaFirebase()
         for (i in 0 until count) {
             f = binding.scrollLayout.getChildAt(i)
-            var int = f.id.toString().toInt()
+            val int = f.id.toString().toInt()
 
             if (int == R.id.add_spm) {
                 val sporsmal: EditText = f.findViewById(R.id.text_spm)
@@ -183,12 +188,12 @@ class Form: Fragment() {
 
                 db.collection("Skjema").document(skjemaR.Tittel.toString())
                         .set(skjema)
-                        .addOnSuccessListener { documentReference -> Log.d(ContentValues.TAG, "Skjema lagt til med ID: ") }
+                        .addOnSuccessListener { Log.d(ContentValues.TAG, "Skjema lagt til med ID: ") }
                         .addOnFailureListener { e -> Log.w(ContentValues.TAG, "Error adding form", e) }
 
                 db.collection("Skjema").document(skjemaR.Tittel.toString()).collection("Spørsmål")
                         .add(skjemaS)
-                        .addOnSuccessListener { documentReference -> Log.d(ContentValues.TAG, "Skjema lagt til med ID: ") }
+                        .addOnSuccessListener { Log.d(ContentValues.TAG, "Skjema lagt til med ID: ") }
                         .addOnFailureListener { e -> Log.w(ContentValues.TAG, "Error adding form", e) }
                 Toast.makeText(requireContext(), "Skjema lagret", Toast.LENGTH_LONG).show()
             }

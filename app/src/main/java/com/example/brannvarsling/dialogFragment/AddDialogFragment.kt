@@ -1,32 +1,24 @@
 package com.example.brannvarsling.dialogFragments
 
-import android.Manifest
 import android.R
 import android.app.Activity.RESULT_OK
 import android.app.Dialog
-import android.content.ActivityNotFoundException
 import android.content.ContentValues
 import android.content.Intent
-import android.content.pm.PackageManager
-import android.graphics.Camera
 import android.net.Uri
-import android.os.Build
 import android.os.Bundle
-import android.provider.MediaStore
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.Window
-import android.widget.*
-import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
-import androidx.core.content.ContextCompat.checkSelfPermission
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
+import android.widget.ImageView
+import android.widget.Toast
 import androidx.fragment.app.DialogFragment
 import com.example.brannvarsling.databinding.DialogWindowBinding
 import com.google.firebase.firestore.FirebaseFirestore
-import com.example.brannvarsling.dataClass.FirebaseCases
-import kotlin.random.Random
 
 
 class AddDialogFragment: DialogFragment() {
@@ -36,10 +28,6 @@ class AddDialogFragment: DialogFragment() {
     private val pickImage = 100
     private var imageUri: Uri? = null
     private var db = FirebaseFirestore.getInstance()
-    private var data = FirebaseCases()
-    private var CAMERA_PERMISSION_CODE = 1
-    private var CAMERA_REQUEST_CODE = 2
-    private var documentId = ""
     private var counter = ""
     private var formType = ""
     private var list = ArrayList<String>()
@@ -49,7 +37,7 @@ class AddDialogFragment: DialogFragment() {
             inflater: LayoutInflater,
             container: ViewGroup?,
             savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = DialogWindowBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -72,7 +60,6 @@ class AddDialogFragment: DialogFragment() {
         }
         return dialog
     }
-    val REQUEST_IMAGE_CAPTURE = 1
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
