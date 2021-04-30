@@ -59,7 +59,7 @@ class Form: Fragment() {
             addNewTitle()
         }
 
-        // Lagre knapp. (Skal kunne lagre skjema som pdf, og i arraylist for å laste opp til firebase)
+        // Lagre knapp. (Skal kunne lagre skjema som pdf)
         binding.buttonSubmit.setOnClickListener {
             saveData()
         }
