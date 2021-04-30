@@ -332,6 +332,7 @@ class RecyclerviewDialogFragment(id: String, private var customer: CharSequence)
         val builder = AlertDialog.Builder(activity)
         builder.setView(layout)
                 .setCancelable(false)
+                .setTitle("Sett dato for varsling")
                 .setPositiveButton("Sett dato") { _, _ ->
                     val format = SimpleDateFormat("yyyyMMdd", Locale.ENGLISH)
                     val currentDate = format.format(Date())

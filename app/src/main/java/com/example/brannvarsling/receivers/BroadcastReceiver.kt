@@ -9,6 +9,7 @@ import android.content.Intent
 import androidx.core.app.NotificationCompat
 import com.example.brannvarsling.MainActivity
 import com.example.brannvarsling.R
+import com.google.android.material.badge.BadgeUtils
 import com.google.firebase.firestore.FirebaseFirestore
 
 
@@ -33,6 +34,7 @@ class BroadcastReceiver : BroadcastReceiver(){
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT)
                 .setBadgeIconType(NotificationCompat.BADGE_ICON_SMALL)
                 .setAutoCancel(true)
+                .setBadgeIconType(NotificationCompat.BADGE_ICON_LARGE)
                 .build()
         // Show notification
         val manager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager

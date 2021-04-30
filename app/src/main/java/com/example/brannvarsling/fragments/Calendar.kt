@@ -1,5 +1,7 @@
 package com.example.brannvarsling.fragments
 
+import android.app.AlertDialog
+import android.graphics.Color
 import android.icu.util.Calendar.SATURDAY
 import android.icu.util.Calendar.SUNDAY
 import android.os.Bundle
@@ -14,6 +16,7 @@ import com.chintanpatel.materialeventcalendar.CalenderView
 import com.chintanpatel.materialeventcalendar.EventItem
 import com.example.brannvarsling.R
 import com.example.brannvarsling.databinding.FragmentCalenderBinding
+import com.google.firebase.database.collection.LLRBNode
 import com.google.firebase.firestore.FirebaseFirestore
 
 
@@ -42,7 +45,6 @@ class Calendar: Fragment(){
     private fun setupCalendar() {
         val db = FirebaseFirestore.getInstance().collection("Saker")
 
-
         if (db.path.isNotEmpty())
             db.get().addOnSuccessListener {
                 it.forEach { each ->
@@ -61,6 +63,15 @@ class Calendar: Fragment(){
                     CalenderView.CalenderEventClickListener {
                     override fun onEventClick(eventItem: EventItem) {
                         val id = eventItem.title
+                        val builder = AlertDialog.Builder(activity)
+                        builder.setTitle(id)
+                            .setMessage("Varsel vil bli sendt ${eventItem.start}, du kan sette ny varsel dato inne på saker siden.")
+                            .setCancelable(false)
+                            .setNegativeButton("Avbryt") { dialog, _ ->
+                                dialog.dismiss()
+                            }
+                        val alert = builder.create()
+                        alert.show()
                         Toast.makeText(context, "$id", Toast.LENGTH_LONG).show()
                     }
                 })

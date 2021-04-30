@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Brannvarsling</string>
+    <string name="app_name">Jensen elektriske as</string>
     <string name="action_settings">Settings</string>
     <!-- Strings used for fragments for navigation -->
     <string name="first_fragment_label">First Fragment</string>
@@ -41,16 +41,16 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="adresse">Adresse:</string>
-    <string name="ja">Ja</string>
     <string name="nei">Nei</string>
     <string name="benevnelse">Benevnelse</string>
     <string name="PDF">PDF</string>
-    <string name="sett_ny_dato">Dato</string>
+    <string name="sett_ny_dato">Varsling</string>
     <string name="utf_r_kontroll">Kontroll</string>
     <string name="alarmoverf_ring_til">Alarmoverføring til:</string>
     <string name="sted">sted</string>
     <string name="legg_til_vedlegg">Vedlegg</string>
     <string name="notify_desc">Utfør kontroll hos:</string>
     <string name="notify_desc_date">Varsel ble sendt:</string>
+    <string name="ja">Ja</string>
 
 </resources>
