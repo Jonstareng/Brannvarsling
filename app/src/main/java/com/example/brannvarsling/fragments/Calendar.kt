@@ -44,7 +44,11 @@ import com.example.brannvarsling.databinding.FragmentCalenderBinding
     }
     private fun setupCalendar(){
         val eventsCalendar: EventsCalendar? = null
-        val start: Calendar
+        eventsCalendar?.setSelectionMode(eventsCalendar.MULTIPLE_SELECTION)
+            ?.setToday(today)
+            ?.setMonthRange(eventsCalendar.mMinMonth, eventsCalendar.mMaxMonth)
+            ?.build()
+
     }
 
 }
