@@ -115,6 +115,8 @@ class RecyclerviewDialogFragment(id: String, private var customer: CharSequence)
             openGallery()
         }
         binding.vedlegg.setOnClickListener{
+            getImage()
+            if (imageUrl != null)
             zoomImage(binding.vedlegg, imageUrl!!)
         }
         return dialog
@@ -131,7 +133,7 @@ class RecyclerviewDialogFragment(id: String, private var customer: CharSequence)
         if (requestCode == pickImage && resultCode == Activity.RESULT_OK){
 
             filePath = data?.data
-            Toast.makeText(context, "$filePath", Toast.LENGTH_LONG).show()
+            imageUrl = data?.data
 
             val bt = MediaStore.Images.Media.getBitmap(requireActivity().contentResolver, filePath)
             binding.vedlegg.setImageBitmap(bt)
@@ -148,7 +150,7 @@ class RecyclerviewDialogFragment(id: String, private var customer: CharSequence)
     private fun getImage() {
         val storageReference = FirebaseStorage.getInstance()
         val refStorage = storageReference.getReferenceFromUrl("gs://varslingssystem.appspot.com/$customer.jpg")
-
+        if(refStorage.storage.reference.path.isNotEmpty())
         refStorage.downloadUrl.addOnSuccessListener { image ->
             Picasso.get().load(image).into(binding.vedlegg)
             imageUrl = image
@@ -160,7 +162,6 @@ class RecyclerviewDialogFragment(id: String, private var customer: CharSequence)
 
         val bigImage = binding.zoomImage
         Picasso.get().load(imageId).into(bigImage)
-
 
         val startB = Rect()
         val endB = Rect()
@@ -280,7 +281,6 @@ class RecyclerviewDialogFragment(id: String, private var customer: CharSequence)
             val data = documentSnapshot.toObject(DialogFragmentItems::class.java)
             binding.displayCustomer.text = data?.Customer
             binding.displayType.text = data?.Type
-            binding.displayDate.text = data?.Date
             binding.displayDescription.text = data?.Description
             customer = data?.Customer.toString()
             type = data?.Type.toString()
@@ -296,17 +296,16 @@ class RecyclerviewDialogFragment(id: String, private var customer: CharSequence)
     private fun deleteItem() {
         val docRef = db.collection("Saker").document(documentId)
         val ref = db.collection("ImageUrls").document(documentId)
-        val storageRef = FirebaseStorage.getInstance().getReference("uploads/$customer")
+        val storageRef = FirebaseStorage.getInstance().getReference("$customer.jpg")
         storageRef.delete()
         ref.delete()
         docRef.delete()
-        val storageReference = FirebaseFirestore.getInstance()
+        val reference = FirebaseFirestore.getInstance()
         val refStorage =
-            storageReference.collection("Saker")
+            reference.collection("Saker")
                 .document(documentId)
                 .collection("Check").document("document")
         refStorage.delete()
-        Toast.makeText(requireContext(), "Sak $customer slettet", Toast.LENGTH_SHORT).show()
     }
 
 
@@ -409,23 +408,6 @@ class RecyclerviewDialogFragment(id: String, private var customer: CharSequence)
     }
 
 
-    private fun downloadToDb(download: String) {
-        val db = FirebaseFirestore.getInstance()
-
-        val data = HashMap<String, Any>()
-
-        data["ImageUrl"] = download
-                db.collection("ImageUrls").document(documentId)
-                        .set(data)
-                        .addOnSuccessListener {
-                            Toast.makeText(context, "Bilde lagret", Toast.LENGTH_LONG).show()
-                        }
-                        .addOnFailureListener{
-                            Toast.makeText(context, "Kunne ikke lagre bildet", Toast.LENGTH_LONG).show()
-                        }
-
-    }
-
     private fun getNotifyCounter() {
 
         val ref = db.collection("NotificationIds").document("qsK39UawP1XXeoTCrPcn")
@@ -469,7 +451,7 @@ class RecyclerviewDialogFragment(id: String, private var customer: CharSequence)
         val date = "$day.$month.$year"
         val intent = Intent(context, BroadcastReceiver::class.java)
         intent.putExtra("title", customer)
-        intent.putExtra("text", type)
+        intent.putExtra("text",  type)
         intent.putExtra("notifyId", cancelNotify)
         intent.putExtra("date", date)
         val pending = PendingIntent.getBroadcast(context, cancelNotify.toInt(), intent, PendingIntent.FLAG_UPDATE_CURRENT)

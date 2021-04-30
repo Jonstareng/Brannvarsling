@@ -191,8 +191,8 @@ class Form: Fragment() {
                         .addOnSuccessListener { Log.d(ContentValues.TAG, "Skjema lagt til med ID: ") }
                         .addOnFailureListener { e -> Log.w(ContentValues.TAG, "Error adding form", e) }
 
-                db.collection("Skjema").document(skjemaR.Tittel.toString()).collection("Spørsmål")
-                        .add(skjemaS)
+                db.collection("Skjema").document(skjemaR.Tittel.toString()).collection("Spørsmål").document("Items")
+                        .set(skjemaS)
                         .addOnSuccessListener { Log.d(ContentValues.TAG, "Skjema lagt til med ID: ") }
                         .addOnFailureListener { e -> Log.w(ContentValues.TAG, "Error adding form", e) }
                 Toast.makeText(requireContext(), "Skjema lagret", Toast.LENGTH_LONG).show()
