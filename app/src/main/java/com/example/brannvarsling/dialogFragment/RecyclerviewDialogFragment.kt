@@ -42,6 +42,7 @@ import com.google.android.gms.tasks.Task
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.UploadTask
+import com.itextpdf.kernel.xmp.PdfConst.Date
 import com.squareup.picasso.Picasso
 import java.net.URI
 import java.text.SimpleDateFormat
@@ -65,6 +66,7 @@ class RecyclerviewDialogFragment(id: String, private var customer: CharSequence)
     private var year = ""
     private var month = ""
     private var day = ""
+    private var next = ""
     private var cancelNotify = ""
     private val channelID = "Cases ID"
     private var animation: Animator? = null
@@ -420,12 +422,22 @@ class RecyclerviewDialogFragment(id: String, private var customer: CharSequence)
     }
     private fun saveToDB() {
         val data: MutableMap<String, Any> = HashMap()
-        val date = "$day.$month.$year"
+        val date = "$day-$month-$year"
+        next = (day.toInt() + 1).toString()
+        Toast.makeText(context, "$next", Toast.LENGTH_LONG).show()
+
+        val dateNext: String = if (next.toInt()<10) {
+            "0$next-$month-$year"
+        } else{
+            "$next-$month-$year"
+        }
+
 
 
         data["Customer"] = customer
         data["Type"] = type
         data["Date"] = date
+        data["DateNext"] = dateNext
         data["Description"] = desc
         data["NotificationID"] = cancelNotify
         data["Form"] = formOpen
@@ -448,7 +460,7 @@ class RecyclerviewDialogFragment(id: String, private var customer: CharSequence)
 
     @RequiresApi(Build.VERSION_CODES.M)
     private fun scheduleNotification(){
-        val date = "$day.$month.$year"
+        val date = "$day-$month-$year"
         val intent = Intent(context, BroadcastReceiver::class.java)
         intent.putExtra("title", customer)
         intent.putExtra("text",  type)
@@ -458,7 +470,8 @@ class RecyclerviewDialogFragment(id: String, private var customer: CharSequence)
         // Schdedule notification
         val calendar: Calendar = Calendar.getInstance()
             calendar.set(year.toInt(), month.toInt() - 1, day.toInt(), 12, 0, 0)
-            val time = calendar.timeInMillis
+            calendar.set(year.toInt(), month.toInt() - 1, day.toInt(), 12, 0, 0)
+        val time = calendar.timeInMillis
             Toast.makeText(context, "Varsling satt $year.$month.$day", Toast.LENGTH_LONG).show()
             val manager = requireContext().getSystemService(Context.ALARM_SERVICE) as AlarmManager
             manager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, time, pending)

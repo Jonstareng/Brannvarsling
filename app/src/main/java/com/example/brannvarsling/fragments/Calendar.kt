@@ -7,15 +7,22 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import com.events.calendar.utils.EventsCalendarUtil.today
-import com.events.calendar.views.EventsCalendar
+import com.chintanpatel.materialeventcalendar.CalenderView
+import com.chintanpatel.materialeventcalendar.EventItem
 import com.example.brannvarsling.R
 import com.example.brannvarsling.databinding.FragmentCalenderBinding
+import com.google.firebase.firestore.FirebaseFirestore
 
- class Calendar: Fragment(), EventsCalendar.Callback {
+
+class Calendar: Fragment(){
     private lateinit var binding: FragmentCalenderBinding
+    private val list: ArrayList<EventItem> = arrayListOf()
+    private val listDb: ArrayList<String> = arrayListOf()
+    private val listDn: ArrayList<String> = arrayListOf()
+    private val listK: ArrayList<String> = arrayListOf()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -31,24 +38,35 @@ import com.example.brannvarsling.databinding.FragmentCalenderBinding
 
 
     }
-    override fun onDayLongPressed(selectedDate: java.util.Calendar?) {
-        Log.e("LONG", "CLICKED")
-    }
 
-    override fun onMonthChanged(monthStartDate: java.util.Calendar?) {
-        Log.e("MON", "CHANGED")
-    }
+    private fun setupCalendar() {
+        val db = FirebaseFirestore.getInstance().collection("Saker")
 
-    override fun onDaySelected(selectedDate: java.util.Calendar?) {
-        Log.e("SHORT", "CLICKED")
-    }
-    private fun setupCalendar(){
-        val eventsCalendar: EventsCalendar? = null
-        eventsCalendar?.setSelectionMode(eventsCalendar.MULTIPLE_SELECTION)
-            ?.setToday(today)
-            ?.setMonthRange(eventsCalendar.mMinMonth, eventsCalendar.mMaxMonth)
-            ?.build()
 
+        if (db.path.isNotEmpty())
+            db.get().addOnSuccessListener {
+                it.forEach { each ->
+                    val date = each["Date"].toString()
+                    val dateNext = each["DateNext"].toString()
+                    val kunde = each["Customer"].toString()
+                    listDb.add(date)
+                    listDn.add(dateNext)
+                    listK.add(kunde)
+                }
+                    for (i in 0 until listDb.size) {
+                        list.add(EventItem(listDb[i], listDn[i], listK[i]))
+                    }
+
+                binding.calendarView.setCalenderEventClickListener(object :
+                    CalenderView.CalenderEventClickListener {
+                    override fun onEventClick(eventItem: EventItem) {
+                        val id = eventItem.title
+                        Toast.makeText(context, "$id", Toast.LENGTH_LONG).show()
+                    }
+                })
+                binding.calendarView.addEventList(list)
+
+            }
     }
 
 }
