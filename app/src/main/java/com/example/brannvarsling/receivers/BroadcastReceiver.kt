@@ -16,8 +16,10 @@ class BroadcastReceiver : BroadcastReceiver(){
     override fun onReceive(context: Context, intent: Intent?) {
         val counter = intent?.getStringExtra("notifyId")
         val title = intent?.getStringExtra("title")
+        val dataT = "Utfør kontoll hos: $title"
         val date = intent?.getStringExtra("date")
         val type = intent?.getStringExtra("text")
+        val dataTy = "Type kontroll: $type"
         val intent2 = Intent(context, MainActivity::class.java).apply {
             flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
         }
@@ -25,8 +27,8 @@ class BroadcastReceiver : BroadcastReceiver(){
             counter?.let { PendingIntent.getActivity(context, it.toInt(),intent2, 0) }
         val notification: Notification? = NotificationCompat.Builder(context, "Cases ID")
                 .setSmallIcon(R.drawable.assignment_24px)
-                .setContentTitle(intent!!.getStringExtra("title"))
-                .setContentText(intent.getStringExtra("text"))
+                .setContentTitle(dataT)
+                .setContentText(dataTy)
                 .setContentIntent(pendingIntent)
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT)
                 .setBadgeIconType(NotificationCompat.BADGE_ICON_SMALL)

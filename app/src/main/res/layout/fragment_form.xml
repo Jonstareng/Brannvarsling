@@ -9,46 +9,50 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="55dp"
+        android:layout_marginBottom="55dp"
         android:orientation="vertical">
 
         <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="490dp">
+            android:layout_height="750dp">
         <LinearLayout
             android:id="@+id/scrollLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
+            android:layout_marginBottom="55dp"
             android:gravity="bottom">
         </LinearLayout>
         </ScrollView>
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="100dp"
             android:orientation="horizontal"
             android:visibility="visible"
-            android:layout_marginEnd="10dp">
+            android:layout_marginEnd="10dp"
+            android:layout_marginTop="20dp"
+            android:paddingEnd="10dp"
+            android:paddingStart="10dp">
 
             <com.google.android.material.floatingactionbutton.FloatingActionButton
                 android:id="@+id/floatingActionButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="60dp"
+                android:layout_height="75dp"
                 android:layout_marginStart="15dp"
-                android:layout_marginBottom="15dp"
+                android:layout_marginBottom="10dp"
                 android:clickable="true"
                 android:focusable="true"
                 android:src="@drawable/ic_add"
-                android:tint="@android:color/white"
                 app:backgroundTint="@color/blueJ"
                 tools:ignore="ContentDescription" />
 
 
             <com.google.android.material.floatingactionbutton.FloatingActionButton
                 android:id="@+id/floating_title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="15dp"
+                android:layout_width="60dp"
+                android:layout_height="75dp"
+                android:layout_marginStart="30dp"
                 android:layout_marginBottom="15dp"
                 android:clickable="true"
                 android:focusable="true"
@@ -57,12 +61,11 @@
                 app:backgroundTint="@color/colorAccent"
                 tools:ignore="ContentDescription" />
 
-
             <com.google.android.material.floatingactionbutton.FloatingActionButton
                 android:id="@+id/floating_spm"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="15dp"
+                android:layout_width="60dp"
+                android:layout_height="75dp"
+                android:layout_marginStart="30dp"
                 android:layout_marginBottom="15dp"
                 android:clickable="true"
                 android:focusable="true"
@@ -72,9 +75,9 @@
                 tools:ignore="ContentDescription" />
             <com.google.android.material.floatingactionbutton.FloatingActionButton
                 android:id="@+id/button_submit"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="15dp"
+                android:layout_width="60dp"
+                android:layout_height="75dp"
+                android:layout_marginStart="30dp"
                 android:layout_marginBottom="15dp"
                 android:clickable="true"
                 android:focusable="true"
@@ -84,9 +87,9 @@
                 tools:ignore="ContentDescription" />
             <com.google.android.material.floatingactionbutton.FloatingActionButton
                 android:id="@+id/button_fjern"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="15dp"
+                android:layout_width="60dp"
+                android:layout_height="75dp"
+                android:layout_marginStart="30dp"
                 android:layout_marginBottom="15dp"
                 android:clickable="true"
                 android:focusable="true"

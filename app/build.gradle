@@ -19,7 +19,7 @@ android {
 
     defaultConfig {
         applicationId "com.example.brannvarsling"
-        minSdkVersion 19
+        minSdkVersion 21
         targetSdkVersion 30
         versionCode 1
         versionName "1.0"
@@ -61,6 +61,7 @@ dependencies {
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'com.google.firebase:firebase-storage:19.2.2'
     implementation 'com.google.android.material:material:1.4.0-alpha02'
+    implementation 'com.github.tizisdeepan:eventscalendar:1.6.1'
     testImplementation 'junit:junit:4.13.1'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
