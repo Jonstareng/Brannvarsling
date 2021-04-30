@@ -34,6 +34,7 @@
             android:fontFamily="@font/asap_medium"
             android:hint="@string/passord"
             android:inputType="textPassword"
+            android:textSize="20sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.513"
@@ -50,6 +51,7 @@
             android:fontFamily="@font/asap_medium"
             android:hint="@string/email"
             android:inputType="textEmailAddress"
+            android:textSize="20sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.513"
@@ -77,21 +79,22 @@
             android:id="@+id/loginButton"
             android:layout_width="300dp"
             android:layout_height="wrap_content"
+            android:background="@drawable/round_primary"
             android:fontFamily="@font/asap_medium"
             android:text="@string/button1"
             android:textColorLink="#3F51B5"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.485"
+            app:layout_constraintHorizontal_bias="0.486"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.66"
-            android:background="@drawable/round_primary"/>
+            app:layout_constraintVertical_bias="0.696" />
 
         <Button
             android:id="@+id/registrerButton"
             android:layout_width="300dp"
             android:layout_height="wrap_content"
+            android:background="@drawable/round_primary"
             android:fontFamily="@font/asap_medium"
             android:text="@string/button2"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -99,8 +102,7 @@
             app:layout_constraintHorizontal_bias="0.486"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.831"
-            android:background="@drawable/round_primary"/>
+            app:layout_constraintVertical_bias="0.879" />
 
         <ImageView
         android:id="@+id/imageView"
