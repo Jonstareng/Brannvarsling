@@ -7,7 +7,6 @@ data class FirebaseCases(
  val Type: String? = null,
  val Date: String? = null,
  val Description: String? = null,
- val Image: ImageView? = null
 )
 
 

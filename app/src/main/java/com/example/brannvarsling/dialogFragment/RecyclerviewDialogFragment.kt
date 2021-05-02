@@ -10,6 +10,7 @@ import android.content.ContentValues.TAG
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.Matrix
 import android.graphics.Point
 import android.graphics.Rect
 import android.graphics.RectF
@@ -47,6 +48,7 @@ import com.squareup.picasso.Picasso
 import java.net.URI
 import java.text.SimpleDateFormat
 import java.util.*
+import java.util.Collections.rotate
 import kotlin.collections.HashMap
 
 
@@ -119,7 +121,10 @@ class RecyclerviewDialogFragment(id: String, private var customer: CharSequence)
         binding.vedlegg.setOnClickListener{
             getImage()
             if (imageUrl != null)
-            zoomImage(binding.vedlegg, imageUrl!!)
+            zoomImage(imageUrl!!)
+        }
+        binding.zoomImage.setOnClickListener {
+            binding.zoomImage.visibility = View.INVISIBLE
         }
         return dialog
     }
@@ -143,6 +148,8 @@ class RecyclerviewDialogFragment(id: String, private var customer: CharSequence)
         }
     }
     private fun uploadImage() {
+        val matrix = Matrix()
+        matrix.postRotate(90F)
         val storageReference = FirebaseStorage.getInstance().reference
         val ref = storageReference.child("$customer.jpg")
         ref.putFile(filePath!!)
@@ -154,113 +161,18 @@ class RecyclerviewDialogFragment(id: String, private var customer: CharSequence)
         val refStorage = storageReference.getReferenceFromUrl("gs://varslingssystem.appspot.com/$customer.jpg")
         if(refStorage.storage.reference.path.isNotEmpty())
         refStorage.downloadUrl.addOnSuccessListener { image ->
-            Picasso.get().load(image).into(binding.vedlegg)
+            Picasso.get().load(image).rotate(90F).into(binding.vedlegg)
             imageUrl = image
         }
     }
-    private fun zoomImage(imageView: View, imageId: Uri){
+    private fun zoomImage(imageId: Uri){
 
         animation?.cancel()
 
         val bigImage = binding.zoomImage
-        Picasso.get().load(imageId).into(bigImage)
-
-        val startB = Rect()
-        val endB = Rect()
-        val global = Point()
-
-        imageView.getGlobalVisibleRect(startB)
-        binding.consLayout.getGlobalVisibleRect(endB, global)
-        startB.offset(-global.x, -global.y)
-        endB.offset(-global.x, -global.y)
-
-        val startBounds = RectF(startB)
-        val endBounds = RectF(endB)
-
-        val startScale: Float
-        if ((endBounds.width() / endBounds.height() > startBounds.width() / startBounds.height())) {
-            // Extend start bounds horizontally
-            startScale = startBounds.height() / endBounds.height()
-            val startWidth: Float = startScale * endBounds.width()
-            val deltaWidth: Float = (startWidth - startBounds.width()) / 2
-            startBounds.left -= deltaWidth.toInt()
-            startBounds.right += deltaWidth.toInt()
-        } else {
-            // Extend start bounds vertically
-            startScale = startBounds.width() / endBounds.width()
-            val startHeight: Float = startScale * endBounds.height()
-            val deltaHeight: Float = (startHeight - startBounds.height()) / 2f
-
-            startBounds.top -= deltaHeight.toInt()
-            startBounds.bottom += deltaHeight.toInt()
-        }
-        imageView.alpha = 0f
+        Picasso.get().load(imageId).rotate(90f).into(bigImage)
         bigImage.visibility = View.VISIBLE
 
-        // Set the pivot point for SCALE_X and SCALE_Y transformations
-        // to the top-left corner of the zoomed-in view (the default
-        // is the center of the view).
-        bigImage.pivotX = 0f
-        bigImage.pivotY = 0f
-
-        // Construct and run the parallel animation of the four translation and
-        // scale properties (X, Y, SCALE_X, and SCALE_Y).
-        animation = AnimatorSet().apply {
-            play(
-                ObjectAnimator.ofFloat(
-                bigImage,
-                View.X,
-                startBounds.left,
-                endBounds.left)
-            ).apply {
-                with(ObjectAnimator.ofFloat(bigImage, View.Y, startBounds.top, endBounds.top))
-                with(ObjectAnimator.ofFloat(bigImage, View.SCALE_X, startScale, 1f))
-                with(ObjectAnimator.ofFloat(bigImage, View.SCALE_Y, startScale, 1f))
-            }
-            duration = aniDuration.toLong()
-            interpolator = DecelerateInterpolator()
-            addListener(object : AnimatorListenerAdapter() {
-
-                override fun onAnimationEnd(ani: Animator) {
-                    animation = null
-                }
-
-                override fun onAnimationCancel(ani: Animator) {
-                    animation = null
-                }
-            })
-            start()
-        }
-        bigImage.setOnClickListener {
-            animation?.cancel()
-
-            // Animate the four positioning/sizing properties in parallel,
-            // back to their original values.
-            animation = AnimatorSet().apply {
-                play(ObjectAnimator.ofFloat(bigImage, View.X, startBounds.left)).apply {
-                    with(ObjectAnimator.ofFloat(bigImage, View.Y, startBounds.top))
-                    with(ObjectAnimator.ofFloat(bigImage, View.SCALE_X, startScale))
-                    with(ObjectAnimator.ofFloat(bigImage, View.SCALE_Y, startScale))
-                }
-                duration = aniDuration.toLong()
-                interpolator = DecelerateInterpolator()
-                addListener(object : AnimatorListenerAdapter() {
-
-                    override fun onAnimationEnd(ani: Animator) {
-                        imageView.alpha = 1f
-                        bigImage.visibility = View.GONE
-                        animation = null
-                    }
-
-                    override fun onAnimationCancel(ani: Animator) {
-                        imageView.alpha = 1f
-                        bigImage.visibility = View.GONE
-                        animation = null
-                    }
-                })
-                start()
-            }
-        }
     }
 
     private fun checkPermission(): Boolean {
@@ -425,7 +337,6 @@ class RecyclerviewDialogFragment(id: String, private var customer: CharSequence)
         val data: MutableMap<String, Any> = HashMap()
         val date = "$day-$month-$year"
         next = (day.toInt() + 1).toString()
-        Toast.makeText(context, "$next", Toast.LENGTH_LONG).show()
 
         val dateNext: String = if (next.toInt()<10) {
             "0$next-$month-$year"

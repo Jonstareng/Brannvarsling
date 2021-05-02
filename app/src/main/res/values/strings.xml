@@ -52,5 +52,6 @@
     <string name="notify_desc">Utfør kontroll hos:</string>
     <string name="notify_desc_date">Varsel ble sendt:</string>
     <string name="ja">Ja</string>
+    <string name="slett_skjema">Slett skjema</string>
 
 </resources>

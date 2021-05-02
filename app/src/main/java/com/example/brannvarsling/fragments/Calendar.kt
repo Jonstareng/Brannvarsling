@@ -51,13 +51,17 @@ class Calendar: Fragment(){
                     val date = each["Date"].toString()
                     val dateNext = each["DateNext"].toString()
                     val kunde = each["Customer"].toString()
-                    listDb.add(date)
-                    listDn.add(dateNext)
-                    listK.add(kunde)
+                    if (date != "") {
+                        listDb.add(date)
+                        listDn.add(dateNext)
+                        listK.add(kunde)
+
+                    }
                 }
                     for (i in 0 until listDb.size) {
                         list.add(EventItem(listDb[i], listDn[i], listK[i]))
                     }
+
 
                 binding.calendarView.setCalenderEventClickListener(object :
                     CalenderView.CalenderEventClickListener {
@@ -65,14 +69,13 @@ class Calendar: Fragment(){
                         val id = eventItem.title
                         val builder = AlertDialog.Builder(activity)
                         builder.setTitle(id)
-                            .setMessage("Varsel vil bli sendt ${eventItem.start}, du kan sette ny varsel dato inne på saker siden.")
+                            .setMessage("Varsel vil bli sendt ${eventItem.start}, du kan sette ny dato for varsling inne på saker siden.")
                             .setCancelable(false)
                             .setNegativeButton("Avbryt") { dialog, _ ->
                                 dialog.dismiss()
                             }
                         val alert = builder.create()
                         alert.show()
-                        Toast.makeText(context, "$id", Toast.LENGTH_LONG).show()
                     }
                 })
                 binding.calendarView.addEventList(list)

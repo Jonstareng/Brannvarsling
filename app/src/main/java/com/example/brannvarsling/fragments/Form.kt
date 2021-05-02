@@ -26,7 +26,6 @@ class Form: Fragment() {
     private var db = FirebaseFirestore.getInstance()
     private var list = ArrayList<Spm>()
     private var listTitle = ArrayList<SkjemaFirebase>()
-    //private var skjemaList = ArrayList<CasesModel>()
 
     // FloatingActionBar animasjoner
     private val rotateOpen: Animation by lazy { AnimationUtils.loadAnimation(context, R.anim.rotate_open_anim) }

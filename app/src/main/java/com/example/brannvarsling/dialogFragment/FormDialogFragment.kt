@@ -119,9 +119,8 @@ class FormDialogFragment(private var formType: String, private var type: String)
             PdfWriter.getInstance(mDoc, FileOutputStream(mFilePath))
             mDoc.open()
             mDoc.pageSize = PageSize.A4
-            mDoc.addAuthor("Mr.Jensen")
+            mDoc.addAuthor("Jensen elektriske as")
             mDoc.addCreationDate()
-            mDoc.addCreator("Henningsen")
 
             // font
             val title = Font(BaseFont.createFont(), 36.0f, Font.NORMAL, BaseColor.RED)
@@ -129,13 +128,11 @@ class FormDialogFragment(private var formType: String, private var type: String)
             val overskrift2 = Font(BaseFont.createFont(), 30.0f, Font.NORMAL, BaseColor.RED)
             val overskrift = Font(BaseFont.createFont(), 30.0f, Font.NORMAL, BaseColor.BLACK)
 
-
             // title
             addNewItem(mDoc, binding.tittelText.text.toString(), Element.ALIGN_CENTER, title)
             addNewItem(mDoc, type, Element.ALIGN_CENTER, title)
 
             addLineSeparator(mDoc)
-
 
             // innhold
             addNewItemLR(mDoc, binding.kundeText.text.toString(),binding.kundeTextEdit.text.toString(), overskrift, tekst)
@@ -149,12 +146,12 @@ class FormDialogFragment(private var formType: String, private var type: String)
             addNewItemLR(mDoc, "Benevnelse","Ja/Nei", overskrift2, overskrift2)
             addLineSpace(mDoc)
 
-
             // Pdf innhold
             val count = binding.formLayout.childCount
             for (i in 0 until count) {
                 val item = list[i]
-                val data = "$i.$item"
+                val benevnelseId = i + 1
+                val data = "$benevnelseId.$item"
                 val v = binding.formLayout.getChildAt(i)
                 val screen = takeScreenshotTitle(v.findViewById(R.id.checkbox_layout))
                 val stream = ByteArrayOutputStream()
