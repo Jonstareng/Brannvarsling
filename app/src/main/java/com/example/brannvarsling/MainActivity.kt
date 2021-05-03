@@ -1,10 +1,12 @@
 package com.example.brannvarsling
 
+import android.app.AlertDialog
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
@@ -14,6 +16,8 @@ import com.example.brannvarsling.fragments.Home
 import com.example.brannvarsling.fragments.Notifications
 import com.example.brannvarsling.utils.FirebaseUtils.firebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import java.text.SimpleDateFormat
+import java.util.*
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
@@ -59,6 +63,7 @@ class MainActivity : AppCompatActivity() {
         }
         return true
     }
+
     private fun updateCount(){
         binding.bottomNavigator.getOrCreateBadge(R.id.ic_notification).apply {
             val ref = FirebaseFirestore.getInstance().collection("Notifications")

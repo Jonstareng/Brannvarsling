@@ -83,6 +83,7 @@ class AddDialogFragment: DialogFragment() {
             user["Description"] = description
             user["NotificationID"] = counter
             user["Form"] = formType
+            user["Date"] = ""
 
             db.collection("Saker")
                     .add(user)
