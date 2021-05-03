@@ -58,7 +58,7 @@ class MainActivity : AppCompatActivity() {
         menuInflater.inflate(R.menu.menu_main, menu)
         return true
     }
-    // setter aksjonen på om item action_logout blir valgt, kaller på signOut funksjoen
+    // setter aksjonen på om item action_logout blir valgt, kaller på signOut funksjoen og deleteForm funksjonen
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
          when (item.itemId) {
             R.id.action_logout -> signOut()
@@ -66,6 +66,7 @@ class MainActivity : AppCompatActivity() {
         }
         return true
     }
+    //Kaller på AlertDelete klassen
     private  fun deleteForm(){
         val dialogFragment = AlertDelete()
         dialogFragment.show(supportFragmentManager, "show")

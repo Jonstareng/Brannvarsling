@@ -42,6 +42,7 @@ class AlertDelete : DialogFragment() {
         return dialog
 
     }
+    // Setter opp alertdialog vinduet og kaller på deleteSpinner funksjonen
      private fun setupDialog() {
          val builder = AlertDialog.Builder(activity)
          builder
@@ -56,12 +57,12 @@ class AlertDelete : DialogFragment() {
 
          builder.create().show()
     }
-
+    // Sletter valgt skjema fra databasen
     private fun deleteSpinner() {
         val docRef = db.collection("Skjema").document(formType)
         docRef.delete()
     }
-
+    // Henter ut data fra databasen og legger det i spinneren
     private fun getDataSpinner(){
         db.collection("Skjema").get().addOnSuccessListener { documents ->
             for (document in documents) {
@@ -80,7 +81,6 @@ class AlertDelete : DialogFragment() {
                     position: Int,
                     id: Long
                 ) {
-                    // setter formtype verdien slik at vi kan lagre verdien i databasen
                     formType = parent?.getItemAtPosition(position).toString()
                     arrayAdapter.notifyDataSetChanged()
                 }
