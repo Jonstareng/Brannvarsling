@@ -73,13 +73,14 @@ class Form: Fragment() {
         }
     }
 
-
+    // Når du trykker på floatingActionButton utfører den animasjonen
     private fun onAddButtonClicked() {
         setVisibility(clicked)
         setAnimation(clicked)
         clicked = !clicked
     }
 
+    // Setter synligheten til underknapper til synelig når trykket på, og usynelig når du lukker
     private fun setVisibility(clicked: Boolean) {
         if (!clicked) {
             binding.floatingSpm.visibility = View.VISIBLE
@@ -94,6 +95,7 @@ class Form: Fragment() {
         }
     }
 
+    // Animasjon på floatingActionButton og underknapper tilhørende
     private fun setAnimation(clicked: Boolean) {
         if (!clicked) {
             binding.floatingSpm.startAnimation(fromBottom)
@@ -110,6 +112,7 @@ class Form: Fragment() {
         }
     }
 
+    // Legger til nytt spørsmål i Skjema.
     @SuppressLint("InflateParams")
     private fun addNewSpm() {
         val inflater: View = LayoutInflater.from(requireContext()).inflate(R.layout.row_add_spm, null)
@@ -121,6 +124,7 @@ class Form: Fragment() {
         }
     }
 
+    // Legger til ny tittel i Skjema.
     @SuppressLint("InflateParams")
     private fun addNewTitle() {
         val inflater = LayoutInflater.from(requireContext()).inflate(row_add_titles, null)
@@ -132,6 +136,7 @@ class Form: Fragment() {
         }
     }
 
+    // Lagrer skjema data
     private fun saveData() {
         val skjema: MutableMap<String, Any> = HashMap()
         val skjemaS: MutableMap<String, Any> = HashMap()

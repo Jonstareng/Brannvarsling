@@ -21,7 +21,7 @@ class LogInActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this,R.layout.activity_login)
-        binding.bottomNav.visibility = View.GONE
+        //binding.bottomNav.visibility = View.GONE
 
 /*
         binding.registrerButton.setOnClickListener {
