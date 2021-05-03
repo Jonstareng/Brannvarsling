@@ -40,7 +40,6 @@ class AlertDelete : DialogFragment() {
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         setupDialog()
         return dialog
-
     }
     // Setter opp alertdialog vinduet og kaller på deleteSpinner funksjonen
      private fun setupDialog() {

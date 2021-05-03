@@ -16,6 +16,7 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.ImageView
 import android.widget.Toast
+import androidx.core.view.isNotEmpty
 import androidx.fragment.app.DialogFragment
 import com.example.brannvarsling.databinding.DialogWindowBinding
 import com.google.firebase.firestore.FirebaseFirestore
@@ -52,6 +53,7 @@ class AddDialogFragment: DialogFragment() {
             dismiss()
         }
         binding.button2.setOnClickListener{
+
             writeToDb()
             notificationCounter()
         }
@@ -67,21 +69,38 @@ class AddDialogFragment: DialogFragment() {
         val description = binding.editTextTextMultiLine.text.toString()
 
         // sørger for at feltene blir fylt ut, Vi trenger disse verdiene andre steder i koden
-        if (title != "" && type != "") {
+        if (title != "" && type != "" ) {
+            if (binding.spinner.isNotEmpty()) {
 
-            user["Customer"] = title
-            user["Type"] = type
-            user["Description"] = description
-            user["NotificationID"] = counter
-            user["Form"] = formType
-            // Vi setter date tom her slik at kalender funksjonen ikke får kjørt på grunn av null verdier
-            user["Date"] = ""
+                user["Customer"] = title
+                user["Type"] = type
+                user["Description"] = description
+                user["NotificationID"] = counter
+                user["Form"] = formType
+                // Vi setter date tom her slik at kalender funksjonen ikke får kjørt på grunn av null verdier
+                user["Date"] = ""
 
-            db.collection("Saker")
+                db.collection("Saker")
                     .add(user)
-                    .addOnSuccessListener { documentReference -> Log.d(ContentValues.TAG, "DocumentSnapshot added with ID: " + documentReference.id) }
-                    .addOnFailureListener { e -> Log.w(ContentValues.TAG, "Error adding document", e) }
-            dismiss()
+                    .addOnSuccessListener { documentReference ->
+                        Log.d(
+                            ContentValues.TAG,
+                            "DocumentSnapshot added with ID: " + documentReference.id
+                        )
+                    }
+                    .addOnFailureListener { e ->
+                        Log.w(
+                            ContentValues.TAG,
+                            "Error adding document",
+                            e
+                        )
+                    }
+                dismiss()
+            }
+
+            else{
+                Toast.makeText(context, "Du har ikke laget et skjema enda", Toast.LENGTH_LONG).show()
+            }
         }
         else {
             Toast.makeText(context, "Fyll ut alle feltene", Toast.LENGTH_LONG).show()
