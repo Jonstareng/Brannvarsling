@@ -1,6 +1,5 @@
 package com.example.brannvarsling
 
-import android.app.AlertDialog
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
@@ -16,8 +15,6 @@ import com.example.brannvarsling.fragments.Home
 import com.example.brannvarsling.fragments.Notifications
 import com.example.brannvarsling.utils.FirebaseUtils.firebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
-import java.text.SimpleDateFormat
-import java.util.*
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
@@ -51,7 +48,7 @@ class MainActivity : AppCompatActivity() {
     private fun signOut(){
             firebaseAuth.signOut()
             startActivity(Intent(this, LogInActivity::class.java))
-            toast("Du er nå logget ut")
+            toast("Du er nå logget ut", Toast.LENGTH_LONG)
             finish()
     }
     // inflater top menyen
