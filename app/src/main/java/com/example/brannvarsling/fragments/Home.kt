@@ -29,17 +29,22 @@ class Home : Fragment() {
         val fragmentCases = Cases()
         val fragmentCalendar = Calendar()
         val fragmentForm = Form()
-
+        // Setter fragmentet til Cases
         binding.buttonCases.setOnClickListener {
             setCurrentFragment(fragmentCases)
         }
+
+        // Setter fragmentet til Calendar
         binding.buttonCalendar.setOnClickListener {
             setCurrentFragment(fragmentCalendar)
         }
+
+        // Setter fragmentet til Skjema
         binding.buttonNySkjema.setOnClickListener{
             setCurrentFragment(fragmentForm)
         }
     }
+    // hjelpe funksjon for å sende brukeren til ønsket fragment
     private fun setCurrentFragment(fragment: Fragment)=
             parentFragmentManager.beginTransaction().apply {
                 replace(R.id.my_nav_host_fragment,fragment)

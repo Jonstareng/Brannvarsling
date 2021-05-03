@@ -41,7 +41,12 @@ class Calendar: Fragment(){
 
 
     }
-
+    /*
+    //Henter ut data fra databasen, legger det i liste og legger dataen inn i kalenderen,
+    // siden eventkalenderen er designet for å strekke seg over flere datoer trenger man to datoer for hvert eventitem
+    // Derfor henter vi ut Date og DateNext som er dagen etter,
+    // da vil bare første dagen vises i kalenderen og vi får oppsettet som vi ønsker
+    */
     private fun setupCalendar() {
         val db = FirebaseFirestore.getInstance().collection("Saker")
 

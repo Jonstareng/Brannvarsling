@@ -37,7 +37,7 @@
 
             <com.google.android.material.floatingactionbutton.FloatingActionButton
                 android:id="@+id/floatingActionButton"
-                android:layout_width="60dp"
+                android:layout_width="55dp"
                 android:layout_height="75dp"
                 android:layout_marginStart="15dp"
                 android:layout_marginBottom="10dp"
@@ -50,7 +50,7 @@
 
             <com.google.android.material.floatingactionbutton.FloatingActionButton
                 android:id="@+id/floating_title"
-                android:layout_width="60dp"
+                android:layout_width="55dp"
                 android:layout_height="75dp"
                 android:layout_marginStart="30dp"
                 android:layout_marginBottom="15dp"
@@ -63,7 +63,7 @@
 
             <com.google.android.material.floatingactionbutton.FloatingActionButton
                 android:id="@+id/floating_spm"
-                android:layout_width="60dp"
+                android:layout_width="55dp"
                 android:layout_height="75dp"
                 android:layout_marginStart="30dp"
                 android:layout_marginBottom="15dp"
@@ -75,7 +75,7 @@
                 tools:ignore="ContentDescription" />
             <com.google.android.material.floatingactionbutton.FloatingActionButton
                 android:id="@+id/button_submit"
-                android:layout_width="60dp"
+                android:layout_width="55dp"
                 android:layout_height="75dp"
                 android:layout_marginStart="30dp"
                 android:layout_marginBottom="15dp"
@@ -87,7 +87,7 @@
                 tools:ignore="ContentDescription" />
             <com.google.android.material.floatingactionbutton.FloatingActionButton
                 android:id="@+id/button_fjern"
-                android:layout_width="60dp"
+                android:layout_width="55dp"
                 android:layout_height="75dp"
                 android:layout_marginStart="30dp"
                 android:layout_marginBottom="15dp"

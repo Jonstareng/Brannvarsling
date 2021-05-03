@@ -42,7 +42,6 @@ class Form: Fragment() {
         // Inflate the layout for this fragment
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_form, container, false)
         return binding.root
-
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -67,7 +66,7 @@ class Form: Fragment() {
         binding.floatingActionButton.setOnClickListener {
             onAddButtonClicked()
         }
-
+        // Fjerner alle views i scrollLayout
         binding.buttonFjern.setOnClickListener {
             binding.scrollLayout.removeAllViews()
         }
@@ -131,7 +130,11 @@ class Form: Fragment() {
                     .removeView(inflater)
         }
     }
-
+    /*
+    // Lagrer alle feltene som er opprettet i skemaet
+    // Vi bruker lister, dataklasser og for løkker som hjelpemiddel til å lagre dataen i databasen
+    // Vi har også sørget for at alle feltene må være fylt ut for å kunne lagre
+     */
     private fun saveData() {
         val skjema: MutableMap<String, Any> = HashMap()
         val skjemaS: MutableMap<String, Any> = HashMap()

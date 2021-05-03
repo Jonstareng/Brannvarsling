@@ -47,10 +47,10 @@ class Notifications: Fragment(), NotificationAdapter.OnItemClickListnerN {
         super.onViewCreated(view, savedInstanceState)
         createRecyclerView()
     }
+    // Samme som i cases klassen, kobler adapteret opp mot recyclerviewet
     private fun createRecyclerView() {
         val query = db.collection("Notifications")
 
-        //Toast.makeText(context, "$", Toast.LENGTH_LONG).show()
         val option: FirestoreRecyclerOptions<FirebaseNotification> = FirestoreRecyclerOptions.Builder<FirebaseNotification>()
             .setQuery(query, FirebaseNotification::class.java).build()
 
@@ -65,7 +65,7 @@ class Notifications: Fragment(), NotificationAdapter.OnItemClickListnerN {
                     override fun onMove(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder, target: RecyclerView.ViewHolder): Boolean {
                         return false
                     }
-
+                    // Åpner en alertdialog når man swiper for å kontrollere at brukeren faktisk ønsker å slette notifikasjonen.
                     override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
                         val builder = AlertDialog.Builder(activity)
                         builder.setMessage("Er du sikker på at du vil slette varslingen")
@@ -85,24 +85,26 @@ class Notifications: Fragment(), NotificationAdapter.OnItemClickListnerN {
                 }).attachToRecyclerView(binding.recyclerviewNotify)
 
     }
-
+    // starter adapteret
     override fun onStart() {
         super.onStart()
         adapterR?.startListening()
     }
-
+    //Stopper adapteret
     override fun onStop() {
         super.onStop()
         adapterR?.stopListening()
     }
 
+    // alert dialog som kaller på klassene for å utsette notifikasjonene
+    // Siden dennee funksjonen kaller på en klasse som har @RequiresApi(Build.VERSION_CODES.M), må også den stå her
     @RequiresApi(Build.VERSION_CODES.M)
     override fun onItemClick(id: String) {
         documentID = id
         getData()
         val builder = AlertDialog.Builder(activity)
-        builder.setTitle("Notifikasjon")
-            .setCancelable(false)
+        builder
+                .setCancelable(false)
                 .setMessage("Send ny varsel om en uke eller en dag")
                 .setPositiveButton("Dag") { dialog, _ ->
                     db.collection("Notifications").document(id).delete()
@@ -118,6 +120,11 @@ class Notifications: Fragment(), NotificationAdapter.OnItemClickListnerN {
         val alert = builder.create()
         alert.show()
     }
+
+    // Starter en ny alarm med samme notifikasjons id som notifikasjonen allerede hadde,
+    // sender de samme intentene som notifikasjonen opprinnelig hadde
+    // Alarmen er satt til en dag etter at funksjonen blir kalt på
+    // Koblet opp mot samme Broadcast receiver som alle andre notifikasjoner
     @RequiresApi(Build.VERSION_CODES.M)
     private fun scheduleNotificationDay(){
         val intent = Intent(context, BroadcastReceiver::class.java)
@@ -126,14 +133,16 @@ class Notifications: Fragment(), NotificationAdapter.OnItemClickListnerN {
         intent.putExtra("notifyId", counter.toString())
         intent.putExtra("date", date)
         val pending = PendingIntent.getBroadcast(context, counter.toInt(), intent, PendingIntent.FLAG_UPDATE_CURRENT)
-        // Schdedule notification
         val calendar: Calendar = Calendar.getInstance()
+        // setter alarmen til om en dag
         calendar.add(Calendar.DATE, 1)
         val time = calendar.timeInMillis
         Toast.makeText(context, "Varsling satt til i morgen", Toast.LENGTH_LONG).show()
         val manager = requireContext().getSystemService(Context.ALARM_SERVICE) as AlarmManager
         manager.setAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, time, pending)
     }
+
+    // Samme kode som funksjonen over, bortsett fra at alarmen går av om en uke
     @RequiresApi(Build.VERSION_CODES.M)
     private fun scheduleNotificationWeek(){
         val intent = Intent(context, BroadcastReceiver::class.java)
@@ -142,19 +151,21 @@ class Notifications: Fragment(), NotificationAdapter.OnItemClickListnerN {
         intent.putExtra("notifyId", counter.toString())
         intent.putExtra("date", date)
         val pending = PendingIntent.getBroadcast(context, counter.toInt(), intent, PendingIntent.FLAG_UPDATE_CURRENT)
-        // Schdedule notification
         val calendar: Calendar = Calendar.getInstance()
+        // setter alarmen til om en uke
         calendar.add(Calendar.DATE, 7)
         Toast.makeText(context, "Varsling utsatt en uke", Toast.LENGTH_LONG).show()
         val time = calendar.timeInMillis
         val manager = requireContext().getSystemService(Context.ALARM_SERVICE) as AlarmManager
         manager.setAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, time, pending)
     }
+    // Henter ut data fra en spesefik posisjon i databasen
     private fun getData() {
 
         val ref = db.collection("Notifications").document(documentID)
         ref.get().addOnSuccessListener { snapshot ->
             if (snapshot.exists()) {
+                // henter verdiene som ligger under Stringene
                 counter = snapshot.get("Counter") as Long
                 customer = (snapshot.get("Customer")).toString()
                 type = snapshot.get("Type").toString()

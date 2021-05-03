@@ -28,7 +28,6 @@ class Cases: Fragment(), RecyclerviewAdapter.OnItemClickListener {
 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        //binding2 = DialogWindowBinding.inflate(inflater, container, false)
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_cases, container, false)
         return binding.root
     }
@@ -37,17 +36,17 @@ class Cases: Fragment(), RecyclerviewAdapter.OnItemClickListener {
         super.onViewCreated(view, savedInstanceState)
 
         createRecyclerView()
-        getImage()
         binding.addCases.setOnClickListener {
             showAddDialog()
         }
         binding.recyclerLayout
 
     }
+
+    // kobler opp recyclerviewet med adapteret
     private fun createRecyclerView() {
         val query = db.collection("Saker")
 
-        //Toast.makeText(context, "$", Toast.LENGTH_LONG).show()
         val option: FirestoreRecyclerOptions<FirebaseCases> = FirestoreRecyclerOptions.Builder<FirebaseCases>()
                 .setQuery(query, FirebaseCases::class.java).build()
 
@@ -57,17 +56,18 @@ class Cases: Fragment(), RecyclerviewAdapter.OnItemClickListener {
         binding.recyclerviewCase.adapter = adapterR
 
     }
-
+    // starter adapteret
     override fun onStart() {
         super.onStart()
         adapterR?.startListening()
     }
-
+    // Slutter adapteret
     override fun onStop() {
         super.onStop()
         adapterR?.stopListening()
     }
 
+    // åpner opp adddialog vinduet som er en egen klasse
     private fun showAddDialog() {
         val dialogFragment = AddDialogFragment()
         val fragmentManager = activity?.supportFragmentManager
@@ -78,7 +78,7 @@ class Cases: Fragment(), RecyclerviewAdapter.OnItemClickListener {
         transaction?.add(android.R.id.content, dialogFragment)?.addToBackStack(null)?.commit()
     }
 
-
+    // sender deg inn i recyclerviewdialog vinduet, sender med id på dokumentet slik at riktig data blir vist i vinduet
     override fun onItemClick(id: String, customer: CharSequence) {
         val dialogFragment = RecyclerviewDialogFragment(id, customer)
         val fragmentManager = activity?.supportFragmentManager
@@ -87,19 +87,6 @@ class Cases: Fragment(), RecyclerviewAdapter.OnItemClickListener {
 
         transaction?.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
         transaction?.add(android.R.id.content, dialogFragment)?.addToBackStack(null)?.commit()
-    }
-    private fun getImage() {
-
-        /*
-        val storageReference = FirebaseStorage.getInstance()
-        val refStorage = storageReference.getReferenceFromUrl("gs://varslingssystem.appspot.com/baseline_check_box_black_24dp.png")
-
-        refStorage.downloadUrl.addOnSuccessListener { image ->
-            val url = binding.recyclerLayout.findViewById<ImageView>(R.id.recyclerview_item_checkbox)
-            Picasso.get().load(image).into(url)
-            }
-         */
-
     }
 
 }
