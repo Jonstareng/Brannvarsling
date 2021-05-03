@@ -5,27 +5,17 @@ import android.graphics.Color
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
-import android.view.View
-import android.widget.AdapterView
-import android.widget.ArrayAdapter
-import android.widget.Spinner
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
 import com.example.brannvarsling.databinding.ActivityMainBinding
 import com.example.brannvarsling.dialogFragment.AlertDelete
-import com.example.brannvarsling.dialogFragment.FormDialogFragment
 import com.example.brannvarsling.extensions.Extensions.toast
 import com.example.brannvarsling.fragments.Home
 import com.example.brannvarsling.fragments.Notifications
 import com.example.brannvarsling.utils.FirebaseUtils.firebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
-import java.text.SimpleDateFormat
-import java.util.*
-import kotlin.collections.ArrayList
+
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
