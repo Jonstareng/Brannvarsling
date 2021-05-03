@@ -7,4 +7,9 @@
         android:orderInCategory="100"
         android:title="@string/logg_ut"
         app:showAsAction="never" />
+    <item
+        android:id="@+id/action_slett_skjema"
+        android:orderInCategory="100"
+        android:title="@string/slett_skjema"
+        app:showAsAction="never" />
 </menu>

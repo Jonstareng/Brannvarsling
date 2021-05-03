@@ -6,11 +6,19 @@ import android.graphics.Color
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
+import android.widget.Spinner
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
 import com.example.brannvarsling.databinding.ActivityMainBinding
+import com.example.brannvarsling.dialogFragment.AlertDelete
+import com.example.brannvarsling.dialogFragment.FormDialogFragment
 import com.example.brannvarsling.extensions.Extensions.toast
 import com.example.brannvarsling.fragments.Home
 import com.example.brannvarsling.fragments.Notifications
@@ -18,9 +26,11 @@ import com.example.brannvarsling.utils.FirebaseUtils.firebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.collections.ArrayList
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -63,9 +73,16 @@ class MainActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
          when (item.itemId) {
             R.id.action_logout -> signOut()
+             R.id.action_slett_skjema -> deleteForm()
         }
         return true
     }
+    private  fun deleteForm(){
+        val dialogFragment = AlertDelete()
+        dialogFragment.show(supportFragmentManager, "show")
+    }
+
+
     // Denne klassen tar i bruk material som er et bibliotek som man kan bruke for å legge til et notifikasjons ikon på en drawable
     private fun updateCount(){
         binding.bottomNavigator.getOrCreateBadge(R.id.ic_notification).apply {
