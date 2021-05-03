@@ -2,13 +2,14 @@ package com.example.brannvarsling
 
 import android.content.Intent
 import android.os.Bundle
-import android.view.View
 import android.widget.EditText
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import com.example.brannvarsling.databinding.ActivityLoginBinding
 import com.example.brannvarsling.extensions.Extensions.toast
 import com.example.brannvarsling.utils.FirebaseUtils.firebaseAuth
+import com.google.firebase.auth.FirebaseUser
 
 
 class LogInActivity : AppCompatActivity() {
@@ -21,13 +22,7 @@ class LogInActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this,R.layout.activity_login)
-        binding.bottomNav.visibility = View.GONE
 
-/*
-        binding.registrerButton.setOnClickListener {
-            startActivity(Intent(this, SignUpActivity::class.java))
-        }
-*/
         logInInputsArray = arrayOf(binding.logInemail, binding.logInpassword)
         binding.registrerButton.setOnClickListener {
             startActivity(Intent(this, SignUpActivity::class.java))
@@ -39,18 +34,20 @@ class LogInActivity : AppCompatActivity() {
         }
     }
 
-    /*
+    // Gjenkjenner bruker om han er registrert og ønsker velkommen tilbake samtidig som bruker
+    // blir sendt til Home siden.
     override fun onStart() {
         super.onStart()
         val user: FirebaseUser? = firebaseAuth.currentUser
         user?.let {
             startActivity(Intent(this, MainActivity::class.java))
-            toast("Velkommen tilbake! :)")
+            toast("Velkommen tilbake! :)", Toast.LENGTH_LONG)
         }
     }
-*/
+
     private fun notEmpty(): Boolean = logInEmail.isNotEmpty() && logInPassword.isNotEmpty()
 
+    // Logger inn bruker
     private fun signInUser() {
         logInEmail = binding.logInemail.text.toString().trim()
         logInPassword = binding.logInpassword.text.toString().trim()
@@ -60,10 +57,10 @@ class LogInActivity : AppCompatActivity() {
                     .addOnCompleteListener { signIn ->
                         if (signIn.isSuccessful) {
                             startActivity(Intent(this, MainActivity::class.java))
-                            toast("Innlogging vellykket!")
+                            toast("Innlogging vellykket!", Toast.LENGTH_LONG)
                             finish()
                         } else {
-                            toast("Innlogging mislykket")
+                            toast("Innlogging mislykket", Toast.LENGTH_LONG)
                         }
                     }
         } else {

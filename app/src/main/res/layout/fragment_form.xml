@@ -14,32 +14,27 @@
 
         <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="750dp">
-        <LinearLayout
-            android:id="@+id/scrollLayout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_marginBottom="55dp"
-            android:gravity="bottom">
-        </LinearLayout>
+            android:layout_height="770dp">
+
+            <LinearLayout
+                android:id="@+id/scrollLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="55dp"
+                android:gravity="bottom"
+                android:orientation="vertical" />
         </ScrollView>
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="100dp"
+            android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:visibility="visible"
-            android:layout_marginEnd="10dp"
-            android:layout_marginTop="20dp"
-            android:paddingEnd="10dp"
-            android:paddingStart="10dp">
+            android:layout_marginRight="20dp">
 
             <com.google.android.material.floatingactionbutton.FloatingActionButton
                 android:id="@+id/floatingActionButton"
                 android:layout_width="55dp"
                 android:layout_height="75dp"
-                android:layout_marginStart="15dp"
-                android:layout_marginBottom="10dp"
+                android:layout_marginLeft="5dp"
                 android:clickable="true"
                 android:focusable="true"
                 android:src="@drawable/ic_add"
@@ -51,7 +46,7 @@
                 android:id="@+id/floating_title"
                 android:layout_width="55dp"
                 android:layout_height="75dp"
-                android:layout_marginStart="30dp"
+                android:layout_marginStart="15dp"
                 android:layout_marginBottom="15dp"
                 android:clickable="true"
                 android:focusable="true"
@@ -64,7 +59,7 @@
                 android:id="@+id/floating_spm"
                 android:layout_width="55dp"
                 android:layout_height="75dp"
-                android:layout_marginStart="30dp"
+                android:layout_marginStart="15dp"
                 android:layout_marginBottom="15dp"
                 android:clickable="true"
                 android:focusable="true"
@@ -76,7 +71,7 @@
                 android:id="@+id/button_submit"
                 android:layout_width="55dp"
                 android:layout_height="75dp"
-                android:layout_marginStart="30dp"
+                android:layout_marginStart="15dp"
                 android:layout_marginBottom="15dp"
                 android:clickable="true"
                 android:focusable="true"
@@ -88,7 +83,7 @@
                 android:id="@+id/button_fjern"
                 android:layout_width="55dp"
                 android:layout_height="75dp"
-                android:layout_marginStart="30dp"
+                android:layout_marginStart="15dp"
                 android:layout_marginBottom="15dp"
                 android:clickable="true"
                 android:focusable="true"
