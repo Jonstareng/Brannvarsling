@@ -10,13 +10,11 @@ import android.view.ViewGroup
 import android.view.Window
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
-import android.widget.Spinner
 import androidx.fragment.app.DialogFragment
 import com.example.brannvarsling.databinding.DeleteFormBinding
 import com.google.firebase.firestore.FirebaseFirestore
-import java.lang.IllegalStateException
 
-class AlertDelete() : DialogFragment() {
+class AlertDelete : DialogFragment() {
     private lateinit var binding: DeleteFormBinding
     private var db = FirebaseFirestore.getInstance()
     private var list = ArrayList<String>()
