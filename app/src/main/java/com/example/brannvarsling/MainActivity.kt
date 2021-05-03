@@ -5,6 +5,7 @@ import android.graphics.Color
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
@@ -49,7 +50,7 @@ class MainActivity : AppCompatActivity() {
     private fun signOut(){
             firebaseAuth.signOut()
             startActivity(Intent(this, LogInActivity::class.java))
-            toast("Du er nå logget ut")
+            toast("Du er nå logget ut", Toast.LENGTH_LONG)
             finish()
     }
     // inflater top menyen
