@@ -17,11 +17,12 @@ class NotificationAdapter(options: FirestoreRecyclerOptions<FirebaseNotification
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.recyclerview_notification_item, parent, false))
     }
+    // setter verdien som skal vises i recyclerviewet
     override fun onBindViewHolder(holder: ViewHolder, pos: Int, data: FirebaseNotification) {
         holder.tittel.text = data.Customer
         holder.date.text = data.Date
     }
-
+    //Henter views som skal vise en verdi i recyclerviewet
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView), View.OnClickListener {
         var tittel: TextView = itemView.findViewById(R.id.notify_title)
         var date: TextView = itemView.findViewById(R.id.notify_date)
@@ -29,7 +30,7 @@ class NotificationAdapter(options: FirestoreRecyclerOptions<FirebaseNotification
         init {
             itemView.setOnClickListener(this)
         }
-
+        // setter opp verdiene som skal sendes med onItemClick funksjonen som brukes i Notifikasjons klassen.
         override fun onClick(v: View?) {
             val position = adapterPosition
             val pos = snapshots.getSnapshot(adapterPosition)
@@ -39,9 +40,12 @@ class NotificationAdapter(options: FirestoreRecyclerOptions<FirebaseNotification
             }
         }
     }
+    // Det var lettere å sette opp delete funksjonen i denne klassen og heller kalle på klassen i Notifications klassen'
+    // så denne klassen fjerner daten fra databasen
      fun swipeDelete(position: Int){
         snapshots.getSnapshot(position).reference.delete()
     }
+    // setter opp onclick så den kan brukes i andre klasser
     interface OnItemClickListnerN{
         fun onItemClick(id: String)
     }

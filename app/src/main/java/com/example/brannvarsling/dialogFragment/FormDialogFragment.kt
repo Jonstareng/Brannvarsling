@@ -55,7 +55,7 @@ class FormDialogFragment(private var formType: String, private var type: String)
         super.onViewCreated(view, savedInstanceState)
         onCreateDialog(savedInstanceState)
 
-
+        // sjekker om brukeren har tilgang til storage før han skriver pdf filen
         binding.savePdf.setOnClickListener {
             if (Build.VERSION.SDK_INT > Build.VERSION_CODES.M) {
                 if (checkSelfPermission(requireContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE)
@@ -76,23 +76,19 @@ class FormDialogFragment(private var formType: String, private var type: String)
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val dialog = super.onCreateDialog(savedInstanceState)
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
-        binding.savePdf.setOnClickListener{
-            dismiss()
-        }
         getFormData()
 
         return dialog
     }
-
-        private fun takeScreenshotTitle(view: View): Bitmap {
+    // Funksjonen tar skjermbilde av vinduet
+    private fun takeScreenshotTitle(view: View): Bitmap {
             val bitmap = Bitmap.createBitmap(view.width, view.height, Bitmap.Config.ARGB_8888)
             val canvas = Canvas(bitmap)
             canvas.scale(0.5F, 0.5F)
             view.draw(canvas)
             return bitmap
         }
-
-
+    // Funksjonen legger til et skjermbildet i dokumentet
     private fun addImage(mDoc: Document, byteArray: ByteArray){
 
         val image: Image = Image.getInstance(byteArray)
@@ -104,10 +100,13 @@ class FormDialogFragment(private var formType: String, private var type: String)
 
     }
 
-
+    // HER DESIGNER VI OG LEGGER OPP PDF FILEN SÅNN VI VIL HA DEN
     private fun savePdf() {
+        // LAGER DOKUMENTET
         val mDoc = Document()
+        // setter navn på dokumentet
         val mFileName = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(System.currentTimeMillis())
+        // velger hvor pdfen skal lagres
         val mFilePath = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS).path + "/" + mFileName + ".pdf"
         try {
 
@@ -115,7 +114,7 @@ class FormDialogFragment(private var formType: String, private var type: String)
             mDoc.open()
 
 
-            // signatur av oppretter
+            // Åpner og setter verdier på dokumentet
             PdfWriter.getInstance(mDoc, FileOutputStream(mFilePath))
             mDoc.open()
             mDoc.pageSize = PageSize.A4
@@ -125,13 +124,14 @@ class FormDialogFragment(private var formType: String, private var type: String)
             // font
             val title = Font(BaseFont.createFont(), 36.0f, Font.NORMAL, BaseColor.RED)
             val tekst = Font(BaseFont.createFont(), 25.0f, Font.NORMAL, BaseColor.BLACK)
-            val overskrift2 = Font(BaseFont.createFont(), 30.0f, Font.NORMAL, BaseColor.RED)
+            val overskriftRed = Font(BaseFont.createFont(), 30.0f, Font.NORMAL, BaseColor.RED)
             val overskrift = Font(BaseFont.createFont(), 30.0f, Font.NORMAL, BaseColor.BLACK)
 
-            // title
+            // Gir tittelen i dokumentet en verdi
             addNewItem(mDoc, binding.tittelText.text.toString(), Element.ALIGN_CENTER, title)
             addNewItem(mDoc, type, Element.ALIGN_CENTER, title)
 
+            // Lager en linje
             addLineSeparator(mDoc)
 
             // innhold
@@ -140,32 +140,38 @@ class FormDialogFragment(private var formType: String, private var type: String)
             addNewItemLR(mDoc, binding.anleggText.text.toString(),binding.anleggTextEdit.text.toString(), overskrift, tekst)
             addNewItemLR(mDoc, binding.overforingText.text.toString(),binding.overforingEditText.text.toString(), overskrift, tekst)
 
-            //Spaceing
-            addLineSpace(mDoc)
-            //Overskrift
-            addNewItemLR(mDoc, "Benevnelse","Ja/Nei", overskrift2, overskrift2)
+            //gir litt plass mellom
             addLineSpace(mDoc)
 
-            // Pdf innhold
+            //Overskrifter
+            addNewItemLR(mDoc, "Benevnelse","Ja/Nei", overskriftRed, overskriftRed)
+            addLineSpace(mDoc)
+
+            // Pdf innhold, her legger vi inn spørsmålene og tar skjermbilde av hver linje
+            // sjekker hvor mange linjer som er i skjemaet
             val count = binding.formLayout.childCount
             for (i in 0 until count) {
                 val item = list[i]
                 val benevnelseId = i + 1
                 val data = "$benevnelseId.$item"
                 val v = binding.formLayout.getChildAt(i)
+                // tar bilde av checkboxene og legger de i en bytearray slik at vi kan sende den til addimage funkasjonen
                 val screen = takeScreenshotTitle(v.findViewById(R.id.checkbox_layout))
                 val stream = ByteArrayOutputStream()
                 screen.compress(Bitmap.CompressFormat.PNG, 100,stream)
                 val byte: ByteArray = stream.toByteArray()
+                //legger til et spørsmål i dokumentet
                 addNewItem(mDoc, data, Element.ALIGN_LEFT, tekst)
+                // legger til et bilde i dokumentet
                 addImage(mDoc, byte)
+                // legger en linje mellom hvert spørsmål
                 addLineSeparator(mDoc)
             }
 
-            //Add
+            //lukker dokumentet
             mDoc.close()
 
-            //Sted Lagret
+            //viser Sted Lagret til brukeren
             Toast.makeText(requireContext(), "$mFileName.pdf \n er lagret i \n $mFilePath", Toast.LENGTH_LONG).show()
         }
         catch (e: Exception) {
@@ -173,23 +179,24 @@ class FormDialogFragment(private var formType: String, private var type: String)
         }
     }
 
+    //Oppretter en paragraf og legger det i dokumentet
     private fun addNewItem(mDoc: Document, text: String, align: Int, style: Font) {
         val chunk = Chunk(text, style)
         val p = Paragraph(chunk)
         p.alignment = align
         mDoc.add(p)
     }
-
+    // skriver ut en svart linje i dokumentet for å skulle tekst
     private fun addLineSeparator(mDoc: Document) {
         val line = LineSeparator()
         line.lineColor = BaseColor.BLACK
         mDoc.add(Chunk(line))
     }
-
+    // blir kalt for å lage plass mellom tekst
     private fun addLineSpace(mDoc: Document) {
         mDoc.add(Paragraph("\n"))
     }
-
+    // denne funksjonen har vi for å kunne legge to tekster på samme linje for å vise at de hører sammen.
     private fun addNewItemLR(
             mDoc: Document,
             textLeft: String,
@@ -204,7 +211,7 @@ class FormDialogFragment(private var formType: String, private var type: String)
         p.add(chunkRight)
         mDoc.add(p)
     }
-
+    // spørr om tilgang til storage på mobilen, hvis brukeren ikke allerede har gitt det
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         when(requestCode) {
@@ -219,12 +226,14 @@ class FormDialogFragment(private var formType: String, private var type: String)
     }
 
 
+    // Henter ut all dataen som skal vises i dette vinduet
     private fun getFormData() {
         val docRef = db.collection("Skjema").document(formType)
         val ref = db.collection("Skjema").document(formType).collection("Spørsmål")
         var count = 1
 
 
+        // henter ut tittel delen som er laget i skjema siden
         docRef.get().addOnSuccessListener { documentSnapshot ->
             val data = documentSnapshot.toObject(SkjemaFirebase::class.java)
 
@@ -234,7 +243,7 @@ class FormDialogFragment(private var formType: String, private var type: String)
             binding.anleggText.text = data?.Anlegg
             binding.overforingText.text = data?.Overforing
         }
-
+        //legger alle spørsmålene inn i en liste slik at vi kan sjekke hvor mange ganger vi skal inflate layouten
         ref.get().addOnSuccessListener { snapshot ->
             for(value in snapshot) {
                 value.data.mapValues {
@@ -242,6 +251,7 @@ class FormDialogFragment(private var formType: String, private var type: String)
                     list.add(values.toString())
                 }
             }
+            // sjekker list størrelse og inflater vinduet
             for (i in 0 until list.size) {
                 val view: View = LayoutInflater.from(requireContext()).inflate(R.layout.row_get_spm, null)
                 binding.formLayout.addView(view, binding.formLayout.childCount)

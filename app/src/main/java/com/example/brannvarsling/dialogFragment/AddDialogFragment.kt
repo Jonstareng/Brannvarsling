@@ -24,9 +24,6 @@ import com.google.firebase.firestore.FirebaseFirestore
 class AddDialogFragment: DialogFragment() {
 
     private lateinit var binding: DialogWindowBinding
-    private lateinit var imageView: ImageView
-    private val pickImage = 100
-    private var imageUri: Uri? = null
     private var db = FirebaseFirestore.getInstance()
     private var counter = ""
     private var formType = ""
@@ -61,28 +58,23 @@ class AddDialogFragment: DialogFragment() {
         return dialog
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (resultCode == RESULT_OK && requestCode == pickImage) {
-            imageUri = data?.data
-            imageView.setImageURI(imageUri)
-                }
-    }
-
+    // Henter ut Verdiene som brukeren skriver iinn i tekst feltene og lagrer de i databasen,
+    // formtype hentes fra spinner og counter hentes fra et annet sted i databasen
     private fun writeToDb() {
         val user: MutableMap<String, Any> = HashMap()
         val title = binding.editTextTextPersonName.text.toString()
         val type = binding.editTextTextPersonName2.text.toString()
         val description = binding.editTextTextMultiLine.text.toString()
 
-
-        if (title != "" || type != "") {
+        // sørger for at feltene blir fylt ut, Vi trenger disse verdiene andre steder i koden
+        if (title != "" && type != "") {
 
             user["Customer"] = title
             user["Type"] = type
             user["Description"] = description
             user["NotificationID"] = counter
             user["Form"] = formType
+            // Vi setter date tom her slik at kalender funksjonen ikke får kjørt på grunn av null verdier
             user["Date"] = ""
 
             db.collection("Saker")
@@ -96,7 +88,8 @@ class AddDialogFragment: DialogFragment() {
         }
 
     }
-
+    // øker countern med 1 slik at neste sak som blir laget ikke får det samme nr
+    // funksjonen bruker counter verdien som alt er hentet fra databasen og skriver den nye verdien til databasen
     private fun notificationCounter() {
         val number: MutableMap<String, Any> = HashMap()
         val newCounter: Int = counter.toInt() + 1
@@ -105,6 +98,8 @@ class AddDialogFragment: DialogFragment() {
         db.collection("NotificationIds").document("qsK39UawP1XXeoTCrPcn").set(number)
 
     }
+
+    //Henter ut notifikasjons iden som saken skal få tildelt
     private fun getNotifyCounter() {
 
         val ref = db.collection("NotificationIds").document("qsK39UawP1XXeoTCrPcn")
@@ -115,12 +110,13 @@ class AddDialogFragment: DialogFragment() {
             }
         }
     }
+    //Henter ut document id og legger de inn i en spinner
+    // Dette er da alle skjemaene brukeren har opprettet som hentes ut her
     private fun spinnerForm() {
         db.collection("Skjema").get().addOnSuccessListener { documents ->
             for (document in documents) {
                 val data = document.id
                 list.add(data)
-                // Toast.makeText(context, "$list", Toast.LENGTH_LONG).show()
             }
 
             val arrayAdapter =
@@ -135,6 +131,7 @@ class AddDialogFragment: DialogFragment() {
                         position: Int,
                         id: Long
                 ) {
+                    // setter formtype verdien slik at vi kan lagre verdien i databasen
                     formType = parent?.getItemAtPosition(position).toString()
                     arrayAdapter.notifyDataSetChanged()
                 }
