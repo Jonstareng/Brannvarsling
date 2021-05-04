@@ -9,7 +9,10 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
-import android.widget.*
+import android.widget.Button
+import android.widget.EditText
+import android.widget.LinearLayout
+import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import com.example.brannvarsling.R
@@ -155,10 +158,10 @@ class Form: Fragment() {
 
             if (int == R.id.add_spm) {
                 val sporsmal: EditText = f.findViewById(R.id.text_spm)
-                val sporsmalTest = Spm()
-                sporsmalTest.spormal = sporsmal.text.toString()
+                val sporsmalValue = Spm()
+                sporsmalValue.spormal = sporsmal.text.toString()
                 if(sporsmal.editableText.isNotEmpty()) {
-                    list.add(sporsmalTest)
+                    list.add(sporsmalValue)
                 }
                 else{
                     Toast.makeText(requireContext(), "Du mangler å fylle ut et av spørsmåls feltene", Toast.LENGTH_LONG).show()
@@ -171,6 +174,7 @@ class Form: Fragment() {
                 val overforing: EditText = f.findViewById(R.id.overforing_edit_text)
                 val adresse: EditText = f.findViewById(R.id.adresse_edit_text)
                 skjemaR.Tittel = tittel.text.toString()
+                listTitle.add(skjemaR)
                 skjemaR.Kunde = kunde.text.toString()
                 skjemaR.Anlegg = anlegg.text.toString()
                 skjemaR.Overforing = overforing.text.toString()
@@ -180,7 +184,7 @@ class Form: Fragment() {
                 }
             }
         }
-            if(list.isNotEmpty()) {
+            if(list.isNotEmpty() && listTitle.isNotEmpty()) {
 
                 for (i in 0 until list.size) {
                     skjemaS["$pluss Spørsmål"] = list[i].spormal.toString()
@@ -203,6 +207,8 @@ class Form: Fragment() {
                         .addOnFailureListener { e -> Log.w(ContentValues.TAG, "Error adding form", e) }
                 Toast.makeText(requireContext(), "Skjema lagret", Toast.LENGTH_LONG).show()
             }
+        else
+                Toast.makeText(requireContext(), "Du må ha tittel og spørsmål for å kunne lagre", Toast.LENGTH_LONG).show()
     }
 }
 

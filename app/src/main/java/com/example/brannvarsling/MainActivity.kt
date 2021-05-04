@@ -1,16 +1,21 @@
 package com.example.brannvarsling
 
+import android.app.AlertDialog
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
+import android.widget.Spinner
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isNotEmpty
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import com.example.brannvarsling.databinding.ActivityMainBinding
-import com.example.brannvarsling.dialogFragment.AlertDelete
 import com.example.brannvarsling.extensions.Extensions.toast
 import com.example.brannvarsling.fragments.Home
 import com.example.brannvarsling.fragments.Notifications
@@ -20,6 +25,10 @@ import com.google.firebase.firestore.FirebaseFirestore
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
+    private var db = FirebaseFirestore.getInstance()
+    private var list = ArrayList<String>()
+    private var formType = ""
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -66,10 +75,54 @@ class MainActivity : AppCompatActivity() {
         }
         return true
     }
-    //Kaller på AlertDelete klassen
+    //Bygger opp alertdialog og setter verdier i spinneren
     private  fun deleteForm(){
-        val dialogFragment = AlertDelete()
-        dialogFragment.show(supportFragmentManager, "show")
+        list.clear()
+        val layout: View = layoutInflater.inflate(R.layout.delete_form, null)
+        val spinner = layout.findViewById<Spinner>(R.id.spinner_delete)
+        val builder = AlertDialog.Builder(this)
+            builder .setView(layout)
+                    .setCancelable(false)
+                    .setTitle("Velg et skjema")
+                    .setPositiveButton("Slett") { dialog, _ ->
+                        if (spinner.isNotEmpty()) {
+                            deleteSpinner()
+                            dialog.dismiss()
+                            Toast.makeText(this,"$formType slettet", Toast.LENGTH_LONG).show()
+                        }
+                        else
+                            Toast.makeText(this,"Det er ingen skjemaer å slette", Toast.LENGTH_LONG).show()
+                    }.setNegativeButton("Avbryt") { dialog, _ ->
+                        dialog.dismiss()
+                    }
+        db.collection("Skjema").get().addOnSuccessListener { documents ->
+            for (document in documents) {
+                val data = document.id
+                list.add(data)
+            }
+            val arrayAdapter =
+                    ArrayAdapter(this, android.R.layout.simple_dropdown_item_1line, list)
+            spinner.adapter = arrayAdapter
+            arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+            spinner.onItemSelectedListener = object :
+                    AdapterView.OnItemSelectedListener {
+                override fun onItemSelected(
+                        parent: AdapterView<*>?,
+                        view: View?,
+                        position: Int,
+                        id: Long
+                ) {
+                    formType = parent?.getItemAtPosition(position).toString()
+                    arrayAdapter.notifyDataSetChanged()
+                }
+
+                override fun onNothingSelected(parent: AdapterView<*>?) {
+
+                }
+            }
+        }
+            builder.create().show()
+
     }
 
 
@@ -88,6 +141,14 @@ class MainActivity : AppCompatActivity() {
                 isVisible = size != 0
             }
         }
+    }
+    // sletter skjema fra databasen
+    private fun deleteSpinner() {
+        val docRef = db.collection("Skjema").document(formType)
+        val docRefS = db.collection("Skjema").document(formType).collection("Spørsmål").document("Items")
+        if(docRef.path.isNotEmpty())
+        docRef.delete()
+        docRefS.delete()
     }
 }
 
