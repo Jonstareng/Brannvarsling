@@ -1,22 +1,17 @@
 package com.example.brannvarsling.fragments
 
 import android.app.AlertDialog
-import android.graphics.Color
-import android.icu.util.Calendar.SATURDAY
-import android.icu.util.Calendar.SUNDAY
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import com.chintanpatel.materialeventcalendar.CalenderView
+import com.chintanpatel.materialeventcalendar.CalenderView.*
 import com.chintanpatel.materialeventcalendar.EventItem
 import com.example.brannvarsling.R
 import com.example.brannvarsling.databinding.FragmentCalenderBinding
-import com.google.firebase.database.collection.LLRBNode
 import com.google.firebase.firestore.FirebaseFirestore
 
 
@@ -69,16 +64,16 @@ class Calendar: Fragment(){
 
 
                 binding.calendarView.setCalenderEventClickListener(object :
-                    CalenderView.CalenderEventClickListener {
+                        CalenderEventClickListener {
                     override fun onEventClick(eventItem: EventItem) {
                         val id = eventItem.title
                         val builder = AlertDialog.Builder(activity)
                         builder.setTitle(id)
-                            .setMessage("Varsel vil bli sendt ${eventItem.start}, du kan sette ny dato for varsling inne på saker siden.")
-                            .setCancelable(false)
-                            .setNegativeButton("Avbryt") { dialog, _ ->
-                                dialog.dismiss()
-                            }
+                                .setMessage("Varsel vil bli sendt ${eventItem.start}, du kan sette ny dato for varsling inne på saker siden.")
+                                .setCancelable(false)
+                                .setNegativeButton("Avbryt") { dialog, _ ->
+                                    dialog.dismiss()
+                                }
                         val alert = builder.create()
                         alert.show()
                     }
